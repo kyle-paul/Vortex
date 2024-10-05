@@ -4,7 +4,7 @@ project(Sandbox)
 set(HAZEL_LIB /home/pc/dev/engine/hazel/lib)
 
 # Add the executable and source files
-add_executable(Sandbox src/application.cpp)
+add_executable(Sandbox src/SandboxApp.cpp)
 
 # Include directories (for public headers)
 target_include_directories(Sandbox PRIVATE ../hazel/include)
