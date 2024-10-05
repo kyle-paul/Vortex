@@ -1,7 +1,9 @@
 #include "Hazel/Application.h"
 #include <iostream>
+#include <memory>
 
-namespace Hazel {
+namespace Hazel 
+{
 	Application::Application()
 	{
 
