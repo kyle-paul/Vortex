@@ -7,10 +7,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib")
 
 # Specify that Hazel is the shared library
-add_library(Hazel SHARED src/Application.cpp src/Logging.cpp)
+add_library(Hazel SHARED src/Application.cpp src/Logging.cpp src/hzpch.cpp)
 
 # Include vendor directories
-include_directories(Hazel vendor/spdlog/include)
+include_directories(Hazel vendor/spdlog/include vendor/glfw/include)
 
 # Include the header files in the build
 target_include_directories(Hazel PUBLIC include)
+
+# Precompiled headers
+target_precompile_headers(Hazel PUBLIC include/Hazel/hzpch.h)

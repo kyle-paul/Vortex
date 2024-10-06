@@ -1,4 +1,4 @@
-#include "Hazel/Application.h"
+#include "Hazel/Core/Application.h"
 #include <iostream>
 #include <memory>
 
