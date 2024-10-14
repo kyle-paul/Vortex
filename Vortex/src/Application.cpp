@@ -1,8 +1,8 @@
-#include "Hazel/Core/Application.h"
+#include "Vortex/Core/Application.h"
 #include <iostream>
 #include <memory>
 
-namespace Hazel 
+namespace Vortex 
 {
 	Application::Application()
 	{

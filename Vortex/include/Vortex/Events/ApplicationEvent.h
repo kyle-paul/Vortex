@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Hazel/Events/Event.h"
+#include "Vortex/Events/Event.h"
 
-namespace Hazel {
+namespace Vortex {
 
 	class WindowResizeEvent : public Event
 	{

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Hazel/Events/Event.h"
-#include "Hazel/Core/MouseCodes.h"
+#include "Vortex/Events/Event.h"
+#include "Vortex/Core/MouseCodes.h"
 
-namespace Hazel {
+namespace Vortex {
 
 	class MouseMovedEvent : public Event
 	{
@@ -53,12 +53,9 @@ namespace Hazel {
 	{
 	public:
 		MouseCode GetMouseButton() const { return m_Button; }
-
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
 	protected:
-		MouseButtonEvent(const MouseCode button)
-			: m_Button(button) {}
-
+		MouseButtonEvent(const MouseCode button) : m_Button(button) {}
 		MouseCode m_Button;
 	};
 

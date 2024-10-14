@@ -1,11 +1,13 @@
 #pragma once
 
-#include "Hazel/Debug/Instrumentor.h"
-#include "Hazel/Core/Base.h"
+#include "Vortex/Debug/Instrumentor.h"
+#include "Vortex/Core/Base.h"
 
-namespace Hazel {
+#define BIT(x) (1 << x)
 
-	// Events in Hazel are currently blocking, meaning when an event occurs it
+namespace Vortex {
+
+	// Events in Vortex are currently blocking, meaning when an event occurs it
 	// immediately gets dispatched and must be dealt with right then an there.
 	// For the future, a better strategy might be to buffer events in an event
 	// bus and process them during the "event" part of the update stage.
@@ -35,11 +37,9 @@ namespace Hazel {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class Event
-	{
+	class Event {
 	public:
 		virtual ~Event() = default;
-
 		bool Handled = false;
 
 		virtual EventType GetEventType() const = 0;
@@ -47,19 +47,15 @@ namespace Hazel {
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
 
-		bool IsInCategory(EventCategory category)
-		{
+		bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;
 		}
 	};
 
-	class EventDispatcher
-	{
+	class EventDispatcher {
 	public:
 		EventDispatcher(Event& event)
-			: m_Event(event)
-		{
-		}
+			: m_Event(event) {}
 		
 		// F will be deduced by the compiler
 		template<typename T, typename F>
