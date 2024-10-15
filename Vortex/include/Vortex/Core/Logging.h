@@ -1,13 +1,18 @@
 #pragma once
 
-#include <memory>
+
+#include "Vortex/Core/Core.h"
+
 #include <spdlog/spdlog.h>
 #include <spdlog/logger.h>
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+#include <memory>
+
+
 namespace Vortex 
 {
-    class Logging 
+    class VORTEX_API Logging 
     {
     public:
         static void Init();

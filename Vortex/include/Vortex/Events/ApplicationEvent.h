@@ -1,10 +1,11 @@
 #pragma once
 
+#include "Vortex/Core/Core.h"
 #include "Vortex/Events/Event.h"
 
 namespace Vortex {
 
-	class WindowResizeEvent : public Event
+	class VORTEX_API WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
@@ -26,7 +27,7 @@ namespace Vortex {
 		unsigned int m_Width, m_Height;
 	};
 
-	class WindowCloseEvent : public Event
+	class VORTEX_API WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent() = default;
@@ -35,7 +36,7 @@ namespace Vortex {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AppTickEvent : public Event
+	class VORTEX_API AppTickEvent : public Event
 	{
 	public:
 		AppTickEvent() = default;
@@ -44,7 +45,7 @@ namespace Vortex {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AppUpdateEvent : public Event
+	class VORTEX_API AppUpdateEvent : public Event
 	{
 	public:
 		AppUpdateEvent() = default;
@@ -53,7 +54,7 @@ namespace Vortex {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AppRenderEvent : public Event
+	class VORTEX_API AppRenderEvent : public Event
 	{
 	public:
 		AppRenderEvent() = default;

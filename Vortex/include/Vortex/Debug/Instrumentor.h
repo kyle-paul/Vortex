@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Vortex/Core/Core.h"
 #include "Vortex/Core/Logging.h"
+
 #include <algorithm>
 #include <chrono>
 #include <fstream>
@@ -27,7 +29,7 @@ namespace Vortex {
 		std::string Name;
 	};
 
-	class Instrumentor
+	class VORTEX_API Instrumentor
 	{
 	public:
 		Instrumentor(const Instrumentor&) = delete;
