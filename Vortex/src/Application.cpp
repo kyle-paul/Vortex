@@ -23,16 +23,50 @@ namespace Vortex
 		
 	}
 
+	bool Application::OnWindowClose(WindowCloseEvent &event) {
+		m_IsRunning = false;
+		return true;
+	}
+
 	void Application::OnEvent(Event &event) {
+		
+		// Close window event
+		EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<WindowCloseEvent>( BIND_EVENT_FUNCTION(Application::OnWindowClose) );
+
+		// Logging events
 		VX_CORE_INFO("{0}", event.ToString());
+
+		// Layer check
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		{
+			(*--it)->OnEvent(event);
+			if(event.Handled) {
+				break;
+			}
+		}
+	}
+
+	void Application::PushLayer(Layer *layer) {
+		m_LayerStack.PushLayer(layer);
+	}
+	
+	void Application::PushOverLayer(Layer *overlayer) {
+		m_LayerStack.PushOverlay(overlayer);
 	}
 
 	void Application::Run() {
 		WindowResizeEvent e(1000, 650);
 		
 		while(m_IsRunning) {
-			glClearColor(0.5, 0, 0, 1);
+			glClearColor(0, 0, 0, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			// Update Layers
+			for (Layer *layer: m_LayerStack) {
+				layer->OnUpdate();
+			}
+
 			m_appWindow->OnUpdate();
 		}
 	}

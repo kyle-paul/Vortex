@@ -12,6 +12,8 @@ add_library(${PROJECT_NAME} SHARED
 	src/Logging.cpp
 	src/PreHeaders.cpp
 	src/LinuxWindow.cpp
+	src/Layer.cpp
+	src/LayerStack.cpp
 )
 
 # Precompiled headers
