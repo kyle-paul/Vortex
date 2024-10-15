@@ -1,5 +1,6 @@
 #include "Vortex/Core/Core.h"
 #include "Vortex/PreHeaders.h"
+#include "Vortex/Core/Assert.h"
 #include "Vortex/Core/Application.h"
 #include "Vortex/Events/ApplicationEvent.h"
 #include "Vortex/Core/Logging.h"
@@ -11,11 +12,16 @@
 
 namespace Vortex 
 {
+	Application *Application::m_AppInstance = nullptr;
+
 	Application::Application()
 	{
+		VX_CORE_ASSERT(!m_AppInstance, "Application already exits!");
+		m_AppInstance = this;
+
 		WindowProps props("Vortex Engine", 1000, 650);
-		m_appWindow = std::unique_ptr<Window>(Window::Create(props));
-		m_appWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
+		m_AppWindow = std::unique_ptr<Window>(Window::Create(props));
+		m_AppWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
 
 		unsigned int id;
 		glGenVertexArrays(1, &id);
@@ -52,10 +58,12 @@ namespace Vortex
 
 	void Application::PushLayer(Layer *layer) {
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 	
 	void Application::PushOverLayer(Layer *overlayer) {
 		m_LayerStack.PushOverlay(overlayer);
+		overlayer->OnAttach();
 	}
 
 	void Application::Run() {
@@ -70,7 +78,7 @@ namespace Vortex
 				layer->OnUpdate();
 			}
 
-			m_appWindow->OnUpdate();
+			m_AppWindow->OnUpdate();
 		}
 	}
 }

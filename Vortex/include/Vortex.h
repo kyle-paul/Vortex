@@ -18,3 +18,6 @@
 
 // Include platform
 #include "Platform/Linux/LinuxWindow.h"
+
+// Include Imgui
+#include "Vortex/Imgui/ImGuiLayer.h"

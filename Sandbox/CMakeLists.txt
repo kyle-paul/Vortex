@@ -15,6 +15,7 @@ target_include_directories(Sandbox PRIVATE
 	../${ENGINE_NAME}/include
 	../${ENGINE_NAME}/vendor/spdlog/include
 	../${ENGINE_NAME}/vendor/glad/include
+	../${ENGINE_NAME}/vendor/imgui
 	../${ENGINE_NAME}/libs/glfw-build/include
 )
 

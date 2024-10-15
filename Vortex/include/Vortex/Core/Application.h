@@ -22,11 +22,17 @@ namespace Vortex {
 		void PushLayer(Layer *layer);
 		void PushOverLayer(Layer *overlay);
 
+		inline static Application& GetApplication() { return *m_AppInstance; } 
+		inline Window& GetWindow() { return *m_AppWindow; }
+
 	private:
 		bool OnWindowClose(WindowCloseEvent &event);
-		std::unique_ptr<Window> m_appWindow;
+		std::unique_ptr<Window> m_AppWindow;
+
 		bool m_IsRunning = true;
 		LayerStack m_LayerStack;
+
+		static Application *m_AppInstance;
 	};
 
 	// To be defined in client

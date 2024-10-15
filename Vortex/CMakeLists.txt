@@ -14,7 +14,14 @@ add_library(${PROJECT_NAME} SHARED
 	src/LinuxWindow.cpp
 	src/Layer.cpp
 	src/LayerStack.cpp
+	src/ImGuiLayer.cpp
+	src/ImGuiOpenGLRenderer.cpp
 	vendor/glad/src/glad.c
+	vendor/imgui/imgui.cpp
+	vendor/imgui/imgui_demo.cpp
+	vendor/imgui/imgui_draw.cpp
+	vendor/imgui/imgui_tables.cpp
+	vendor/imgui/imgui_widgets.cpp
 )
 
 # Precompiled headers
@@ -24,6 +31,7 @@ target_precompile_headers(Vortex PUBLIC include/Vortex/PreHeaders.h)
 include_directories(${PROJECT_NAME} 
 	vendor/spdlog/include
 	vendor/glad/include
+	vendor/imgui
 	libs/glfw-build/include/GLFW
 )
 
