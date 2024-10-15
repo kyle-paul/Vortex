@@ -34,11 +34,15 @@ include_directories(${PROJECT_NAME}
 	vendor/glad/include
 	vendor/imgui
 	libs/glfw-build/include/GLFW
+	libs/glm-build/include/glm
 )
 
-# Check glfw3
+# Include built packages
 list(APPEND CMAKE_PREFIX_PATH libs/glfw-build/lib/cmake/glfw3)
+list(APPEND CMAKE_PREFIX_PATH libs/glm-build/share/glm)
+
 find_package(glfw3 REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 # Set policy to modern GLVND and find OpenGL
 if (POLICY CMP0072)
@@ -50,4 +54,4 @@ find_package(OpenGL REQUIRED)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 # Link dependencies into my lib
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw ${OPENGL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw glm::glm ${OPENGL_LIBRARIES})

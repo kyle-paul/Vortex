@@ -7,3 +7,6 @@
 [submodule "Vortex/vendor/imgui"]
 	path = Vortex/vendor/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "Vortex/vendor/glm"]
+	path = Vortex/vendor/glm
+	url = https://github.com/g-truc/glm.git

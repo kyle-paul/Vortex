@@ -17,6 +17,7 @@ target_include_directories(Sandbox PRIVATE
 	../${ENGINE_NAME}/vendor/glad/include
 	../${ENGINE_NAME}/vendor/imgui
 	../${ENGINE_NAME}/libs/glfw-build/include
+	../${ENGINE_NAME}/libs/glm-build/include
 )
 
 # Link the Hazel library to the sandbox executable

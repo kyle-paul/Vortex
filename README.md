@@ -26,3 +26,15 @@ cmake -S Vortex/vendor/glfw \
 cmake --build Vortex/libs/glfw-build --parallel <your-cpu-threads>
 cmake --install Vortex/libs/glfw-build --prefix Vortex/libs/glfw-build
 ```
+
+Build the GLM math library libs
+
+```bash
+cmake -S Vortex/vendor/glm \
+      -B Vortex/libs/glm-build \
+      -D GLM_BUILD_TESTS=OFF \
+      -D BUILD_SHARED_LIBS=OFF
+
+cmake --build Vortex/libs/glm-build --parallel <your-cpu-threads> 
+cmake --install Vortex/libs/glm-build --prefix Vortex/libs/glm-build
+```

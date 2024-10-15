@@ -6,6 +6,8 @@
 #include "Vortex/Core/Logging.h"
 #include "Vortex/Core/Input.h"
 
+#include "Vortex/Core/Math.h"
+
 #include <iostream>
 #include <memory>
 
