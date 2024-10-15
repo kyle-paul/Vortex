@@ -41,6 +41,10 @@ namespace Vortex
 
 		m_glfw_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowConfig.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_glfw_Window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		VX_CORE_ASSERT(status, "Failed to initialize GLAD with GLFW (OPENGL)");
+		
 		glfwSetWindowUserPointer(m_glfw_Window, &m_WindowConfig);
 		SetVSync(true);
 

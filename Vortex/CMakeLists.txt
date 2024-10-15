@@ -14,6 +14,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/LinuxWindow.cpp
 	src/Layer.cpp
 	src/LayerStack.cpp
+	vendor/glad/src/glad.c
 )
 
 # Precompiled headers
@@ -21,7 +22,8 @@ target_precompile_headers(Vortex PUBLIC include/Vortex/PreHeaders.h)
 
 # Include vendor directories
 include_directories(${PROJECT_NAME} 
-	vendor/spdlog/include 
+	vendor/spdlog/include
+	vendor/glad/include
 	libs/glfw-build/include/GLFW
 )
 

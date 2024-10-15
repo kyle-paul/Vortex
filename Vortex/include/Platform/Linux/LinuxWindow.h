@@ -1,6 +1,7 @@
 #pragma once
 #include "Vortex/Core/Core.h"
 #include "Vortex/Core/Window.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Vortex 

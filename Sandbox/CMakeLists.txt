@@ -5,12 +5,16 @@ set(ENGINE_NAME Vortex)
 set(VORTEX_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../${ENGINE_NAME}/bin)
 
 # Add the executable and source files
-add_executable(Sandbox src/SandboxApp.cpp)
+add_executable(Sandbox 
+	src/SandboxApp.cpp 
+	../${ENGINE_NAME}/vendor/glad/src/glad.c
+)
 
 # Include directories (for public headers)
 target_include_directories(Sandbox PRIVATE 
 	../${ENGINE_NAME}/include
 	../${ENGINE_NAME}/vendor/spdlog/include
+	../${ENGINE_NAME}/vendor/glad/include
 	../${ENGINE_NAME}/libs/glfw-build/include
 )
 

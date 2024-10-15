@@ -16,6 +16,9 @@ namespace Vortex
 		WindowProps props("Vortex Engine", 1000, 650);
 		m_appWindow = std::unique_ptr<Window>(Window::Create(props));
 		m_appWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
+
+		unsigned int id;
+		glGenVertexArrays(1, &id);
 	}
 
 	Application::~Application()
