@@ -7,7 +7,6 @@
 #include "Vortex/Core/Window.h"
 #include "Platform/Linux/LinuxWindow.h"
 #include <GLFW/glfw3.h>
-
 #include <sstream>
 
 namespace Vortex {
@@ -17,9 +16,10 @@ namespace Vortex {
 		Application();
 		virtual ~Application();
 		void Run();
+		void OnEvent(Event &event);
 
 	private:
-		std::unique_ptr<Window> m_Window;
+		std::unique_ptr<Window> m_appWindow;
 		bool m_IsRunning = true;
 	};
 

@@ -23,12 +23,18 @@ include_directories(${PROJECT_NAME}
 	libs/glfw-build/include/GLFW
 )
 
-# Check dependencies
+# Check glfw3
 list(APPEND CMAKE_PREFIX_PATH libs/glfw-build/lib/cmake/glfw3)
 find_package(glfw3 REQUIRED)
+
+# Set policy to modern GLVND and find OpenGL
+if (POLICY CMP0072)
+    cmake_policy(SET CMP0072 NEW)
+endif()
+find_package(OpenGL REQUIRED)
 
 # Include the header files in the build
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 # Link dependencies into my lib
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw ${OPENGL_LIBRARIES})
