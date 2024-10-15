@@ -1,11 +1,9 @@
 #include "Vortex/PreHeaders.h"
-#include "Vortex/Imgui/ImGuiLayer.h"
+#include "Vortex/Imgui/ImGuiLayerBind.h"
 #include "Vortex/Core/Application.h"
 
 #include "imgui.h"
 #include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
-#include "Vortex/Imgui/ImGuiGlfwRender.h"
-// #include "backends/imgui_impl_glfw.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -14,35 +12,20 @@
 
 namespace Vortex 
 {
-    ImGuiLayer::ImGuiLayer() {
+    ImGuiLayerBind::ImGuiLayerBind() {
 
     }
 
-    ImGuiLayer::~ImGuiLayer() {
+    ImGuiLayerBind::~ImGuiLayerBind() {
         OnDetach();
     }
 
-    void ImGuiLayer::OnUpdate() 
+    void ImGuiLayerBind::OnUpdate() 
     {
     }
 
-    void ImGuiLayer::OnImGuiRender() 
+    void ImGuiLayerBind::OnImGuiRender() 
     {
-        // Config IO display size
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        Application &app = Application::GetApplication();
-        io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
-
-        // Config IO time
-        float time = (float)glfwGetTime();
-        io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
-        m_time = time;
-
-        // Start new frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
         // Reference controlled variables
         bool show_demo_window = true;
         bool show_another_window = true;
@@ -70,29 +53,18 @@ namespace Vortex
                 counter++;
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            // ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
-        }
-
-        // End Rendering frames
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backup_current_context);
         }
     }
 
-    void ImGuiLayer::OnAttach() {
+    void ImGuiLayerBind::OnAttach() {
 
         // Basic Config
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
+        ImGui_ImplOpenGL3_Init("#version 410");
 
         // Font
         ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -100,45 +72,44 @@ namespace Vortex
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-        io.ConfigViewportsNoAutoMerge = true;
-        io.ConfigViewportsNoTaskBarIcon = true;
 
-        // Config Viewport
-        ImGuiStyle& style = ImGui::GetStyle();
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            style.WindowRounding = 0.0f;
-            style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-        }
-
-        // Config style
+        // Config Keymap and style
+        setKeyMapping();
         configColorStyle();
-
-        // Setup Platform/Renderer bindings
-        Application& app = Application::GetApplication();
-		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
-		ImGui_ImplGlfw_InitForOpenGL(window, true);
-        ImGui_ImplOpenGL3_Init("#version 410");
     }
 
-    void ImGuiLayer::OnDetach() {
+    void ImGuiLayerBind::OnDetach() {
         ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
     }
+    
 
-    void ImGuiLayer::Begin() 
+    void ImGuiLayerBind::Begin() 
     {
-        
+        // Config IO display size
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        Application &app = Application::GetApplication();
+        io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+
+        // // Config IO time
+        float time = (float)glfwGetTime();
+        io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
+        m_time = time;
+
+        // Start new frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
     }
 
-    void ImGuiLayer::End() 
+    void ImGuiLayerBind::End() 
     {
-        
+        // End Rendering frames
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void ImGuiLayer::setKeyMapping() 
+
+    void ImGuiLayerBind::setKeyMapping() 
     {
         ImGuiIO& io = ImGui::GetIO(); (void)io;
 
@@ -165,7 +136,7 @@ namespace Vortex
         io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z; // For Ctrl+Z (undo)
     }
 
-    void ImGuiLayer::configColorStyle() 
+    void ImGuiLayerBind::configColorStyle() 
     {
         ImVec4 *colors = ImGui::GetStyle().Colors;
         colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
@@ -247,5 +218,80 @@ namespace Vortex
         style.GrabRounding = 3;
         style.LogSliderDeadzone = 4;
         style.TabRounding = 4;
+    }
+
+    void ImGuiLayerBind::OnEvent(Event &event) {
+        EventDispatcher dispatcher(event);
+        dispatcher.Dispatch<MouseButtonPressedEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnMouseButtonPressedEvent));
+        dispatcher.Dispatch<MouseButtonReleasedEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnMouseButtonReleasedEvent));
+        dispatcher.Dispatch<MouseMovedEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnMouseMovedEvent));
+        dispatcher.Dispatch<MouseScrolledEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnMouseScrolledEvent));
+
+        dispatcher.Dispatch<WindowResizeEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnWindowResizeEvent));
+        dispatcher.Dispatch<KeyPressedEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnKeyPressedEvent));
+        dispatcher.Dispatch<KeyReleasedEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnKeyReleasedEvent));
+        dispatcher.Dispatch<KeyTypedEvent>(VX_BIND_EVENT_FN(ImGuiLayerBind::OnKeyTypedEvent));
+    }
+
+    bool ImGuiLayerBind::OnMouseButtonPressedEvent(MouseButtonPressedEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        io.MouseDown[event.GetMouseButton()] = true;
+        return false;
+    }
+
+    bool ImGuiLayerBind::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        io.MouseDown[event.GetMouseButton()] = false;
+        return false;
+    }
+
+    bool ImGuiLayerBind::OnMouseMovedEvent(MouseMovedEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        io.MousePos = ImVec2(event.GetX(), event.GetY());
+        return false;
+    }
+
+    bool ImGuiLayerBind::OnMouseScrolledEvent(MouseScrolledEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        io.MouseWheelH += event.GetXOffset();
+        io.MouseWheel += event.GetYOffset();
+        return false;
+    }
+
+
+    bool ImGuiLayerBind::OnWindowResizeEvent(WindowResizeEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(event.GetWidth(), event.GetHeight());
+        io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+        glViewport(0, 0, event.GetWidth(), event.GetHeight());
+        return false;
+    }
+
+
+    bool ImGuiLayerBind::OnKeyPressedEvent(KeyPressedEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        io.KeysDown[event.GetKeyCode()] = true;
+
+        io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+        io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+        io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+        io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+        return false;
+    }
+
+    bool ImGuiLayerBind::OnKeyReleasedEvent(KeyReleasedEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        io.KeysDown[event.GetKeyCode()] = false;
+        return false;
+    }
+
+    bool ImGuiLayerBind::OnKeyTypedEvent(KeyTypedEvent &event) {
+        ImGuiIO &io = ImGui::GetIO();
+        uint16_t keycode = event.GetKeyCode();
+
+        if (keycode > 0 && keycode < 0x10000) {
+            io.AddInputCharacter((unsigned short)keycode);
+        }
+        return false;
     }
 }

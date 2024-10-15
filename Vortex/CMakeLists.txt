@@ -12,17 +12,23 @@ add_library(${PROJECT_NAME} SHARED
 	src/Logging.cpp
 	src/PreHeaders.cpp
 	src/LinuxWindow.cpp
+	src/WIndowInput.cpp
+
 	src/Layer.cpp
 	src/LayerStack.cpp
-	src/ImGuiLayer.cpp
+	
 	src/ImGuiOpenGLRenderer.cpp
-	src/WIndowInput.cpp
+	# src/ImGuiGlfwRender.cpp
+	src/ImGuiLayerBind.cpp
+	src/ImGuiLayer.cpp
+
 	vendor/glad/src/glad.c
 	vendor/imgui/imgui.cpp
 	vendor/imgui/imgui_demo.cpp
 	vendor/imgui/imgui_draw.cpp
 	vendor/imgui/imgui_tables.cpp
 	vendor/imgui/imgui_widgets.cpp
+	vendor/imgui/backends/imgui_impl_glfw.cpp
 )
 
 # Precompiled headers

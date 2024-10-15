@@ -8,6 +8,7 @@
 #include "Vortex/Core/Layer.h"
 #include "Vortex/Core/LayerStack.h"
 #include "Platform/Linux/LinuxWindow.h"
+#include "Vortex/Imgui/ImGuiLayerBind.h"
 #include <GLFW/glfw3.h>
 #include <sstream>
 
@@ -20,14 +21,16 @@ namespace Vortex {
 		void Run();
 		void OnEvent(Event &event);
 		void PushLayer(Layer *layer);
-		void PushOverLayer(Layer *overlay);
+		void PushOverLay(Layer *overlay);
 
 		inline static Application& GetApplication() { return *m_AppInstance; } 
 		inline Window& GetWindow() { return *m_AppWindow; }
 
 	private:
 		bool OnWindowClose(WindowCloseEvent &event);
+		
 		std::unique_ptr<Window> m_AppWindow;
+		std::unique_ptr<ImGuiLayerBind> m_ImGuiLayer;
 
 		bool m_IsRunning = true;
 		LayerStack m_LayerStack;

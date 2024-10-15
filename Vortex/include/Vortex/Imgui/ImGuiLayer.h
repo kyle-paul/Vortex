@@ -13,24 +13,18 @@ namespace Vortex
         ImGuiLayer();
         ~ImGuiLayer();
 
-        void OnUpdate();
-        void OnAttach() override;
-        void OnEvent(Event &event);
+        virtual void OnAttach() override;
+        virtual void OnDetach() override;
+        virtual void OnUpdate() override;
+        virtual void OnImGuiRender() override;
+
+        void Begin();
+        void End();
 
     private:
-        bool OnMouseButtonPressedEvent(MouseButtonPressedEvent &event);
-        bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent &event);
-        bool OnMouseMovedEvent(MouseMovedEvent &event);
-        bool OnMouseScrolledEvent(MouseScrolledEvent &event);
-
-        bool OnWindowResizeEvent(WindowResizeEvent &event);
-        bool OnKeyPressedEvent(KeyPressedEvent &event);
-        bool OnKeyReleasedEvent(KeyReleasedEvent &event);
-        bool OnKeyTypedEvent(KeyTypedEvent &event);
-
         static void setKeyMapping(); 
         static void configColorStyle();
-
+        
     private:
         float m_time = 0.0f;
     };

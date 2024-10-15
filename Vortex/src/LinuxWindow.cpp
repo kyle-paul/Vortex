@@ -8,7 +8,7 @@
 
 namespace Vortex 
 {
-	static bool s_GLFWInitialized = false;
+	static bool m_GLFWInitialized = 0;
 	static void GLFW_ErrorCallBack(int error_code, const char* description) {
 		VX_CORE_ERROR("GLFW Error ({0}): {1}", error_code, description);
 	}
@@ -22,7 +22,7 @@ namespace Vortex
 	}
 
 	LinuxWindow::~LinuxWindow() {
-		
+		Shutdown();
 	}
 
 	void LinuxWindow::Init(const WindowProps& props) {
@@ -32,11 +32,11 @@ namespace Vortex
 
 		VX_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-		if (!s_GLFWInitialized) {
+		if (!m_GLFWInitialized) {
 			int success = glfwInit();
 			VX_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFW_ErrorCallBack);
-			s_GLFWInitialized = true;
+			m_GLFWInitialized = true;
 		}
 
 		m_glfw_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowConfig.Title.c_str(), nullptr, nullptr);
@@ -54,10 +54,11 @@ namespace Vortex
 		{
 			// std::cout << "Window resized: " << width << "x" << height << std::endl;
 			WindowConfig &t_windowConfig = *(WindowConfig*)glfwGetWindowUserPointer(window);
-			WindowResizeEvent event(width, height);
-			t_windowConfig.EventCallback(event);
 			t_windowConfig.Width = width;
 			t_windowConfig.Height = height;
+
+			WindowResizeEvent event(width, height);
+			t_windowConfig.EventCallback(event);
 		});
 
 		// GLFW close callback with lambda function
@@ -134,6 +135,7 @@ namespace Vortex
 
 	void LinuxWindow::Shutdown() {
 		glfwDestroyWindow(m_glfw_Window);
+		glfwTerminate();
 	}
 
 	void LinuxWindow::OnUpdate() {
@@ -151,6 +153,6 @@ namespace Vortex
 	}
 
 	bool LinuxWindow::IsVSync() const {
-		return m_WindowConfig.VSync;	
+		return m_WindowConfig.VSync;
 	}
 }

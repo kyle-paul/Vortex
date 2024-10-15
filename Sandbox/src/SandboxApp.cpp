@@ -23,14 +23,12 @@ public:
 	}
 
 	void OnUpdate() override {
-		if (Vortex::Input::IsKeyPressed(Vortex::Key::Tab)) {
-			// VX_WARN("Key {0} tab is pressed");
-		}
-
-		if (Vortex::Input::IsMouseButtonPressed(Vortex::Mouse::ButtonLeft)) {
-			// VX_WARN("Press button Left");
-		}
 		// VX_INFO("RenderLayer::Update()");
+		// if (Vortex::Input::IsKeyPressed(Vortex::Key::Tab))
+			// VX_WARN("Key {0} tab is pressed");
+
+		// if (Vortex::Input::IsMouseButtonPressed(Vortex::Mouse::ButtonLeft))
+			// VX_WARN("Press button Left");
 	}
 
 	void OnEvent(Vortex::Event &event) override {
@@ -44,7 +42,6 @@ class Sandbox : public Vortex::Application
 public:
 	Sandbox() {
 		PushLayer(new RenderLayer());
-		PushOverLayer(new Vortex::ImGuiLayer());
 	}
 
 	~Sandbox () {

@@ -24,3 +24,4 @@
 
 // Include imgui
 #include "Vortex/Imgui/ImGuiLayer.h"
+#include "Vortex/Imgui/ImGuiLayerBind.h"

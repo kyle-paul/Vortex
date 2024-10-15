@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # List of vendor directories and their corresponding tag versions
-declare -a vendors=("spdlog" "glfw", "imgui")
-declare -a versions=("v1.14.1" "3.4", "v1.91.3-docking")
+declare -a vendors=("spdlog" "glfw", "imgui", "glad")
+declare -a versions=("v1.14.1" "3.4", "v1.91.3-docking", "v2.0.8")
 
 # Initialize and update submodules
 git submodule update --init --recursive
