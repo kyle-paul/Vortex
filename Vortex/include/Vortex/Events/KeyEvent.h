@@ -52,7 +52,8 @@ namespace Vortex {
 	class VORTEX_API KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
+		KeyTypedEvent(const KeyCode keycode) 
+			: KeyEvent(keycode) {}
 
 		std::string ToString() const override
 		{

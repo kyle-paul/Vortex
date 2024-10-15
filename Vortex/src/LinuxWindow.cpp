@@ -93,6 +93,13 @@ namespace Vortex
 			}
 		});
 
+		// GLFW set char call back
+		glfwSetCharCallback(m_glfw_Window, [](GLFWwindow* window, unsigned int keycode){
+			WindowConfig &t_windowConfig = *(WindowConfig*)glfwGetWindowUserPointer(window);
+			KeyTypedEvent event(keycode);
+			t_windowConfig.EventCallback(event);
+		});
+
 		// GLFW mouse button callback
 		glfwSetMouseButtonCallback(m_glfw_Window, [](GLFWwindow* window, int button, int action, int mods){
 			WindowConfig &t_windowConfig = *(WindowConfig*)glfwGetWindowUserPointer(window);
