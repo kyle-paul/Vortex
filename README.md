@@ -12,7 +12,7 @@ chmod +x ./Scripts/SetupDevelopment.sh
 ./Scripts/SetupDevelopment.sh
 ```
 
-Build the GLFW libs for linking into `libVortex`. If your Linux system is `WayLand`, remove the `GLFW_BUILD_WAYLAND=0` and replace with `GLFW_BUILD_X11=0`. For information can be found at the [GLFW documentation](https://www.glfw.org/docs/latest/compile_guide.html)
+Build the GLFW libs for linking into `libVortex`. If your Linux system is `WayLand`, remove the `GLFW_BUILD_WAYLAND=0` and replace with `GLFW_BUILD_X11=0`.
 
 ```bash
 cmake -S Vortex/vendor/glfw \
