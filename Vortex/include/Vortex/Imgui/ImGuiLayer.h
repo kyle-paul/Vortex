@@ -24,10 +24,12 @@ namespace Vortex
         bool OnMouseScrolledEvent(MouseScrolledEvent &event);
 
         bool OnWindowResizeEvent(WindowResizeEvent &event);
-
         bool OnKeyPressedEvent(KeyPressedEvent &event);
         bool OnKeyReleasedEvent(KeyReleasedEvent &event);
         bool OnKeyTypedEvent(KeyTypedEvent &event);
+
+        static void setKeyMapping(); 
+        static void configColorStyle();
 
     private:
         float m_time = 0.0f;

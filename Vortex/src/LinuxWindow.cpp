@@ -52,7 +52,7 @@ namespace Vortex
 		// GLFW resize callback with lambda function
 		glfwSetWindowSizeCallback(m_glfw_Window, [](GLFWwindow* window, int width, int height)
 		{
-			std::cout << "Window resized: " << width << "x" << height << std::endl;
+			// std::cout << "Window resized: " << width << "x" << height << std::endl;
 			WindowConfig &t_windowConfig = *(WindowConfig*)glfwGetWindowUserPointer(window);
 			WindowResizeEvent event(width, height);
 			t_windowConfig.EventCallback(event);

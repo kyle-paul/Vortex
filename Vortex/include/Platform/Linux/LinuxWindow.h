@@ -16,12 +16,14 @@ namespace Vortex
 
 		uint32_t GetWidth() const override { return m_WindowConfig.Width; }
 		uint32_t GetHeight() const override { return m_WindowConfig.Height; }
+		
+		inline virtual void* GetNativeWindow() const { return m_glfw_Window; }
 
 		// Window attribute
 		inline void SetEventCallback(const EventCallbackFn& callback) override { 
 			m_WindowConfig.EventCallback = callback; 
 		}
-			
+		
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 

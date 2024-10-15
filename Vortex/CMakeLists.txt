@@ -16,6 +16,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/LayerStack.cpp
 	src/ImGuiLayer.cpp
 	src/ImGuiOpenGLRenderer.cpp
+	src/WIndowInput.cpp
 	vendor/glad/src/glad.c
 	vendor/imgui/imgui.cpp
 	vendor/imgui/imgui_demo.cpp

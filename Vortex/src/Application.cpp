@@ -4,6 +4,7 @@
 #include "Vortex/Core/Application.h"
 #include "Vortex/Events/ApplicationEvent.h"
 #include "Vortex/Core/Logging.h"
+#include "Vortex/Core/Input.h"
 
 #include <iostream>
 #include <memory>
@@ -19,7 +20,7 @@ namespace Vortex
 		VX_CORE_ASSERT(!m_AppInstance, "Application already exits!");
 		m_AppInstance = this;
 
-		WindowProps props("Vortex Engine", 1000, 650);
+		WindowProps props("Vortex Engine", 1300, 700);
 		m_AppWindow = std::unique_ptr<Window>(Window::Create(props));
 		m_AppWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
 
@@ -44,7 +45,7 @@ namespace Vortex
 		dispatcher.Dispatch<WindowCloseEvent>( BIND_EVENT_FUNCTION(Application::OnWindowClose) );
 
 		// Logging events
-		VX_CORE_INFO("{0}", event.ToString());
+		// VX_CORE_INFO("{0}", event.ToString());
 
 		// Layer check
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
@@ -77,6 +78,10 @@ namespace Vortex
 			for (Layer *layer: m_LayerStack) {
 				layer->OnUpdate();
 			}
+
+			// Get combo input
+			auto [x,y] = Input::GetMousePos();
+ 			// VX_CORE_TRACE(" {0} - {1} ", x, y);
 
 			m_AppWindow->OnUpdate();
 		}
