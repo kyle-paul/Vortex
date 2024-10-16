@@ -1,13 +1,5 @@
-#include "Vortex/PreHeaders.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include "Vortex/Core/Application.h"
-
-#include "imgui.h"
-#include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
-#include "Vortex/Imgui/ImGuiGlfwRender.h"
-
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
 
 #define VX_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -18,7 +10,7 @@ namespace Vortex
     }
 
     ImGuiLayer::~ImGuiLayer() {
-        OnDetach();
+        
     }
 
     void ImGuiLayer::OnUpdate() 
@@ -36,6 +28,8 @@ namespace Vortex
         // Rendered windows
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
+
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
         if (show_another_window)
         {
@@ -66,6 +60,7 @@ namespace Vortex
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
+
         if (!ImGui_ImplOpenGL3_Init("#version 410")) {
             std::cerr << "ImGui OpenGL3 Init failed!" << std::endl;
             return;

@@ -26,6 +26,9 @@ namespace Vortex
 
     void ImGuiLayerBind::OnImGuiRender() 
     {
+        // Dockspace 
+        // https://github.com/ocornut/imgui/issues/6095
+
         // Reference controlled variables
         bool show_demo_window = true;
         bool show_another_window = true;

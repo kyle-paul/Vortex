@@ -39,12 +39,15 @@ add_library(${PROJECT_NAME} SHARED
 	src/WIndowInput.cpp
 	src/Layer.cpp
 	src/LayerStack.cpp
+	src/LayerStack.cpp
 	
 	# ImGui internal sources
 	src/ImGuiOpenGLRenderer.cpp
 	src/ImGuiGlfwRender.cpp
 	src/ImGuiLayerBind.cpp
 	src/ImGuiLayer.cpp
+	src/GraphicsContext.cpp
+	src/OpenGLGraphicsContext.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

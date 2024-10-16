@@ -1,11 +1,5 @@
 #include "Platform/Linux/LinuxWindow.h"
 
-#include "Vortex/PreHeaders.h"
-#include "Vortex/Events/ApplicationEvent.h"
-#include "Vortex/Events/MouseEvent.h"
-#include "Vortex/Events/KeyEvent.h"
-#include "Vortex/Core/Assert.h"
-
 namespace Vortex 
 {
 	static bool m_GLFWInitialized = 0;
@@ -40,10 +34,8 @@ namespace Vortex
 		}
 
 		m_glfw_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowConfig.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_glfw_Window);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		VX_CORE_ASSERT(status, "Failed to initialize GLAD with GLFW (OPENGL)");
+		m_context = new OpenGLGraphicsContext(m_glfw_Window);
+		m_context->Init();
 		
 		glfwSetWindowUserPointer(m_glfw_Window, &m_WindowConfig);
 		SetVSync(true);
@@ -65,6 +57,7 @@ namespace Vortex
 		glfwSetWindowCloseCallback(m_glfw_Window, [](GLFWwindow* window){
 			WindowConfig &t_windowConfig = *(WindowConfig*)glfwGetWindowUserPointer(window);
 			WindowCloseEvent event;
+			t_windowConfig.EventCallback(event);
 		});
 
 		// GLFW set key callback
@@ -140,7 +133,7 @@ namespace Vortex
 
 	void LinuxWindow::OnUpdate() {
 		glfwPollEvents();
-		glfwSwapBuffers(m_glfw_Window);
+		m_context->SwapBuffers();
 	}
 
 	void LinuxWindow::SetVSync(bool enabled) {

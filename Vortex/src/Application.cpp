@@ -1,15 +1,4 @@
-#include "Vortex/Core/Core.h"
-#include "Vortex/PreHeaders.h"
-#include "Vortex/Core/Assert.h"
 #include "Vortex/Core/Application.h"
-#include "Vortex/Events/ApplicationEvent.h"
-#include "Vortex/Core/Logging.h"
-#include "Vortex/Core/Input.h"
-
-#include "Vortex/Core/Math.h"
-
-#include <iostream>
-#include <memory>
 
 #define BIND_EVENT_FUNCTION(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -29,8 +18,8 @@ namespace Vortex
 		m_AppWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
 
 		// Init default Imgui Layer
-		m_ImGuiLayer = std::make_unique<ImGuiLayer>();
-		PushOverLay(m_ImGuiLayer.get());
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverLay(m_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -50,12 +39,11 @@ namespace Vortex
 		dispatcher.Dispatch<WindowCloseEvent>( BIND_EVENT_FUNCTION(Application::OnWindowClose) );
 
 		// Layer check
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			(*--it)->OnEvent(event);
-			if(event.Handled) {
+			if (event.Handled) 
 				break;
-			}
+			(*it)->OnEvent(event);
 		}
 	}
 
@@ -72,7 +60,7 @@ namespace Vortex
 	void Application::Run() {
 		WindowResizeEvent e(1000, 650);
 		
-		while(m_IsRunning && !glfwWindowShouldClose(static_cast<GLFWwindow*>(m_AppWindow->GetNativeWindow()))) {
+		while(m_IsRunning) {
 			glClearColor(0, 0, 0, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
@@ -87,12 +75,15 @@ namespace Vortex
 				layer->OnImGuiRender();
 			}
 			m_ImGuiLayer->End();
-
-			// Get combo input
-			// auto [x,y] = Input::GetMousePos();
- 			// VX_CORE_TRACE(" {0} - {1} ", x, y);
-
 			m_AppWindow->OnUpdate();
 		}
 	}
 }
+
+
+
+// in the running loop
+// && !glfwWindowShouldClose(static_cast<GLFWwindow*>(m_AppWindow->GetNativeWindow()))
+// Get combo input
+// auto [x,y] = Input::GetMousePos();
+// VX_CORE_TRACE(" {0} - {1} ", x, y);

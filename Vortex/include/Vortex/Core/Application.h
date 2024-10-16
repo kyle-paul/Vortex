@@ -1,16 +1,20 @@
 #pragma once
 
-#include "Vortex/Core/Core.h"
 #include "Vortex/PreHeaders.h"
-#include "Vortex/Events/ApplicationEvent.h"
+#include "Vortex/Core/Core.h"
 #include "Vortex/Core/Logging.h"
+#include "Vortex/Core/Assert.h"
 #include "Vortex/Core/Window.h"
 #include "Vortex/Core/Layer.h"
 #include "Vortex/Core/LayerStack.h"
+#include "Vortex/Core/Input.h"
+#include "Vortex/Core/Math.h"
+
+#include "Vortex/Events/ApplicationEvent.h"
 #include "Platform/Linux/LinuxWindow.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
+
 #include <GLFW/glfw3.h>
-#include <sstream>
 
 namespace Vortex {
 	class VORTEX_API Application 
@@ -30,7 +34,7 @@ namespace Vortex {
 		bool OnWindowClose(WindowCloseEvent &event);
 		
 		std::unique_ptr<Window> m_AppWindow;
-		std::unique_ptr<ImGuiLayer> m_ImGuiLayer;
+		ImGuiLayer* m_ImGuiLayer;
 
 		bool m_IsRunning = true;
 		LayerStack m_LayerStack;

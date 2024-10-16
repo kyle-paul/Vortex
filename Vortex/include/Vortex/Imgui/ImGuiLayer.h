@@ -1,9 +1,18 @@
 #pragma once
 
+#include "Vortex/PreHeaders.h"
 #include "Vortex/Core/Layer.h"
+
 #include "Vortex/Events/MouseEvent.h"
 #include "Vortex/Events/ApplicationEvent.h"
 #include "Vortex/Events/KeyEvent.h"
+
+#include "Vortex/Imgui/ImGuiGlfwRender.h"
+#include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
+
+#include "imgui.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 namespace Vortex 
 {

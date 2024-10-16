@@ -1,6 +1,16 @@
 #pragma once
+#include "Vortex/PreHeaders.h"
 #include "Vortex/Core/Core.h"
+#include "Vortex/Core/Assert.h"
 #include "Vortex/Core/Window.h"
+
+#include "Vortex/Events/ApplicationEvent.h"
+#include "Vortex/Events/MouseEvent.h"
+#include "Vortex/Events/KeyEvent.h"
+
+#include "Graphics/GraphicsContext.h"
+#include "Platform/OpenGL/OpenGLGraphicsContext.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -33,6 +43,7 @@ namespace Vortex
 
 	private:
 		GLFWwindow* m_glfw_Window;
+		GraphicsContext* m_context;
 
 		struct WindowConfig
 		{
