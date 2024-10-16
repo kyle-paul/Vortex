@@ -49,6 +49,9 @@ add_library(${PROJECT_NAME} SHARED
 	src/GraphicsContext.cpp
 	src/OpenGLGraphicsContext.cpp
 	src/Shader.cpp
+	src/Buffer.cpp
+	src/OpenGLBuffer.cpp
+	src/Renderer.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

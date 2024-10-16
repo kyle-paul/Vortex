@@ -41,11 +41,11 @@ namespace Vortex
         }
 
         // Create an empty fragment shader handle
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
         // Send the fragment shader source code to GL
         // Note that std::string's .c_str is NULL character terminated.
-        source = (const GLchar *)fragmentSource.c_str();
+        source = fragmentSource.c_str();
         glShaderSource(fragmentShader, 1, &source, 0);
 
         // Compile the fragment shader
