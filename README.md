@@ -38,3 +38,12 @@ cmake -S Vortex/vendor/glm \
 cmake --build Vortex/libs/glm-build --parallel <your-cpu-threads> 
 cmake --install Vortex/libs/glm-build --prefix Vortex/libs/glm-build
 ```
+
+Build and install the Vortex engine that can be used in any other subprojects (e.g Sandbox)
+```bash
+cmake -B build
+cmake --build build --parallel <your-cpu-threads>
+cmake --install build --prefix <your-install-directory>
+```
+
+Since Vortex is currently built as dynamic library, in the Sandbox project or any other subprojects, you still need to find and include third party packages. Perhaps, in the future, Vortex can be improved for better usage experience later.

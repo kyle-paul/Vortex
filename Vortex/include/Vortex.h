@@ -23,5 +23,6 @@
 #include "Platform/Linux/LinuxWindow.h"
 
 // Include imgui
+#include "imgui.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include "Vortex/Imgui/ImGuiLayerBind.h"

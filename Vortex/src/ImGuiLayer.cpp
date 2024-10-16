@@ -5,7 +5,6 @@
 #include "imgui.h"
 #include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "Vortex/Imgui/ImGuiGlfwRender.h"
-// #include "backends/imgui_impl_glfw.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -28,20 +27,6 @@ namespace Vortex
 
     void ImGuiLayer::OnImGuiRender() 
     {
-        // Config IO display size
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        Application &app = Application::GetApplication();
-        io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
-
-        // Config IO time
-        float time = (float)glfwGetTime();
-        io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
-        m_time = time;
-
-        // Start new frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
 
         // Reference controlled variables
         bool show_demo_window = true;
@@ -70,21 +55,9 @@ namespace Vortex
                 counter++;
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
         }
 
-        // End Rendering frames
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backup_current_context);
-        }
     }
 
     void ImGuiLayer::OnAttach() {
@@ -93,6 +66,10 @@ namespace Vortex
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
+        if (!ImGui_ImplOpenGL3_Init("#version 410")) {
+            std::cerr << "ImGui OpenGL3 Init failed!" << std::endl;
+            return;
+        }
 
         // Font
         ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -100,9 +77,6 @@ namespace Vortex
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-        io.ConfigViewportsNoAutoMerge = true;
-        io.ConfigViewportsNoTaskBarIcon = true;
 
         // Config Viewport
         ImGuiStyle& style = ImGui::GetStyle();
@@ -119,7 +93,6 @@ namespace Vortex
         Application& app = Application::GetApplication();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
-        ImGui_ImplOpenGL3_Init("#version 410");
     }
 
     void ImGuiLayer::OnDetach() {
@@ -130,12 +103,27 @@ namespace Vortex
 
     void ImGuiLayer::Begin() 
     {
-        
+        // Config IO display size
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        Application &app = Application::GetApplication();
+        io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+
+        // Config IO time
+        float time = (float)glfwGetTime();
+        io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
+        m_time = time;
+
+        // Start new frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
     }
 
     void ImGuiLayer::End() 
     {
-        
+        // End Rendering frames
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());   
     }
 
     void ImGuiLayer::setKeyMapping() 

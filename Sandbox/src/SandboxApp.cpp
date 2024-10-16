@@ -1,5 +1,6 @@
 #include <Vortex.h>
 #include <Vortex/Core/Math.h>
+#include <imgui.h>
 
 glm::mat4 camera(float Translate, glm::vec2 const& Rotate)
 {
@@ -21,6 +22,12 @@ public:
 	~RenderLayer() {
 
 	}
+
+	// virtual void OnImGuiRender() override {
+	// 	Vortex::ImGuiRender::Begin("Test");
+	// 	Vortex::ImGuiRender::Text("This is sandbox");
+	// 	Vortex::ImGuiRender::End();
+	// }
 
 	void OnUpdate() override {
 		// VX_INFO("RenderLayer::Update()");

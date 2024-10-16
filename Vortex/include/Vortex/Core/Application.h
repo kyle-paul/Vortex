@@ -8,7 +8,7 @@
 #include "Vortex/Core/Layer.h"
 #include "Vortex/Core/LayerStack.h"
 #include "Platform/Linux/LinuxWindow.h"
-#include "Vortex/Imgui/ImGuiLayerBind.h"
+#include "Vortex/Imgui/ImGuiLayer.h"
 #include <GLFW/glfw3.h>
 #include <sstream>
 
@@ -30,7 +30,7 @@ namespace Vortex {
 		bool OnWindowClose(WindowCloseEvent &event);
 		
 		std::unique_ptr<Window> m_AppWindow;
-		std::unique_ptr<ImGuiLayerBind> m_ImGuiLayer;
+		std::unique_ptr<ImGuiLayer> m_ImGuiLayer;
 
 		bool m_IsRunning = true;
 		LayerStack m_LayerStack;

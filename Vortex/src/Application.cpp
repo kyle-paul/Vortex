@@ -29,7 +29,7 @@ namespace Vortex
 		m_AppWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
 
 		// Init default Imgui Layer
-		m_ImGuiLayer = std::make_unique<ImGuiLayerBind>();
+		m_ImGuiLayer = std::make_unique<ImGuiLayer>();
 		PushOverLay(m_ImGuiLayer.get());
 	}
 
