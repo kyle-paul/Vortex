@@ -13,6 +13,7 @@
 #include "Vortex/Events/ApplicationEvent.h"
 #include "Platform/Linux/LinuxWindow.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
+#include "Graphics/Shader.h"
 
 #include <GLFW/glfw3.h>
 
@@ -31,15 +32,22 @@ namespace Vortex {
 		inline Window& GetWindow() { return *m_AppWindow; }
 
 	private:
+		std::string getVertexSource();
+		std::string getFragmentSource();
+
+	private:
+		bool m_IsRunning = true;
 		bool OnWindowClose(WindowCloseEvent &event);
 		
 		std::unique_ptr<Window> m_AppWindow;
 		ImGuiLayer* m_ImGuiLayer;
-
-		bool m_IsRunning = true;
+		static Application *m_AppInstance;
 		LayerStack m_LayerStack;
 
-		static Application *m_AppInstance;
+		unsigned int m_VertexArray;
+		unsigned int m_VertexBuffer;
+		unsigned int m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 	};
 
 	// To be defined in client
