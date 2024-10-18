@@ -21,7 +21,7 @@ namespace Vortex
         }
 
     private:
-        uint32_t m_VertexBuffer;
+        uint32_t m_VertexBufferID;
         BufferLayout m_BufferLayout;
     };
 
@@ -35,7 +35,7 @@ namespace Vortex
         virtual void Bind() const override;
 		virtual void Unbind() const override;
     private:
-        uint32_t m_IndexBuffer;
+        uint32_t m_IndexBufferID;
         uint32_t m_VertexCount;
     };
 }

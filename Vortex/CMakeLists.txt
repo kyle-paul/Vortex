@@ -48,10 +48,12 @@ add_library(${PROJECT_NAME} SHARED
 	src/ImGuiLayer.cpp
 	src/GraphicsContext.cpp
 	src/OpenGLGraphicsContext.cpp
+	src/Renderer.cpp
 	src/Shader.cpp
 	src/Buffer.cpp
 	src/OpenGLBuffer.cpp
-	src/Renderer.cpp
+	src/VertexArray.cpp
+	src/OpenGLVertexArray.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

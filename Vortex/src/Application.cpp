@@ -4,20 +4,6 @@
 
 namespace Vortex 
 {
-
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch(type) 
-		{
-			case ShaderDataType::Float : return GL_FLOAT;
-			case ShaderDataType::Float2 : return GL_FLOAT;
-			case ShaderDataType::Float3 : return GL_FLOAT;
-			case ShaderDataType::Float4 : return GL_FLOAT;
-		}
-		VX_CORE_ASSERT(false, "Unknowned or Undefined type in ShaderDataTypeToOpenGLBaseType!");
-        return 0;
-	}
-
 	Application *Application::m_AppInstance = nullptr;
 
 	Application::Application()
@@ -36,44 +22,66 @@ namespace Vortex
 		PushOverLay(m_ImGuiLayer);
 
 		// ================================ Graphics API ================================
+		// ================================ Object 1 ================================
 
 		// 1. Vertex Array
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 		
 		// 2.1 Vertex Buffer
 		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-			0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-			0.0f, 0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f 
+			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
+			0.5f, -0.5f, 0.0f,  0.2f, 0.3f, 0.8f, 1.0f,
+			0.0f, 0.5f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f 
 		};
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		
 		// 2.2 Layout Buffer
-		BufferLayout m_BufferLayout = {
+		m_VertexBuffer->SetLayout({
 			{  ShaderDataType::Float3, "a_Position" },
 			{  ShaderDataType::Float4, "a_Color"},
-		};
-
-		uint32_t index = 0;
-		for (auto &element : m_BufferLayout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, element.GetDimCount(), 			      // The number of element on a row
-								  ShaderDataTypeToOpenGLBaseType(element.Type),   // GLtype -> float
-								  element.Normalized ? GL_TRUE : GL_FALSE,        // Normalized or not
-								  m_BufferLayout.GetStride(),                     // The number of element on a row * 4 bytes 
-								  (const void*)element.Offset);                   // Offset
-			index++;
-		}
+		});
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
 		// 3. Index BUffer
 		uint32_t indices[3] = { 0, 1, 2 };
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, 3));
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		// 4. Shader program
 		std::string vertexSource = getVertexSource();
 		std::string fragmentSource = getFragmentSource();
 		m_Shader = std::make_unique<Shader>(vertexSource, fragmentSource);
+
+
+		// ================================ Object 2 ================================
+		m_VertexArraySquare.reset(VertexArray::Create());
+		
+		float verticesSquare[4 * 3] = {
+			-0.55f, -0.55, 0.0f,
+			0.55f, -0.55f, 0.0f,
+			0.55f, 0.55f, 0.0f,
+			-0.55f, 0.55f, 0.0f
+		};
+
+		std::shared_ptr<VertexBuffer> m_VertexBufferSquare;
+		m_VertexBufferSquare.reset(VertexBuffer::Create(verticesSquare, sizeof(verticesSquare)));
+
+		m_VertexBufferSquare->SetLayout({
+			{  ShaderDataType::Float3, "a_Position" },
+		});
+		m_VertexArraySquare->AddVertexBuffer(m_VertexBufferSquare);
+
+		uint32_t indicesSquare[6] = { 0, 1, 2, 2, 3, 0 };
+		std::shared_ptr<IndexBuffer> m_IndexBufferSquare;
+		m_IndexBufferSquare.reset(IndexBuffer::Create(indicesSquare, 6));
+		m_VertexArraySquare->SetIndexBuffer(m_IndexBufferSquare);
+
+		std::string vertexSourceSquare = getVertexSourceSquare();
+		std::string fragmentSourceSquare = getFragmentSourceSquare();
+		m_ShaderSquare = std::make_unique<Shader>(vertexSourceSquare, fragmentSourceSquare);
 	}
 
 	Application::~Application()
@@ -109,6 +117,33 @@ namespace Vortex
 			void main() {
 				color = vec4(v_Position * 0.5 + 0.5, 1.0);
 				color = v_Color;
+			}
+		)";
+	}
+
+	std::string Application::getVertexSourceSquare() {
+		return R"(
+			#version 330 core
+			
+			layout(location=0) in vec3 a_Position;
+			out vec3 v_Position;
+			
+			void main() {
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position + 0.3, 1.0);
+			}
+		)";
+	}
+	
+	std::string Application::getFragmentSourceSquare() {
+		return R"(
+			#version 330 core
+			
+			in vec3 v_Position;
+			layout(location=0) out vec4 color;
+
+			void main() {
+				color = vec4(0.0, 0.0, 0.5, 1.0);
 			}
 		)";
 	}
@@ -150,9 +185,13 @@ namespace Vortex
 			glClearColor(0, 0, 0, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_ShaderSquare->Bind();
+			m_VertexArraySquare->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArraySquare->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			// Update Layers (except ImGui default layer)
 			for (Layer *layer: m_LayerStack) {

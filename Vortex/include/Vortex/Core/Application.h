@@ -13,9 +13,11 @@
 #include "Vortex/Events/ApplicationEvent.h"
 #include "Platform/Linux/LinuxWindow.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
-#include "Graphics/Shader.h"
 
+#include "Graphics/Shader.h"
 #include "Graphics/Buffer.h"
+#include "Graphics/VertexArray.h"
+
 #include <GLFW/glfw3.h>
 
 namespace Vortex {
@@ -36,6 +38,9 @@ namespace Vortex {
 		std::string getVertexSource();
 		std::string getFragmentSource();
 
+		std::string getVertexSourceSquare();
+		std::string getFragmentSourceSquare();
+
 	private:
 		bool m_IsRunning = true;
 		bool OnWindowClose(WindowCloseEvent &event);
@@ -45,10 +50,10 @@ namespace Vortex {
 		static Application *m_AppInstance;
 		LayerStack m_LayerStack;
 
-		unsigned int m_VertexArray;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
-		std::unique_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VertexArray;
+		std::shared_ptr<VertexArray> m_VertexArraySquare;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<Shader> m_ShaderSquare;
 	};
 
 	// To be defined in client
