@@ -4,6 +4,20 @@
 
 namespace Vortex 
 {
+
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch(type) 
+		{
+			case ShaderDataType::Float : return GL_FLOAT;
+			case ShaderDataType::Float2 : return GL_FLOAT;
+			case ShaderDataType::Float3 : return GL_FLOAT;
+			case ShaderDataType::Float4 : return GL_FLOAT;
+		}
+		VX_CORE_ASSERT(false, "Unknowned or Undefined type in ShaderDataTypeToOpenGLBaseType!");
+        return 0;
+	}
+
 	Application *Application::m_AppInstance = nullptr;
 
 	Application::Application()
@@ -21,25 +35,42 @@ namespace Vortex
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverLay(m_ImGuiLayer);
 
+		// ================================ Graphics API ================================
+
+		// 1. Vertex Array
 		glGenVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
-
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f,
+		
+		// 2.1 Vertex Buffer
+		float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+			0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f 
 		};
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		m_VertexBuffer->Bind();
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		// 2.2 Layout Buffer
+		BufferLayout m_BufferLayout = {
+			{  ShaderDataType::Float3, "a_Position" },
+			{  ShaderDataType::Float4, "a_Color"},
+		};
 
+		uint32_t index = 0;
+		for (auto &element : m_BufferLayout) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index, element.GetDimCount(), 			      // The number of element on a row
+								  ShaderDataTypeToOpenGLBaseType(element.Type),   // GLtype -> float
+								  element.Normalized ? GL_TRUE : GL_FALSE,        // Normalized or not
+								  m_BufferLayout.GetStride(),                     // The number of element on a row * 4 bytes 
+								  (const void*)element.Offset);                   // Offset
+			index++;
+		}
+
+		// 3. Index BUffer
 		uint32_t indices[3] = { 0, 1, 2 };
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, 3));
-		m_IndexBuffer->Bind();
 
-		// Shader program
+		// 4. Shader program
 		std::string vertexSource = getVertexSource();
 		std::string fragmentSource = getFragmentSource();
 		m_Shader = std::make_unique<Shader>(vertexSource, fragmentSource);
@@ -55,10 +86,13 @@ namespace Vortex
 			#version 330 core
 			
 			layout(location=0) in vec3 a_Position;
+			layout(location=1) in vec4 a_Color;
 			out vec3 v_Position;
+			out vec4 v_Color;
 			
 			void main() {
 				v_Position = a_Position;
+				v_Color = a_Color;
 				gl_Position = vec4(a_Position + 0.3, 1.0);
 			}
 		)";
@@ -68,11 +102,13 @@ namespace Vortex
 		return R"(
 			#version 330 core
 			
-			layout(location=0) out vec4 color;
 			in vec3 v_Position;
+			in vec4 v_Color;
+			layout(location=0) out vec4 color;
 
 			void main() {
-				color = vec4(v_Position, 1.0);
+				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				color = v_Color;
 			}
 		)";
 	}

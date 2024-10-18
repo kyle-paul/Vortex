@@ -36,5 +36,9 @@ namespace Vortex
         
     private:
         float m_time = 0.0f;
+        bool dockspaceOpen = true;
+        bool fullscreen = true;
+        bool show_demo_window = true;
+        bool show_another_window = true;
     };
 }

@@ -27,6 +27,8 @@ cmake --build Vortex/libs/glfw-build --parallel <your-cpu-threads>
 cmake --install Vortex/libs/glfw-build --prefix Vortex/libs/glfw-build
 ```
 
+Build Glad support for OpenGL. Since Glad source code on Github can not be builts with CMake and installed for usage. Thus, you have to go to the download page for the released package of glad supporting the backend APIs in use.
+
 Build the GLM math library libs
 
 ```bash
@@ -47,3 +49,4 @@ cmake --install build --prefix <your-install-directory>
 ```
 
 Since Vortex is currently built as dynamic library, in the Sandbox project or any other subprojects, you still need to find and include third party packages. Perhaps, in the future, Vortex can be improved for better usage experience later.
+

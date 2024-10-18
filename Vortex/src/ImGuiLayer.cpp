@@ -1,5 +1,6 @@
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include "Vortex/Core/Application.h"
+#include "imgui_internal.h"
 
 #define VX_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -19,6 +20,44 @@ namespace Vortex
 
     void ImGuiLayer::OnImGuiRender() 
     {
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        
+        // Menu bar example
+        // if (ImGui::BeginMenuBar())
+        // {
+        //     if (ImGui::BeginMenu("File"))
+        //     {
+        //         if (ImGui::BeginMenu("Open file", "Ctrl+O")) {
+        //             ImGui::MenuItem("Open nifti");
+        //             ImGui::MenuItem("Open dicom");
+        //             ImGui::MenuItem("Open nrrd");
+        //             ImGui::EndMenu();
+        //         }
+        //         ImGui::MenuItem("Save", "Ctrl+S");
+        //         ImGui::MenuItem("Save as..");
+        //         ImGui::EndMenu();
+        //     }
+        //     if (ImGui::BeginMenu("Edit")) {
+        //         ImGui::MenuItem("Settings", "Ctrl+I");
+        //         ImGui::MenuItem("Preferences", "Ctrl+P");
+        //         if (ImGui::BeginMenu("View layout", "Ctrl+O")) {
+        //             ImGui::MenuItem("Standard layout");
+        //             ImGui::MenuItem("3D Interactive Focus");
+        //             ImGui::MenuItem("Augmented Reality");
+        //             ImGui::MenuItem("Virtual Reality");
+        //             ImGui::EndMenu();
+        //         }
+        //         ImGui::EndMenu();
+        //     }
+        //     if (ImGui::BeginMenu("Help")) {
+        //         ImGui::MenuItem("Examples");
+        //         ImGui::MenuItem("Tutorials");
+        //         ImGui::MenuItem("Documentation");
+        //         ImGui::MenuItem("About Vortex");
+        //         ImGui::EndMenu();
+        //     }
+        //     ImGui::EndMenuBar();
+        // }
 
         // Reference controlled variables
         bool show_demo_window = true;
@@ -28,8 +67,6 @@ namespace Vortex
         // Rendered windows
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
-
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
         if (show_another_window)
         {
@@ -51,7 +88,6 @@ namespace Vortex
             ImGui::Text("counter = %d", counter);
             ImGui::End();
         }
-
     }
 
     void ImGuiLayer::OnAttach() {
@@ -74,12 +110,12 @@ namespace Vortex
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 
         // Config Viewport
-        ImGuiStyle& style = ImGui::GetStyle();
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            style.WindowRounding = 0.0f;
-            style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-        }
+        // ImGuiStyle& style = ImGui::GetStyle();
+        // if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        // {
+        //     style.WindowRounding = 0.0f;
+        //     style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+        // }
 
         // Config style
         configColorStyle();
