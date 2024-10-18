@@ -182,16 +182,17 @@ namespace Vortex
 		WindowResizeEvent e(1000, 650);
 		
 		while(m_IsRunning) {
-			glClearColor(0, 0, 0, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			
+			RenderCommand::SetClearColor({0, 0, 0, 1});
+			RenderCommand::ClearBufferBit();
 
+			Renderer::BeginScene();
 			m_ShaderSquare->Bind();
-			m_VertexArraySquare->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArraySquare->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
+			Renderer::Submit(m_VertexArraySquare);
+			
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_VertexArray);
+			Renderer::EndScene();
 
 			// Update Layers (except ImGui default layer)
 			for (Layer *layer: m_LayerStack) {

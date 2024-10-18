@@ -17,6 +17,7 @@
 #include "Graphics/Shader.h"
 #include "Graphics/Buffer.h"
 #include "Graphics/VertexArray.h"
+#include "Graphics/Renderer.h"
 
 #include <GLFW/glfw3.h>
 

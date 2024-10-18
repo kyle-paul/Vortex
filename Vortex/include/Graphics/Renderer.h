@@ -1,20 +1,16 @@
 #pragma once
+#include "Graphics/RendererAPI.h"
+#include "Graphics/RenderCommand.h"
 
 namespace Vortex
 {
-    enum class RendererAPI 
-    {
-        None = 0,
-        OpenGL = 1,
-        VulCan = 2,
-        DirectX = 3,
-    };
-    
     class Renderer
     {
     public:
-        inline static RendererAPI GetAPI() { return m_RendererAPI;}
-    private:
-        static RendererAPI m_RendererAPI;
+        static void BeginScene();
+        static void Submit(const std::shared_ptr<VertexArray>& VertexArrayID);
+        static void EndScene();
+
+        inline static RendererAPI::API GetAPI() { return RendererAPI::GetCurrentAPI(); }
     };
 }

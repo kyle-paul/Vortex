@@ -10,18 +10,18 @@ namespace Vortex
         // Decide which API backend for rendering
         switch(Renderer::GetAPI()) 
         {
-            case RendererAPI::None: {
+            case RendererAPI::API::None: {
                 VX_CORE_ASSERT(false, "[Vertex Buffer] None API backend is not supported.");
                 return nullptr;
             }
-            case RendererAPI::OpenGL: {
+            case RendererAPI::API::OpenGL: {
                 return new OpenGLVertexBuffer(vertices, size);
             }
-            case RendererAPI::VulCan: {
+            case RendererAPI::API::VulCan: {
                 VX_CORE_ASSERT(false, "[Vertex Buffer] Vulcan API backend currently is not supported.");
                 return nullptr;
             }
-            case RendererAPI::DirectX: {
+            case RendererAPI::API::DirectX: {
                 VX_CORE_ASSERT(false, "[Vertex Buffer] DirectX API backend currently is not supported.");
                 return nullptr;
             }
@@ -39,18 +39,18 @@ namespace Vortex
         // Decide which API backend for rendering
         switch(Renderer::GetAPI()) 
         {
-            case RendererAPI::None: {
+            case RendererAPI::API::None: {
                 VX_CORE_ASSERT(false, "[Index Buffer] None API backend is not supported.");
                 return nullptr;
             }
-            case RendererAPI::OpenGL: {
+            case RendererAPI::API::OpenGL: {
                 return new OpenGLIndexBuffer(indices, count);
             }
-            case RendererAPI::VulCan: {
+            case RendererAPI::API::VulCan: {
                 VX_CORE_ASSERT(false, "[Index Buffer] Vulcan API backend currently is not supported.");
                 return nullptr;
             }
-            case RendererAPI::DirectX: {
+            case RendererAPI::API::DirectX: {
                 VX_CORE_ASSERT(false, "[Index Buffer] DirectX API backend currently is not supported.");
                 return nullptr;
             }

@@ -49,6 +49,9 @@ add_library(${PROJECT_NAME} SHARED
 	src/GraphicsContext.cpp
 	src/OpenGLGraphicsContext.cpp
 	src/Renderer.cpp
+	src/RenderCommand.cpp
+	src/RendererAPI.cpp
+	src/OpenGLRendererAPI.cpp
 	src/Shader.cpp
 	src/Buffer.cpp
 	src/OpenGLBuffer.cpp

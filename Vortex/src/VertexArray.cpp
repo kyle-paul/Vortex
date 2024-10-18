@@ -8,18 +8,18 @@ namespace Vortex
     {
         switch(Renderer::GetAPI())
         {
-            case RendererAPI::None: {
+            case RendererAPI::API::None: {
                 VX_CORE_ASSERT(false, "[Vertex Array] None API backend is not supported.");
                 return nullptr;
             }
-            case RendererAPI::OpenGL: {
+            case RendererAPI::API::OpenGL: {
                 return new OpenGLVertexArray();
             }
-            case RendererAPI::VulCan: {
+            case RendererAPI::API::VulCan: {
                 VX_CORE_ASSERT(false, "[Vertex Array] Vulcan API backend currently is not supported.");
                 return nullptr;
             }
-            case RendererAPI::DirectX: {
+            case RendererAPI::API::DirectX: {
                 VX_CORE_ASSERT(false, "[Vertex Array] DirectX API backend currently is not supported.");
                 return nullptr;
             }
