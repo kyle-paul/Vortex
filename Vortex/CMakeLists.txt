@@ -53,6 +53,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/RendererAPI.cpp
 	src/OpenGLRendererAPI.cpp
 	src/Shader.cpp
+	src/OpenGLShader.cpp
 	src/Buffer.cpp
 	src/OpenGLBuffer.cpp
 	src/VertexArray.cpp

@@ -1,138 +1,33 @@
-#include "Graphics/Shader.h"
-#include "Vortex/Core/Logging.h"
-#include "Vortex/Core/Assert.h"
-#include <glad/glad.h>
-#include <glm/gtc/type_ptr.hpp>
+// #include "Graphics/Shader.h"
+#include "Graphics/VertexArray.h"
+#include "Graphics/Renderer.h"
+
+#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Vortex
 {
-    Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource) {
-
-        // Create an empty vertex shader handle
-        unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-        // Send the vertex shader source code to GL
-        // Note that std::string's .c_str is NULL character terminated.
-        const char *source = vertexSource.c_str();
-        glShaderSource(vertexShader, 1, &source, 0);
-
-        // Compile the vertex shader
-        glCompileShader(vertexShader);
-
-        int isCompiled = 0;
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-        if(isCompiled == GL_FALSE)
-        {
-            int maxLength = 0;
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<char> infoLog(maxLength);
-            glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-            
-            // We don't need the shader anymore.
-            glDeleteShader(vertexShader);
-
-            // Use the infoLog as you see fit.
-            VX_CORE_ERROR("{0}", infoLog.data());
-            VX_CORE_ASSERT(false, "Vertex Shader Compilation Failure!");
-
-            // In this simple program, we'll just leave
-            return;
-        }
-
-        // Create an empty fragment shader handle
-        unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-        // Send the fragment shader source code to GL
-        // Note that std::string's .c_str is NULL character terminated.
-        source = fragmentSource.c_str();
-        glShaderSource(fragmentShader, 1, &source, 0);
-
-        // Compile the fragment shader
-        glCompileShader(fragmentShader);
-
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-            
-            // We don't need the shader anymore.
-            glDeleteShader(fragmentShader);
-            // Either of them. Don't leak shaders.
-            glDeleteShader(vertexShader);
-
-            // Use the infoLog as you see fit.
-            VX_CORE_ERROR("{0}", infoLog.data());
-            VX_CORE_ASSERT(false, "Fragment Shader Compilation Failure!");
-            
-            // In this simple program, we'll just leave
-            return;
-        }
-
-        // Vertex and fragment shaders are successfully compiled.
-        // Now time to link them together into a program.
-        // Get a program object.
-        m_RendererID = glCreateProgram();
-
-        // Attach our shaders to our program
-        glAttachShader(m_RendererID, vertexShader);
-        glAttachShader(m_RendererID, fragmentShader);
-
-        // Link our program
-        glLinkProgram(m_RendererID);
-
-        // Note the different functions here: glGetProgram* instead of glGetShader*.
-        int isLinked = 0;
-        glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int *)&isLinked);
-        if (isLinked == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, &infoLog[0]);
-            
-            // We don't need the program anymore.
-            glDeleteProgram(m_RendererID);
-
-            // Don't leak shaders either.
-            glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
-
-            // Use the infoLog as you see fit.
-            VX_CORE_ERROR("{0}", infoLog.data());
-            VX_CORE_ASSERT(false, "Program Shader Link Failure!");
-            
-            // In this simple program, we'll just leave
-            return;
-        }
-
-        // Always detach shaders after a successful link.
-        glDetachShader(m_RendererID, vertexShader);
-        glDetachShader(m_RendererID, fragmentShader);
-    }
-
-    Shader::~Shader() {
-        glDeleteProgram(m_RendererID);
-    }
-
-    void Shader::Bind() {
-        glUseProgram(m_RendererID);
-    }
-    void Shader::UnBind() {
-        glUseProgram(0);
-    }
-
-    void Shader::SetMat4(const std::string& name, const glm::mat4& value) 
+    Shader* Shader::Create(const std::string& name, const std::string &vertexSource, const std::string &FragmentSource) 
     {
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+        switch(Renderer::GetAPI())
+        {
+            case RendererAPI::API::None: {
+                VX_CORE_ASSERT(false, "[Vertex Array] None API backend is not supported.");
+                return nullptr;
+            }
+            case RendererAPI::API::OpenGL: {
+                return new OpenGLShader(name, vertexSource, FragmentSource);
+            }
+            case RendererAPI::API::VulCan: {
+                VX_CORE_ASSERT(false, "[Vertex Array] Vulcan API backend currently is not supported.");
+                return nullptr;
+            }
+            case RendererAPI::API::DirectX: {
+                VX_CORE_ASSERT(false, "[Vertex Array] DirectX API backend currently is not supported.");
+                return nullptr;
+            }
+        }
+        VX_CORE_ASSERT(false, "[Vertex Array] Please select an API backend for rendering. Options are [OpenGL, Vulcan, DirectX]");
+        return  nullptr;
     }
 }

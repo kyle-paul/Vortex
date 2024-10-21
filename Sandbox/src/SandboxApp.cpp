@@ -1,6 +1,7 @@
 #include <Vortex.h>
 #include <Vortex/Core/Math.h>
 #include <imgui.h>
+#include "glm/gtc/type_ptr.hpp"
 
 #define VX_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -39,7 +40,7 @@ public:
 		// 4. Shader program
 		std::string vertexSource = getVertexSource();
 		std::string fragmentSource = getFragmentSource();
-		m_Shader = std::make_unique<Vortex::Shader>(vertexSource, fragmentSource);
+		m_Shader.reset(Vortex::Shader::Create("triangle_shader", vertexSource, fragmentSource));
 
 
 		// ================================ Object 2 ================================
@@ -71,7 +72,7 @@ public:
 		// 4. Shader program
 		std::string vertexSourceSquare = getVertexSourceSquare();
 		std::string fragmentSourceSquare = getFragmentSourceSquare();
-		m_ShaderSquare = std::make_unique<Vortex::Shader>(vertexSourceSquare, fragmentSourceSquare);
+		m_ShaderSquare.reset(Vortex::Shader::Create("square_shader", vertexSourceSquare, fragmentSourceSquare));
 	}
 
 	~ControlLayer()
@@ -133,14 +134,23 @@ public:
 			
 			in vec3 v_Position;
 			layout(location=0) out vec4 color;
+			uniform vec4 u_Color;
 
 			void main() {
-				color = vec4(0.0, 0.0, 0.5, 1.0);
+				color = u_Color;
 			}
 		)";
 	}
+	
 
-	void OnUpdate(Vortex::TimeStep ts) override 
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Color Control");
+		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SqareColor));
+		ImGui::End();
+	}
+
+	virtual void OnUpdate(Vortex::TimeStep ts) override 
 	{
 		if (Vortex::Input::IsKeyPressed(Vortex::Key::Left)) {
 			m_CameraPosition.x -= m_CameraSpeed * float(ts);
@@ -196,9 +206,17 @@ public:
 		Vortex::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
 		
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+		static glm::vec4 blue(0.2f, 0.3f, 0.8f, 1.0f);
+
 		for (int i=0; i<5; i++) {
 			glm::vec3 pos(i * 0.11f, 0.0f, 0.0f);
 			for (int j=0; j<5; j++) {
+				if (j % 2 == 0)	{
+					m_ShaderSquare->SetFloat4("u_Color", m_SqareColor);
+				}
+				else {
+					m_ShaderSquare->SetFloat4("u_Color", blue);
+				}
 				pos.y = j * 0.11f;
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_SquarePosition + pos) * scale;
 				Vortex::Renderer::Submit(m_ShaderSquare, m_VertexArraySquare, transform);
@@ -209,15 +227,9 @@ public:
 
 	void OnEvent(Vortex::Event &event) override 
 	{
-		// Vortex::EventDispatcher dispatcher(event);
-		// dispatcher.Dispatch<Vortex::KeyPressedEvent>(VX_BIND_EVENT_FN(ControlLayer::OnKeyPressedEvent));
+		
 
 	}
-
-	// bool OnKeyPressedEvent(Vortex::KeyPressedEvent& event)
-	// {		
-	// 	return false;
-	// }
 
 private:
 	// Buffer and Shader
@@ -231,12 +243,14 @@ private:
 	Vortex::OrthographicCamera m_Camera;
 
 	glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
-	glm::vec3 m_SquarePosition;
-	
-	float m_CameraRotation = 0.1f;
 	float m_CameraSpeed = 1.0f;
-	float m_SquareMoveSpeed = 1.5f;
+	float m_CameraRotation = 0.1f;
 	float m_CameraRotationSpeed = 30.0f;
+
+	glm::vec3 m_SquarePosition;
+	float m_SquareMoveSpeed = 1.5f;
+	glm::vec4 m_SqareColor = {0.8f, 0.2f, 0.3f, 1.0f};
+
 };
 
 
