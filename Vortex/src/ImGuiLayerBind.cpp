@@ -1,3 +1,5 @@
+#include "Vortex/Core/Core.h"
+
 #include "Vortex/PreHeaders.h"
 #include "Vortex/Imgui/ImGuiLayerBind.h"
 #include "Vortex/Core/Application.h"
@@ -7,8 +9,6 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-
-#define VX_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
 namespace Vortex 
 {
@@ -20,7 +20,7 @@ namespace Vortex
         OnDetach();
     }
 
-    void ImGuiLayerBind::OnUpdate() 
+    void ImGuiLayerBind::OnUpdate(TimeStep ts) 
     {
     }
 

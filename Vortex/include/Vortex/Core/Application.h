@@ -9,6 +9,7 @@
 #include "Vortex/Core/LayerStack.h"
 #include "Vortex/Core/Input.h"
 #include "Vortex/Core/Math.h"
+#include "Vortex/Core/TimeStep.h"
 
 #include "Vortex/Events/ApplicationEvent.h"
 #include "Platform/Linux/LinuxWindow.h"
@@ -18,6 +19,7 @@
 #include "Graphics/Buffer.h"
 #include "Graphics/VertexArray.h"
 #include "Graphics/Renderer.h"
+#include "Graphics/OrthographicCamera.h"
 
 #include <GLFW/glfw3.h>
 
@@ -36,25 +38,16 @@ namespace Vortex {
 		inline Window& GetWindow() { return *m_AppWindow; }
 
 	private:
-		std::string getVertexSource();
-		std::string getFragmentSource();
-
-		std::string getVertexSourceSquare();
-		std::string getFragmentSourceSquare();
-
-	private:
 		bool m_IsRunning = true;
 		bool OnWindowClose(WindowCloseEvent &event);
 		
+		// Window and Layers
 		std::unique_ptr<Window> m_AppWindow;
 		ImGuiLayer* m_ImGuiLayer;
 		static Application *m_AppInstance;
 		LayerStack m_LayerStack;
 
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<VertexArray> m_VertexArraySquare;
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<Shader> m_ShaderSquare;
+		float m_LastFrameTime = 0.0f;
 	};
 
 	// To be defined in client

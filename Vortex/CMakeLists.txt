@@ -57,6 +57,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/OpenGLBuffer.cpp
 	src/VertexArray.cpp
 	src/OpenGLVertexArray.cpp
+	src/OrthographicCamera.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

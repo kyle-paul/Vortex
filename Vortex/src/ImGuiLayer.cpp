@@ -14,7 +14,7 @@ namespace Vortex
         
     }
 
-    void ImGuiLayer::OnUpdate() 
+    void ImGuiLayer::OnUpdate(TimeStep ts) 
     {
     }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Vortex/PreHeaders.h"
+#include <glm/glm.hpp>
 
 namespace Vortex 
 {
@@ -11,6 +12,10 @@ namespace Vortex
 
         void Bind();
         void UnBind();
+
+        void SetMat4(const std::string& name, const glm::mat4& value);
+
+
     private:
         uint32_t m_RendererID;
     };

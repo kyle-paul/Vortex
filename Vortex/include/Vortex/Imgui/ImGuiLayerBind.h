@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Vortex/Core/Layer.h"
+#include "Vortex/Core/TimeStep.h"
+
 #include "Vortex/Events/MouseEvent.h"
 #include "Vortex/Events/ApplicationEvent.h"
 #include "Vortex/Events/KeyEvent.h"
@@ -15,7 +17,7 @@ namespace Vortex
 
         virtual void OnAttach() override;
         virtual void OnDetach() override;
-        virtual void OnUpdate() override;
+        virtual void OnUpdate(TimeStep ts) override;
         virtual void OnImGuiRender() override;
         
         void OnEvent(Event &event);

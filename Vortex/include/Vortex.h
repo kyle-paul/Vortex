@@ -9,6 +9,7 @@
 #include "Vortex/Core/Input.h"
 #include "Vortex/Core/Application.h"
 #include "Vortex/Core/EntryPoint.h"
+#include "Vortex/Core/TimeStep.h"
 
 // Include input codes
 #include "Vortex/Core/KeyCodes.h"
@@ -17,7 +18,12 @@
 // Include debug
 #include "Vortex/Debug/Instrumentor.h"
 
-// Include events
+// Include renderer
+#include "Graphics/Buffer.h"
+#include "Graphics/Shader.h"
+#include "Graphics/Renderer.h"
+#include "Graphics/RenderCommand.h"
+#include "Graphics/OrthographicCamera.h"
 
 // Include platform
 #include "Platform/Linux/LinuxWindow.h"
