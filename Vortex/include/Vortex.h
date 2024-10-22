@@ -8,7 +8,6 @@
 #include "Vortex/Core/LayerStack.h"
 #include "Vortex/Core/Input.h"
 #include "Vortex/Core/Application.h"
-#include "Vortex/Core/EntryPoint.h"
 #include "Vortex/Core/TimeStep.h"
 
 // Include input codes

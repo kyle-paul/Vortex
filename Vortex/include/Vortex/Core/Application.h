@@ -36,10 +36,14 @@ namespace Vortex {
 
 		inline static Application& GetApplication() { return *m_AppInstance; } 
 		inline Window& GetWindow() { return *m_AppWindow; }
+	
+	private:
+		bool OnWindowClose(WindowCloseEvent& event);
+		bool OnWindowResize(WindowResizeEvent& event);
 
 	private:
 		bool m_IsRunning = true;
-		bool OnWindowClose(WindowCloseEvent &event);
+		bool m_Minimized = false;
 		
 		// Window and Layers
 		std::unique_ptr<Window> m_AppWindow;

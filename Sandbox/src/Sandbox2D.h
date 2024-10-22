@@ -1,0 +1,30 @@
+#pragma once
+#include "Vortex.h"
+
+class Sandbox2D : public Vortex::Layer
+{
+public:
+	Sandbox2D();
+	virtual ~Sandbox2D() = default;
+
+	virtual void OnAttach() override;
+	virtual void OnDetach() override;
+
+	void OnUpdate(Vortex::TimeStep ts) override;
+	void OnEvent(Vortex::Event& e) override;
+
+    virtual void OnImGuiRender() override;
+    
+private:
+	// camera component
+	Vortex::OrthographicCameraController m_CameraController;
+
+	// Vertex Array and Buffer
+	Vortex::Ref<Vortex::VertexArray> m_SquareVA;
+
+	// Shader control
+	Vortex::Ref<Vortex::Shader> m_FlatColorShader;
+
+	// Imgui control
+	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+};

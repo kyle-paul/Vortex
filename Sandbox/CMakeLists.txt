@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.10)
-project(Sandbox)
+project(SandboxEngine)
 
 set(ENGINE_NAME Vortex)
 set(${ENGINE_NAME}_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../${ENGINE_NAME})
 
 # Add the executable and source files
-add_executable(Sandbox 
-	src/SandboxApp.cpp 
+add_executable(SandboxEngine 
+	src/SandboxApp.cpp
+	src/Sandbox2D.cpp
 	${${ENGINE_NAME}_DIR}/vendor/glad/src/glad.c
 )
 
-target_include_directories(Sandbox PRIVATE
+target_include_directories(SandboxEngine PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 	${${ENGINE_NAME}_DIR}/build/install/include/Vortex
 	${${ENGINE_NAME}_DIR}/vendor/spdlog/include
 	${${ENGINE_NAME}_DIR}/vendor/glad/include
@@ -21,7 +23,7 @@ target_include_directories(Sandbox PRIVATE
 	${${ENGINE_NAME}_DIR}/libs/spirv-cross-build/include
 )
 
-target_link_libraries(Sandbox ${${ENGINE_NAME}_DIR}/build/install/lib/libVortex.so)
+target_link_libraries(SandboxEngine ${${ENGINE_NAME}_DIR}/build/install/lib/libVortex.so)
 
 list(APPEND CMAKE_PREFIX_PATH ${${ENGINE_NAME}_DIR}/libs/glfw-build/lib/cmake/glfw3)
 list(APPEND CMAKE_PREFIX_PATH ${${ENGINE_NAME}_DIR}/libs/glm-build/share/glm)

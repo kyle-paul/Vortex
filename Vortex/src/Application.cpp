@@ -30,16 +30,12 @@ namespace Vortex
 		
 	}
 
-	bool Application::OnWindowClose(WindowCloseEvent &event) {
-		m_IsRunning = false;
-		return true;
-	}
-
 	void Application::OnEvent(Event &event) {
 		
 		// Close window event
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>( BIND_EVENT_FUNCTION(Application::OnWindowClose) );
+		dispatcher.Dispatch<WindowResizeEvent>( BIND_EVENT_FUNCTION(Application::OnWindowResize) );
 
 		// Layer check
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
@@ -48,6 +44,23 @@ namespace Vortex
 				break;
 			(*it)->OnEvent(event);
 		}
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent &event) {
+		m_IsRunning = false;
+		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& event)
+	{
+		if (event.GetWidth() == 0 || event.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+		m_Minimized = false;
+		Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+		return false;
 	}
 
 	void Application::PushLayer(Layer *layer) {
@@ -70,8 +83,11 @@ namespace Vortex
 			TimeStep m_TimeStep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 			
-			// Update Layers (except ImGui default layer)
-			for (Layer *layer: m_LayerStack) { layer->OnUpdate(m_TimeStep); }
+			if (!m_Minimized)
+			{
+				// Update Layers (except ImGui default layer)
+				for (Layer *layer: m_LayerStack) { layer->OnUpdate(m_TimeStep); }
+			}
 
 			// Update all windows in ImGui layers
 			m_ImGuiLayer->Begin();

@@ -1,10 +1,11 @@
+#include "Vortex/Core/Core.h"
 #include "Graphics/VertexArray.h"
 #include "Graphics/Renderer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Vortex
 {
-    VertexArray* VertexArray::Create() 
+    Ref<VertexArray> VertexArray::Create() 
     {
         switch(Renderer::GetAPI())
         {
@@ -13,7 +14,7 @@ namespace Vortex
                 return nullptr;
             }
             case RendererAPI::API::OpenGL: {
-                return new OpenGLVertexArray();
+                return CreateRef<OpenGLVertexArray>();
             }
             case RendererAPI::API::VulCan: {
                 VX_CORE_ASSERT(false, "[Vertex Array] Vulcan API backend currently is not supported.");
