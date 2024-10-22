@@ -1,18 +1,20 @@
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/string_cast.hpp"
 
-#include "Vortex/Core/Core.h"
-
+// This ignores all warnings raised inside External headers
+#pragma warning(push, 0)
 #include <spdlog/spdlog.h>
-#include <spdlog/logger.h>
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include <spdlog/fmt/ostr.h>
+#pragma warning(pop)
 
 #include <memory>
 
 
 namespace Vortex 
 {
-    class VORTEX_API Logging 
+    class Logging 
     {
     public:
         static void Init();
@@ -25,6 +27,23 @@ namespace Vortex
     };
 }
 
+template<typename OStream, glm::length_t L, typename T, glm::qualifier Q>
+inline OStream& operator<<(OStream& os, const glm::vec<L, T, Q>& vector)
+{
+	return os << glm::to_string(vector);
+}
+
+template<typename OStream, glm::length_t C, glm::length_t R, typename T, glm::qualifier Q>
+inline OStream& operator<<(OStream& os, const glm::mat<C, R, T, Q>& matrix)
+{
+	return os << glm::to_string(matrix);
+}
+
+template<typename OStream, typename T, glm::qualifier Q>
+inline OStream& operator<<(OStream& os, glm::qua<T, Q> quaternion)
+{
+	return os << glm::to_string(quaternion);
+}
 
 // Core logging macros
 #define VX_CORE_TRACE(...)    ::Vortex::Logging::GetCoreLogger()->trace(__VA_ARGS__)

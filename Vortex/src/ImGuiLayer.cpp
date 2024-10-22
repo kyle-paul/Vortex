@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include "Vortex/Core/Application.h"
 #include "imgui_internal.h"
@@ -90,7 +91,9 @@ namespace Vortex
     //     }
     // }
 
-    void ImGuiLayer::OnAttach() {
+    void ImGuiLayer::OnAttach() 
+    {
+        VX_PROFILE_FUNCTION();    
 
         // Basic Config
         IMGUI_CHECKVERSION();
@@ -109,14 +112,6 @@ namespace Vortex
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 
-        // Config Viewport
-        // ImGuiStyle& style = ImGui::GetStyle();
-        // if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        // {
-        //     style.WindowRounding = 0.0f;
-        //     style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-        // }
-
         // Config style
         configColorStyle();
 
@@ -126,7 +121,9 @@ namespace Vortex
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
     }
 
-    void ImGuiLayer::OnDetach() {
+    void ImGuiLayer::OnDetach() 
+    {
+        VX_PROFILE_FUNCTION();
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
@@ -134,6 +131,8 @@ namespace Vortex
 
     void ImGuiLayer::Begin() 
     {
+        VX_PROFILE_FUNCTION();
+
         // Config IO display size
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         Application &app = Application::GetApplication();
@@ -152,6 +151,8 @@ namespace Vortex
 
     void ImGuiLayer::End() 
     {
+        VX_PROFILE_FUNCTION();
+        
         // End Rendering frames
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());   

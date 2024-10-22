@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 #include <glm/glm.hpp>
 
@@ -5,6 +6,7 @@ namespace Vortex
 {
     void OpenGLRendererAPI::Init()
     {
+        VX_PROFILE_FUNCTION();
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_DEPTH_TEST);

@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Sandbox2D.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include <glm/gtc/type_ptr.hpp>
@@ -10,22 +11,20 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
+	VX_PROFILE_FUNCTION();
 	m_ImGuiComponents.colorControl = glm::vec4(0.8f, 0.2f, 0.2f, 0.5f);
     m_CheckerboardTexture = Vortex::Texture2D::Create("/home/pc/dev/engine/Sandbox/assets/Textures/Checkerboard.png");
 }
 
 void Sandbox2D::OnDetach()
 {
-
+	VX_PROFILE_FUNCTION();
 }
 
 void Sandbox2D::OnUpdate(Vortex::TimeStep ts)
 {
     // Key event controller for camera
-	{
-		VX_PROFILE_SCOPE("CameraController::OnUpdate");
-		m_CameraController.OnUpdate(ts);
-	}
+	m_CameraController.OnUpdate(ts);
 
 	{
 		VX_PROFILE_SCOPE("Renderer Prep");

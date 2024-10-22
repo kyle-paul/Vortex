@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 #include <glad/glad.h>
 
@@ -5,24 +6,30 @@ namespace Vortex
 {
     OpenGLVertexArray::OpenGLVertexArray()
     {
+        VX_PROFILE_FUNCTION();
         glCreateVertexArrays(1, &m_VertexArrayID);
     }
 
     OpenGLVertexArray::~OpenGLVertexArray()
     {
+        VX_PROFILE_FUNCTION();
         glDeleteVertexArrays(1, &m_VertexArrayID);
     }
     
     void OpenGLVertexArray::Bind() const {
+        VX_PROFILE_FUNCTION();
         glBindVertexArray(m_VertexArrayID);
     }
 
     void OpenGLVertexArray::UnBind() const {
+        VX_PROFILE_FUNCTION();
         glBindVertexArray(0);
     }
 
     void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer> &vertex_buffer)
     {
+        VX_PROFILE_FUNCTION();
+
         VX_CORE_ASSERT(vertex_buffer.GetLayout().GetElements().size(), "The VertexBuffer has no layout");
 
         glBindVertexArray(m_VertexArrayID);
@@ -46,6 +53,8 @@ namespace Vortex
 
     void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer> &index_buffer)
     {
+        VX_PROFILE_FUNCTION();
+        
         glBindVertexArray(m_VertexArrayID);
         index_buffer->Bind();
         m_IndexBuffer = index_buffer;

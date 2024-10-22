@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Graphics/Renderer2D.h"
 #include "Graphics/VertexArray.h"
 #include "Graphics/Shader.h"
@@ -19,6 +20,8 @@ namespace Vortex
 
     void Renderer2D::Init()
     {
+		VX_PROFILE_FUNCTION();
+
         s_Data = new Renderer2DStorage();
         s_Data->QuadVertexArray = VertexArray::Create();
 
@@ -53,11 +56,13 @@ namespace Vortex
 
     void Renderer2D::Shutdown()
 	{
+		VX_PROFILE_FUNCTION();
 		delete s_Data;
 	}
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera, ImGuiComponents &imgui_components) 
 	{
+		VX_PROFILE_FUNCTION();
 		m_ImGuiComponents = imgui_components;
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
@@ -65,6 +70,7 @@ namespace Vortex
 
     void Renderer2D::EndScene()
 	{
+		VX_PROFILE_FUNCTION();
 	}
 
     void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -74,6 +80,8 @@ namespace Vortex
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		VX_PROFILE_FUNCTION();
+
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 		s_Data->WhiteTexture->Bind();
 
@@ -91,6 +99,8 @@ namespace Vortex
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
 	{
+		VX_PROFILE_FUNCTION();
+		
 		s_Data->TextureShader->SetFloat4("u_Color", m_ImGuiComponents.colorControl);
 		texture->Bind();
 

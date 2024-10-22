@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/Renderer2D.h"
 
@@ -8,6 +9,7 @@ namespace Vortex
 
     void Renderer::Init()
     {
+        VX_PROFILE_FUNCTION();
         RenderCommand::Init();
         Renderer2D::Init();
     }

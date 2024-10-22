@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Vortex/PreHeaders.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Vortex/Core/Logging.h"
@@ -22,6 +23,8 @@ namespace Vortex
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& filepath)
 		: m_Name(name)
 	{
+		VX_PROFILE_FUNCTION();
+
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -30,6 +33,8 @@ namespace Vortex
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
+		VX_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -38,11 +43,14 @@ namespace Vortex
 
 	OpenGLShader::~OpenGLShader()
 	{
+		VX_PROFILE_FUNCTION();
 		glDeleteProgram(m_RendererID);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
+		VX_PROFILE_FUNCTION();
+
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in) {
@@ -60,6 +68,8 @@ namespace Vortex
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		VX_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -83,6 +93,8 @@ namespace Vortex
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
+		VX_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 		VX_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
 		std::array<GLenum, 2> glShaderIDs;
@@ -153,44 +165,53 @@ namespace Vortex
 	}
 
     void OpenGLShader::Bind() const {
+		VX_PROFILE_FUNCTION();
         glUseProgram(m_RendererID);
     }
     void OpenGLShader::UnBind() const {
+		VX_PROFILE_FUNCTION();
         glUseProgram(0);
     }
 
     void OpenGLShader::SetInt(const std::string& name, int value)
 	{
+		VX_PROFILE_FUNCTION();
 		UploadUniformInt(name, value);
 	}
 
 	void OpenGLShader::SetIntArray(const std::string& name, int* values, uint32_t count)
 	{
+		VX_PROFILE_FUNCTION();
 		UploadUniformIntArray(name, values, count);
 	}
 
 	void OpenGLShader::SetFloat(const std::string& name, float value)
 	{
+		VX_PROFILE_FUNCTION();
 		UploadUniformFloat(name, value);
 	}
 
 	void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& value)
 	{
+		VX_PROFILE_FUNCTION();
 		UploadUniformFloat2(name, value);
 	}
 
 	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
 	{
+		VX_PROFILE_FUNCTION();
 		UploadUniformFloat3(name, value);
 	}
 
 	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)
 	{
+		VX_PROFILE_FUNCTION();
 		UploadUniformFloat4(name, value);
 	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)
 	{
+		VX_PROFILE_FUNCTION();
 		UploadUniformMat4(name, value);
 	}
 

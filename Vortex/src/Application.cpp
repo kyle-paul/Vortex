@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Vortex/Core/Application.h"
 
 #define BIND_EVENT_FUNCTION(x) std::bind(&x, this, std::placeholders::_1)
@@ -8,6 +9,8 @@ namespace Vortex
 
 	Application::Application() 
 	{
+		VX_PROFILE_FUNCTION();
+
 		// Only one window
 		VX_CORE_ASSERT(!m_AppInstance, "Application already exits!");
 		m_AppInstance = this;
@@ -27,10 +30,12 @@ namespace Vortex
 
 	Application::~Application()
 	{
-		
+		VX_PROFILE_FUNCTION();
 	}
 
 	void Application::OnEvent(Event &event) {
+
+		VX_PROFILE_FUNCTION();
 		
 		// Close window event
 		EventDispatcher dispatcher(event);
@@ -46,13 +51,15 @@ namespace Vortex
 		}
 	}
 
-	bool Application::OnWindowClose(WindowCloseEvent &event) {
+	bool Application::OnWindowClose(WindowCloseEvent &event) {		
 		m_IsRunning = false;
 		return true;
 	}
 
 	bool Application::OnWindowResize(WindowResizeEvent& event)
 	{
+		VX_PROFILE_FUNCTION();
+		
 		if (event.GetWidth() == 0 || event.GetHeight() == 0)
 		{
 			m_Minimized = true;
@@ -64,18 +71,21 @@ namespace Vortex
 	}
 
 	void Application::PushLayer(Layer *layer) {
+		VX_PROFILE_FUNCTION();
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 	
 	void Application::PushOverLay(Layer *overlayer) {
+		VX_PROFILE_FUNCTION();
 		m_LayerStack.PushOverlay(overlayer);
 		overlayer->OnAttach();
 	}
 
-	void Application::Run() {
-		WindowResizeEvent e(1000, 650);
-		
+	void Application::Run() 
+	{
+		VX_PROFILE_FUNCTION();
+				
 		while(m_IsRunning) 
 		{
 			// Timesteps and delta time
@@ -86,12 +96,18 @@ namespace Vortex
 			if (!m_Minimized)
 			{
 				// Update Layers (except ImGui default layer)
-				for (Layer *layer: m_LayerStack) { layer->OnUpdate(m_TimeStep); }
+				{
+					VX_PROFILE_SCOPE("LayerStack OnUpdate");
+					for (Layer *layer: m_LayerStack) { layer->OnUpdate(m_TimeStep); }
+				}
 			}
 
 			// Update all windows in ImGui layers
 			m_ImGuiLayer->Begin();
-			for (Layer *layer: m_LayerStack) { layer->OnImGuiRender(); }
+			{
+				VX_PROFILE_SCOPE("LayerStack OnImGuiRender");
+				for (Layer *layer: m_LayerStack) { layer->OnImGuiRender(); }
+			}
 			m_ImGuiLayer->End();
 			
 			m_AppWindow->OnUpdate();

@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Platform/Linux/LinuxWindow.h"
 
 namespace Vortex 
@@ -8,32 +9,46 @@ namespace Vortex
 	}
 
 	Window* Window::Create(const WindowProps& props) {
+		VX_PROFILE_FUNCTION();
 		return new LinuxWindow(props);
 	}
 
 	LinuxWindow::LinuxWindow(const WindowProps& props) {
+		VX_PROFILE_FUNCTION();
 		Init(props);
 	}
 
 	LinuxWindow::~LinuxWindow() {
+		VX_PROFILE_FUNCTION();
 		Shutdown();
 	}
 
-	void LinuxWindow::Init(const WindowProps& props) {
+	void LinuxWindow::Init(const WindowProps& props) 
+	{
+		VX_PROFILE_FUNCTION();
+
 		m_WindowConfig.Title = props.Title;
 		m_WindowConfig.Width = props.Width;
 		m_WindowConfig.Height = props.Height;
 
 		VX_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-		if (!m_GLFWInitialized) {
+		if (!m_GLFWInitialized) 
+		{
+			VX_PROFILE_FUNCTION();
+			VX_PROFILE_FUNCTION();
 			int success = glfwInit();
 			VX_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFW_ErrorCallBack);
 			m_GLFWInitialized = true;
 		}
 
-		m_glfw_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowConfig.Title.c_str(), nullptr, nullptr);
+		{
+			VX_PROFILE_SCOPE("glfwCreateWindow");
+			m_glfw_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowConfig.Title.c_str(), nullptr, nullptr);
+			++s_GLFWWindowCount;
+		}
+		
 		m_context = new OpenGLGraphicsContext(m_glfw_Window);
 		m_context->Init();
 		
@@ -126,17 +141,24 @@ namespace Vortex
 		});
 	}
 
-	void LinuxWindow::Shutdown() {
+	void LinuxWindow::Shutdown() 
+	{
+		VX_PROFILE_FUNCTION();
 		glfwDestroyWindow(m_glfw_Window);
 		glfwTerminate();
 	}
 
-	void LinuxWindow::OnUpdate() {
+	void LinuxWindow::OnUpdate() 
+	{
+		VX_PROFILE_FUNCTION();
 		glfwPollEvents();
 		m_context->SwapBuffers();
 	}
 
-	void LinuxWindow::SetVSync(bool enabled) {
+	void LinuxWindow::SetVSync(bool enabled) 
+	{
+		VX_PROFILE_FUNCTION();
+		
 		if (enabled)
 			glfwSwapInterval(1);
 		else
@@ -145,7 +167,8 @@ namespace Vortex
 		m_WindowConfig.VSync = enabled;
 	}
 
-	bool LinuxWindow::IsVSync() const {
+	bool LinuxWindow::IsVSync() const 
+	{
 		return m_WindowConfig.VSync;
 	}
 }

@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Vortex/Core/LayerStack.h"
 
 namespace Vortex 

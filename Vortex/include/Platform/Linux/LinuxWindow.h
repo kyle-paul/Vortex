@@ -45,6 +45,8 @@ namespace Vortex
 		GLFWwindow* m_glfw_Window;
 		GraphicsContext* m_context;
 
+		int s_GLFWWindowCount = 0;
+
 		struct WindowConfig
 		{
 			std::string Title;

@@ -1,3 +1,4 @@
+#include "Vortex/Core/Core.h"
 #include "Platform/OpenGL/OpenGLGraphicsContext.h"
 
 namespace Vortex
@@ -15,6 +16,8 @@ namespace Vortex
 
     void OpenGLGraphicsContext::Init()
     {
+        VX_PROFILE_FUNCTION();
+
         glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		VX_CORE_ASSERT(status, "Failed to initialize GLAD with GLFW (OPENGL)");
@@ -37,6 +40,7 @@ namespace Vortex
 
     void OpenGLGraphicsContext::SwapBuffers()
     {
+        VX_PROFILE_FUNCTION();
         glfwSwapBuffers(m_WindowHandle);
     }
 }
