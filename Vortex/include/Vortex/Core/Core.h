@@ -26,3 +26,6 @@ namespace Vortex
         return std::make_shared<T>(std::forward<Args>(args)...);
     }
 }
+
+#include "Vortex/Debug/Instrumentor.h"
+#include "Vortex/Core/Assert.h"

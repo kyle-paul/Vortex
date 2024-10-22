@@ -3,6 +3,7 @@
 #include "Vortex/PreHeaders.h"
 #include "Vortex/Core/Layer.h"
 #include "Vortex/Core/TimeStep.h"
+#include "Vortex/Core/Math.h"
 
 #include "Vortex/Events/MouseEvent.h"
 #include "Vortex/Events/ApplicationEvent.h"
@@ -17,6 +18,10 @@
 
 namespace Vortex 
 {
+    struct ImGuiComponents {
+        glm::vec4 colorControl;
+    };
+
     class VORTEX_API ImGuiLayer : public Layer 
     {
     public:
@@ -26,7 +31,7 @@ namespace Vortex
         virtual void OnAttach() override;
         virtual void OnDetach() override;
         virtual void OnUpdate(TimeStep ts) override;
-        virtual void OnImGuiRender() override;
+        // virtual void OnImGuiRender() override;
 
         void Begin();
         void End();
