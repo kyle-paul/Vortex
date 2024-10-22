@@ -31,7 +31,7 @@ namespace Vortex
         return  nullptr;
     }
 
-    Ref<Shader> Shader::Create(const std::string &filepath)
+    Ref<Shader> Shader::Create(const std::string& name, const std::string &filepath)
     {
         switch(Renderer::GetAPI())
         {
@@ -40,7 +40,7 @@ namespace Vortex
                 return nullptr;
             }
             case RendererAPI::API::OpenGL: {
-                return CreateRef<OpenGLShader>(filepath);
+                return CreateRef<OpenGLShader>(name, filepath);
             }
             case RendererAPI::API::VulCan: {
                 VX_CORE_ASSERT(false, "[Vertex Array] Vulcan API backend currently is not supported.");
@@ -61,22 +61,9 @@ namespace Vortex
 		m_Shaders[name] = shader;
 	}
 
-	void ShaderLibrary::Add(const Ref<Shader>& shader)
-	{
-		auto& name = shader->GetName();
-		Add(name, shader);
-	}
-
-	Vortex::Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
-	{
-		auto shader = Shader::Create(filepath);
-		Add(shader);
-		return shader;
-	}
-
 	Vortex::Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
 	{
-		auto shader = Shader::Create(filepath); 
+		auto shader = Shader::Create(name, filepath); 
 		Add(name, shader);
 		return shader;
 	}

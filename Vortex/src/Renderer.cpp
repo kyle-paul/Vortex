@@ -22,7 +22,6 @@ namespace Vortex
                           const Ref<VertexArray>& VertexArrayID,
                           const glm::mat4 &transform)
     {
-        // RenderCommand::Init();
         shader->Bind();
         shader->SetMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
         shader->SetMat4("u_Transform", transform);

@@ -59,6 +59,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/VertexArray.cpp
 	src/OpenGLVertexArray.cpp
 	src/OrthographicCamera.cpp
+	src/OrthographicCameraController.cpp
 	src/Texture.cpp
 	src/OpenGLTexture2D.cpp
 

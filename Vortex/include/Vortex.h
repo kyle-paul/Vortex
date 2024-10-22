@@ -25,6 +25,7 @@
 #include "Graphics/Renderer.h"
 #include "Graphics/RenderCommand.h"
 #include "Graphics/OrthographicCamera.h"
+#include "Graphics/OrthographicCameraController.h"
 
 // Include platform
 #include "Platform/Linux/LinuxWindow.h"

@@ -19,18 +19,12 @@ namespace Vortex
 		return 0;
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& filepath)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& filepath)
+		: m_Name(name)
 	{
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
-
-		// Extract name from filepath
-		auto lastSlash = filepath.find_last_of("/\\");
-		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-		auto lastDot = filepath.rfind('.');
-		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-		m_Name = filepath.substr(lastSlash, count);
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
