@@ -49,6 +49,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/GraphicsContext.cpp
 	src/OpenGLGraphicsContext.cpp
 	src/Renderer.cpp
+	src/Renderer2D.cpp
 	src/RenderCommand.cpp
 	src/RendererAPI.cpp
 	src/OpenGLRendererAPI.cpp

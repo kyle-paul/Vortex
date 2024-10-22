@@ -24,6 +24,7 @@ private:
 
 	// Shader control
 	Vortex::Ref<Vortex::Shader> m_FlatColorShader;
+	Vortex::Ref<Vortex::Texture2D> m_CheckerboardTexture;
 
 	// Imgui control
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
