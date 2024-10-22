@@ -104,7 +104,7 @@ namespace Vortex
 
         // Font
         ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.Fonts->AddFontFromFileTTF("/home/pc/dev/engine/Resources/Fonts/Arial.ttf", 14);
+        io.Fonts->AddFontFromFileTTF("/home/pc/dev/engine/Sandbox/assets/Fonts/Arial.ttf", 14);
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking

@@ -41,6 +41,26 @@ cmake --build Vortex/libs/glm-build --parallel <your-cpu-threads>
 cmake --install Vortex/libs/glm-build --prefix Vortex/libs/glm-build
 ```
 
+Build `Shaderc` library
+```bash
+cmake -S Vortex/vendor/shaderc \
+      -B Vortex/libs/shaderc-build \
+      -D CMAKE_BUILD_TYPE=Release
+
+cmake --build Vortex/libs/shaderc-build --parallel <your-cpu-threads>
+cmake --install Vortex/libs/shaderc-build --prefix Vortex/libs/shaderc-build
+```
+
+Build `Spirv-cross` library
+```bash
+cmake -S Vortex/vendor/spirv-cross \
+      -B Vortex/libs/spirv-cross-build \
+      -D CMAKE_POSITION_INDEPENDENT_CODE=ON
+
+cmake --build Vortex/libs/spirv-cross-build --parallel <your-cpu-threads>
+cmake --install Vortex/libs/spirv-cross-build --prefix Vortex/libs/spirv-cross-build
+```
+
 Build and install the Vortex engine that can be used in any other subprojects (e.g Sandbox)
 ```bash
 cmake -B build

@@ -21,6 +21,7 @@
 // Include renderer
 #include "Graphics/Buffer.h"
 #include "Graphics/Shader.h"
+#include "Graphics/Texture.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/RenderCommand.h"
 #include "Graphics/OrthographicCamera.h"

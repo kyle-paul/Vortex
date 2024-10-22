@@ -17,6 +17,8 @@ target_include_directories(Sandbox PRIVATE
 	${${ENGINE_NAME}_DIR}/vendor/imgui
 	${${ENGINE_NAME}_DIR}/libs/glfw-build/include
 	${${ENGINE_NAME}_DIR}/libs/glm-build/include
+	${${ENGINE_NAME}_DIR}/libs/shaderc-build/include
+	${${ENGINE_NAME}_DIR}/libs/spirv-cross-build/include
 )
 
 target_link_libraries(Sandbox ${${ENGINE_NAME}_DIR}/build/install/lib/libVortex.so)

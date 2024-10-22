@@ -1,4 +1,5 @@
 #pragma once
+#include "Vortex/Core/Core.h"
 #include "Graphics/RendererAPI.h"
 #include "Graphics/RenderCommand.h"
 #include "Graphics/OrthographicCamera.h"
@@ -10,9 +11,10 @@ namespace Vortex
     class Renderer
     {
     public:
+        static void Init();
         static void BeginScene(OrthographicCamera &camera);
-        static void Submit(const std::shared_ptr<Shader> &shader, 
-                            const std::shared_ptr<VertexArray>& VertexArrayID,
+        static void Submit(const Ref<Shader> &shader, 
+                            const Ref<VertexArray>& VertexArrayID,
                             const glm::mat4 &transform = glm::mat4(0.0f));
         static void EndScene();
 

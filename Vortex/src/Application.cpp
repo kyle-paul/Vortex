@@ -17,6 +17,9 @@ namespace Vortex
 		m_AppWindow = std::unique_ptr<Window>(Window::Create(props));
 		m_AppWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
 
+		// Init Renderer
+		Renderer::Init();
+
 		// Init default Imgui Layer
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverLay(m_ImGuiLayer);

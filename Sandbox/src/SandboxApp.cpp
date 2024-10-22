@@ -1,5 +1,4 @@
 #include <Vortex.h>
-#include <Vortex/Core/Math.h>
 #include <imgui.h>
 #include "glm/gtc/type_ptr.hpp"
 
@@ -21,7 +20,7 @@ public:
 			0.0f, 0.5f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f 
 		};
 
-		std::shared_ptr<Vortex::VertexBuffer> m_VertexBuffer;
+		Vortex::Ref<Vortex::VertexBuffer> m_VertexBuffer;
 		m_VertexBuffer.reset(Vortex::VertexBuffer::Create(vertices, sizeof(vertices)));
 		
 		// 2 Layout Buffer
@@ -33,46 +32,49 @@ public:
 
 		// 3. Index BUffer
 		uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Vortex::IndexBuffer> m_IndexBuffer;
+		Vortex::Ref<Vortex::IndexBuffer> m_IndexBuffer;
 		m_IndexBuffer.reset(Vortex::IndexBuffer::Create(indices, 3));
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		// 4. Shader program
-		std::string vertexSource = getVertexSource();
-		std::string fragmentSource = getFragmentSource();
-		m_Shader.reset(Vortex::Shader::Create("triangle_shader", vertexSource, fragmentSource));
+		m_Shader = Vortex::Shader::Create("triangle_shader", getVertexSource(), getFragmentSource());
 
 
 		// ================================ Object 2 ================================
 		m_VertexArraySquare.reset(Vortex::VertexArray::Create());
 		
 		// 1 Vertex Buffer
-		float verticesSquare[4 * 3] = {
-			-0.5f, -0.5, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.5f, 0.5f, 0.0f,
-			-0.5f, 0.5f, 0.0f
+		float verticesSquare[4 * 5] = {
+			-0.5f, -0.5, 0.0f, 0.0f, 0.0f,
+			0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		std::shared_ptr<Vortex::VertexBuffer> m_VertexBufferSquare;
+		Vortex::Ref<Vortex::VertexBuffer> m_VertexBufferSquare;
 		m_VertexBufferSquare.reset(Vortex::VertexBuffer::Create(verticesSquare, sizeof(verticesSquare)));
 
 		// 2 Layout Buffer
 		m_VertexBufferSquare->SetLayout({
-			{  Vortex::ShaderDataType::Float3, "a_Position" },
+			{  Vortex::ShaderDataType::Float3, "a_Position"  },
+			{  Vortex::ShaderDataType::Float2, "a_TextCoord" }, 
 		});
 		m_VertexArraySquare->AddVertexBuffer(m_VertexBufferSquare);
 
 		// 3. Index BUffer
 		uint32_t indicesSquare[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<Vortex::IndexBuffer> m_IndexBufferSquare;
+		Vortex::Ref<Vortex::IndexBuffer> m_IndexBufferSquare;
 		m_IndexBufferSquare.reset(Vortex::IndexBuffer::Create(indicesSquare, 6));
 		m_VertexArraySquare->SetIndexBuffer(m_IndexBufferSquare);
 
 		// 4. Shader program
-		std::string vertexSourceSquare = getVertexSourceSquare();
-		std::string fragmentSourceSquare = getFragmentSourceSquare();
-		m_ShaderSquare.reset(Vortex::Shader::Create("square_shader", vertexSourceSquare, fragmentSourceSquare));
+		m_ShaderSquare = Vortex::Shader::Create("square_shader", getVertexSourceSquare(), getFragmentSourceSquare());
+
+		// Others
+		m_TextureShader = Vortex::Shader::Create("glsl_shader", getGLSLVertex(), getGLSLFragment());
+		m_Texture = Vortex::Texture2D::Create("assets/Textures/Checkerboard.png");
+		m_TextureShader->Bind();
+		m_TextureShader->SetInt("u_Texture", 0);
 	}
 
 	~ControlLayer()
@@ -141,7 +143,42 @@ public:
 			}
 		)";
 	}
-	
+
+	std::string getGLSLVertex()
+	{
+		return R"(
+			#version 330 core
+
+			layout(location=0) in vec3 a_Position;
+			layout(location=1) in vec2 a_TextCoord;
+
+			out vec2 v_TextCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			void main() {
+				v_TextCoord = a_TextCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
+		)";
+	}
+
+	std::string getGLSLFragment()
+	{
+		return R"(
+			#version 330 core
+
+			layout(location=0) out vec4 color;
+			in vec2 v_TextCoord;
+			uniform sampler2D u_Texture;
+
+			void main() {	
+				color = texture(u_Texture, v_TextCoord);
+			}
+		)";
+	}
 
 	virtual void OnImGuiRender() override
 	{
@@ -203,7 +240,7 @@ public:
 		m_Camera.SetRotation(m_CameraRotation);
 
 		Vortex::Renderer::BeginScene(m_Camera);
-		Vortex::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+		// Vortex::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
 		
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 		static glm::vec4 blue(0.2f, 0.3f, 0.8f, 1.0f);
@@ -222,6 +259,12 @@ public:
 				Vortex::Renderer::Submit(m_ShaderSquare, m_VertexArraySquare, transform);
 			}
 		}
+
+		m_Texture->Bind();
+		Vortex::Renderer::Submit(m_TextureShader, m_VertexArraySquare, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		logo->Bind();
+		Vortex::Renderer::Submit(m_TextureShader, m_VertexArraySquare, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
 		Vortex::Renderer::EndScene();
 	}
 
@@ -233,11 +276,11 @@ public:
 
 private:
 	// Buffer and Shader
-	std::shared_ptr<Vortex::Shader> m_Shader;
-	std::shared_ptr<Vortex::VertexArray> m_VertexArray;
-	
-	std::shared_ptr<Vortex::Shader> m_ShaderSquare;
-	std::shared_ptr<Vortex::VertexArray> m_VertexArraySquare;
+	Vortex::Ref<Vortex::Shader> m_Shader, m_ShaderSquare, m_TextureShader;
+	Vortex::Ref<Vortex::VertexArray> m_VertexArray, m_VertexArraySquare;
+
+	// Texture
+	Vortex::Ref<Vortex::Texture2D> m_Texture, logo;
 
 	// Camera component
 	Vortex::OrthographicCamera m_Camera;
@@ -247,10 +290,10 @@ private:
 	float m_CameraRotation = 0.1f;
 	float m_CameraRotationSpeed = 30.0f;
 
+	// Object transform
 	glm::vec3 m_SquarePosition;
 	float m_SquareMoveSpeed = 1.5f;
 	glm::vec4 m_SqareColor = {0.8f, 0.2f, 0.3f, 1.0f};
-
 };
 
 

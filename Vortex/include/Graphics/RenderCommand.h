@@ -6,7 +6,10 @@ namespace Vortex
     class RenderCommand
     {
     public:
-        // static void Init();
+        static inline void Init()
+        {
+            m_RendererAPI->Init();
+        }
 
         static inline void SetClearColor(const glm::vec4 &color) {
             m_RendererAPI->SetClearColor(color);
@@ -20,7 +23,7 @@ namespace Vortex
         {
             VertexArrayID->Bind();
             return m_RendererAPI->DrawIndexed(VertexArrayID);
-        }   
+        }
         
     public:
         static RendererAPI *m_RendererAPI;

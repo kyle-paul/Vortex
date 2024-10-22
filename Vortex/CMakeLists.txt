@@ -59,9 +59,12 @@ add_library(${PROJECT_NAME} SHARED
 	src/VertexArray.cpp
 	src/OpenGLVertexArray.cpp
 	src/OrthographicCamera.cpp
+	src/Texture.cpp
+	src/OpenGLTexture2D.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c
+	vendor/stb/stb_image.cpp
 	vendor/imgui/imgui.cpp
 	vendor/imgui/imgui_demo.cpp
 	vendor/imgui/imgui_draw.cpp
@@ -83,11 +86,25 @@ include_directories(${PROJECT_NAME}
 	vendor/spdlog/include
 	vendor/glad/include
 	vendor/imgui
+	vendor/stb
 	libs/glfw-build/include/GLFW
 	libs/glm-build/include/glm
+	libs/shaderc-build/include
+	libs/spirv-cross-build/include
 )
 
 # Include built packages
+set(SHADERC_LIB ${CMAKE_CURRENT_SOURCE_DIR}/libs/shaderc-build/lib/libshaderc_combined.a)
+set(SPIRV_CROSS_LIBS 
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-core.a 
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-cpp.a 
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-glsl.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-hlsl.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-msl.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-reflect.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-util.a
+)
+
 list(APPEND CMAKE_PREFIX_PATH libs/glfw-build/lib/cmake/glfw3)
 list(APPEND CMAKE_PREFIX_PATH libs/glm-build/share/glm)
 
@@ -108,7 +125,10 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # Link dependencies into my lib
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw glm::glm ${OPENGL_LIBRARIES})
+target_link_libraries(
+		${PROJECT_NAME} PRIVATE 
+		glfw glm::glm ${OPENGL_LIBRARIES} 
+		${SHADERC_LIB} ${SPIRV_CROSS_LIBS})
 
 # Installation
 set(INSTALL_BINDIR "bin")
