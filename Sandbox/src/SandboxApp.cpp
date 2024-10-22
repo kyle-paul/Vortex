@@ -9,38 +9,8 @@ class ControlLayer : public Vortex::Layer
 public:
 	ControlLayer() 
 		: Layer("ControlLayer"), m_Camera(-1.625, 1.625f, -1.0f, 1.0f), m_SquarePosition(1.0f)
-	{
+	{\
 		// ================================ Object 1 ================================
-		m_VertexArray.reset(Vortex::VertexArray::Create());
-		
-		// 1 Vertex Buffer
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-			0.5f, -0.5f, 0.0f,  0.2f, 0.3f, 0.8f, 1.0f,
-			0.0f, 0.5f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f 
-		};
-
-		Vortex::Ref<Vortex::VertexBuffer> m_VertexBuffer;
-		m_VertexBuffer.reset(Vortex::VertexBuffer::Create(vertices, sizeof(vertices)));
-		
-		// 2 Layout Buffer
-		m_VertexBuffer->SetLayout({
-			{  Vortex::ShaderDataType::Float3, "a_Position" },
-			{  Vortex::ShaderDataType::Float4, "a_Color"},
-		});
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-		// 3. Index BUffer
-		uint32_t indices[3] = { 0, 1, 2 };
-		Vortex::Ref<Vortex::IndexBuffer> m_IndexBuffer;
-		m_IndexBuffer.reset(Vortex::IndexBuffer::Create(indices, 3));
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-		// 4. Shader program
-		m_Shader = Vortex::Shader::Create("triangle_shader", getVertexSource(), getFragmentSource());
-
-
-		// ================================ Object 2 ================================
 		m_VertexArraySquare.reset(Vortex::VertexArray::Create());
 		
 		// 1 Vertex Buffer
@@ -69,10 +39,11 @@ public:
 
 		// 4. Shader program
 		m_ShaderSquare = Vortex::Shader::Create("square_shader", getVertexSourceSquare(), getFragmentSourceSquare());
-
-		// Others
 		m_TextureShader = Vortex::Shader::Create("glsl_shader", getGLSLVertex(), getGLSLFragment());
+
+		// 5. Texture
 		m_Texture = Vortex::Texture2D::Create("assets/Textures/Checkerboard.png");
+		logo = Vortex::Texture2D::Create("assets/Textures/ChernoLogo.png");
 		m_TextureShader->Bind();
 		m_TextureShader->SetInt("u_Texture", 0);
 	}
@@ -80,38 +51,6 @@ public:
 	~ControlLayer()
 	{
 
-	}
-
-	std::string getVertexSource() {
-		return R"(
-			#version 330 core
-			
-			layout(location=0) in vec3 a_Position;
-			layout(location=1) in vec4 a_Color;
-			
-			out vec4 v_Color;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			void main() {
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
-	}
-	
-	std::string getFragmentSource() {
-		return R"(
-			#version 330 core
-			
-			in vec4 v_Color;
-			layout(location=0) out vec4 color;
-
-			void main() {
-				color = v_Color;
-			}
-		)";
 	}
 
 	std::string getVertexSourceSquare() {
@@ -260,8 +199,10 @@ public:
 			}
 		}
 
+		// Bind and submit two different textures
 		m_Texture->Bind();
 		Vortex::Renderer::Submit(m_TextureShader, m_VertexArraySquare, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
 		logo->Bind();
 		Vortex::Renderer::Submit(m_TextureShader, m_VertexArraySquare, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
