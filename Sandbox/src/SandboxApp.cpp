@@ -1,12 +1,12 @@
 #include "Vortex.h"
-#include "GameLayer.h"
+#include "Sandbox2D.h"
 #include "Vortex/Core/EntryPoint.h"
 
 class Sandbox : public Vortex::Application 
 {
 public:
 	Sandbox() {
-		PushLayer(new GameLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox () {

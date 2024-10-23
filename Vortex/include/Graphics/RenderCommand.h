@@ -24,10 +24,9 @@ namespace Vortex
             m_RendererAPI->ClearBufferBit();
         }
 
-        static inline void DrawIndexed(const std::shared_ptr<VertexArray> &VertexArrayID)
+        static inline void DrawIndexed(const std::shared_ptr<VertexArray> &VertexArrayID, uint32_t indexCount=0)
         {
-            VertexArrayID->Bind();
-            return m_RendererAPI->DrawIndexed(VertexArrayID);
+            m_RendererAPI->DrawIndexed(VertexArrayID, indexCount);
         }
         
     public:
