@@ -36,6 +36,8 @@ namespace Vortex {
 
 		inline static Application& GetApplication() { return *m_AppInstance; } 
 		inline Window& GetWindow() { return *m_AppWindow; }
+
+		void Close();
 	
 	private:
 		bool OnWindowClose(WindowCloseEvent& event);

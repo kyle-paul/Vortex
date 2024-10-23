@@ -33,6 +33,11 @@ namespace Vortex
 		VX_PROFILE_FUNCTION();
 	}
 
+	void Application::Close()
+	{
+		m_IsRunning = false;
+	}
+
 	void Application::OnEvent(Event &event) {
 
 		VX_PROFILE_FUNCTION();

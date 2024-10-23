@@ -85,8 +85,7 @@ namespace Vortex
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 		s_Data->WhiteTexture->Bind();
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		s_Data->TextureShader->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.ObjectRotation, size));
 
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
@@ -102,12 +101,20 @@ namespace Vortex
 		VX_PROFILE_FUNCTION();
 		
 		s_Data->TextureShader->SetFloat4("u_Color", m_ImGuiComponents.colorControl);
+		s_Data->TextureShader->SetFloat("u_TilingFactor", m_ImGuiComponents.TilingFactor);
+
 		texture->Bind();
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		s_Data->TextureShader->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.BoardRotation, size));
 
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
+	glm::mat4 Renderer2D::TransformQuad(const glm::vec3 &position, const float &rotation, const glm::vec2 &size)
+	{
+		return glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
+		       glm::translate(glm::mat4(1.0f), position) *
+			   glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 	}
 }

@@ -1,6 +1,6 @@
-[03:18:21] [warning] HAZEL: Initialized Logging !
-[03:18:21] [info] APP: WELCOME! Var=10
-[03:18:21] [info] HAZEL: Creating window Vortex Engine (1300, 800)
-[03:18:21] [info] HAZEL: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
-[03:18:21] [info] HAZEL: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
-[03:18:21] [info] HAZEL: Using Default Graphics Card
+[05:19:59] [warning] HAZEL: Initialized Logging !
+[05:19:59] [info] APP: WELCOME! Var=10
+[05:19:59] [info] HAZEL: Creating window Vortex Engine (1300, 800)
+[05:19:59] [info] HAZEL: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
+[05:19:59] [info] HAZEL: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
+[05:19:59] [info] HAZEL: Using Default Graphics Card

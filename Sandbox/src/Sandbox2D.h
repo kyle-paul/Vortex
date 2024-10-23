@@ -14,6 +14,9 @@ public:
 	void OnEvent(Vortex::Event& e) override;
 
     virtual void OnImGuiRender() override;
+	
+private:
+	void ShowDockSpaceApp(bool *p_open);
     
 private:
 	// camera component
