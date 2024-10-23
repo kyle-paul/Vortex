@@ -5,7 +5,7 @@
 
 namespace Vortex 
 {
-    VertexBuffer* VertexBuffer::Create(float *vertices, uint32_t size) {
+    Ref<VertexBuffer> VertexBuffer::Create(float *vertices, uint32_t size) {
 
         // Decide which API backend for rendering
         switch(Renderer::GetAPI()) 
@@ -15,7 +15,7 @@ namespace Vortex
                 return nullptr;
             }
             case RendererAPI::API::OpenGL: {
-                return new OpenGLVertexBuffer(vertices, size);
+                return CreateRef<OpenGLVertexBuffer>(vertices, size);
             }
             case RendererAPI::API::VulCan: {
                 VX_CORE_ASSERT(false, "[Vertex Buffer] Vulcan API backend currently is not supported.");
@@ -34,7 +34,7 @@ namespace Vortex
 
     }
 
-    IndexBuffer* IndexBuffer::Create(uint32_t *indices, uint32_t count) {
+    Ref<IndexBuffer> IndexBuffer::Create(uint32_t *indices, uint32_t count) {
 
         // Decide which API backend for rendering
         switch(Renderer::GetAPI()) 
@@ -44,7 +44,7 @@ namespace Vortex
                 return nullptr;
             }
             case RendererAPI::API::OpenGL: {
-                return new OpenGLIndexBuffer(indices, count);
+                return CreateRef<OpenGLIndexBuffer>(indices, count);
             }
             case RendererAPI::API::VulCan: {
                 VX_CORE_ASSERT(false, "[Index Buffer] Vulcan API backend currently is not supported.");

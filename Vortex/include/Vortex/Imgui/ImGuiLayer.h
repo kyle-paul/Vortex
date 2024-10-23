@@ -20,6 +20,9 @@ namespace Vortex
 {
     struct ImGuiComponents {
         glm::vec4 colorControl;
+        float tilingFactor = 1.0f;
+        float ObjectRotation = 15.0f;
+        float BoardRotation = 15.0f;
     };
 
     class VORTEX_API ImGuiLayer : public Layer 
@@ -31,7 +34,7 @@ namespace Vortex
         virtual void OnAttach() override;
         virtual void OnDetach() override;
         virtual void OnUpdate(TimeStep ts) override;
-        // virtual void OnImGuiRender() override;
+        virtual void OnImGuiRender() override;
 
         void Begin();
         void End();

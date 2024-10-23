@@ -23,6 +23,7 @@
 #include "Graphics/Texture.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/Renderer2D.h"
+#include "Graphics/Renderer2DGame.h"
 #include "Graphics/RenderCommand.h"
 #include "Graphics/OrthographicCamera.h"
 #include "Graphics/OrthographicCameraController.h"

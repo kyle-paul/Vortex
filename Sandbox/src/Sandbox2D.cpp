@@ -52,5 +52,8 @@ void Sandbox2D::OnImGuiRender()
 {
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_ImGuiComponents.colorControl));
+	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.tilingFactor, 0.0f, 100.0f);
+	ImGui::SliderFloat("Rotate Objects", &m_ImGuiComponents.ObjectRotation, 0.0f, 180.0f);
+	ImGui::SliderFloat("Rotate Board", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
 	ImGui::End();
 }
