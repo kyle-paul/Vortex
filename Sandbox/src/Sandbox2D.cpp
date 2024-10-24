@@ -12,6 +12,13 @@ Sandbox2D::Sandbox2D()
 void Sandbox2D::OnAttach()
 {
 	VX_PROFILE_FUNCTION();
+
+	Vortex::FramebufferSpecification fbspec;
+	fbspec.Width = 1300.0f;
+	fbspec.Height = 800.0f;
+	m_Framebuffer = Vortex::Framebuffer::Create(fbspec);
+
+
 	m_ImGuiComponents.colorControl = glm::vec4(0.8f, 0.2f, 0.2f, 0.5f);
     m_CheckerboardTexture = Vortex::Texture2D::Create("/home/pc/dev/engine/Sandbox/assets/Textures/Checkerboard.png");
 }
@@ -28,6 +35,7 @@ void Sandbox2D::OnUpdate(Vortex::TimeStep ts)
 
 	{
 		VX_PROFILE_SCOPE("Renderer Prep");
+		m_Framebuffer->Bind();
 		Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 		Vortex::RenderCommand::ClearBufferBit();
 	}
@@ -39,7 +47,8 @@ void Sandbox2D::OnUpdate(Vortex::TimeStep ts)
 		Vortex::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 		Vortex::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_CheckerboardTexture);
 		Vortex::Renderer2D::EndScene();
-	}	
+	}
+	m_Framebuffer->Unbind();
 }
 
 void Sandbox2D::OnEvent(Vortex::Event &event) 
@@ -188,19 +197,16 @@ void Sandbox2D::ShowDockSpaceApp(bool* p_open)
 	ImGui::ShowDemoWindow(&showDemo);
 
 	ImGui::Begin("Settings");
-
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_ImGuiComponents.colorControl));	
 	ImGui::SliderFloat("Object Rotation", &m_ImGuiComponents.ObjectRotation, 0.0f, 180.0f);
 	ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
 	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
-	// uint32_t textureID = m_CheckerboardTexture->GetRendererID();
-	// ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ 256.0f, 256.0f });
-
-	Vortex::FramebufferSpecification fbSpec;
-	fbSpec.Width = 1280;
-	fbSpec.Height = 720;
-
     ImGui::End();
+
+	ImGui::Begin("Viewer");
+	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ 1300.0f, 800.0f });
+	ImGui::End();
 
     ImGui::End();
 }

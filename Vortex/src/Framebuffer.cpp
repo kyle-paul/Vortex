@@ -1,4 +1,4 @@
-#include "Graphics/FrameBuffer.h"
+#include "Graphics/Framebuffer.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/OpenGLFramebuffer.h"
 

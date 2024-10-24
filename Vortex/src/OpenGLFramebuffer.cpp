@@ -12,6 +12,7 @@ namespace Vortex
 
 	OpenGLFramebuffer::~OpenGLFramebuffer()
 	{
+ 
  		glDeleteFramebuffers(1, &m_RendererID);
 	}
 

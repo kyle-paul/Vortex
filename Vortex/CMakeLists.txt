@@ -63,8 +63,8 @@ add_library(${PROJECT_NAME} SHARED
 	src/OrthographicCameraController.cpp
 	src/Texture.cpp
 	src/OpenGLTexture2D.cpp
-	src/FrameBuffer.cpp
-	src/OpenGLFrameBuffer.cpp
+	src/Framebuffer.cpp
+	src/OpenGLFramebuffer.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c
