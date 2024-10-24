@@ -35,6 +35,7 @@ private:
 	
 	// Imgui layer events
 	bool is_ViewPortFocused;
+	bool is_ViewPortHovered;
 
 	// Frame buffer
 	Vortex::Ref<Vortex::Framebuffer> m_Framebuffer;

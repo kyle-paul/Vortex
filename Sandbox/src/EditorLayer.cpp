@@ -209,7 +209,8 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	// Viewport focused event
 	is_ViewPortFocused = ImGui::IsWindowFocused();
-	Vortex::Application::GetApplication().GetImGuiLayer()->SetBlockEvent(!is_ViewPortFocused);
+	is_ViewPortHovered = ImGui::IsWindowHovered();
+	Vortex::Application::GetApplication().GetImGuiLayer()->SetBlockEvent(!is_ViewPortFocused || !is_ViewPortHovered);
 
 	ImVec2 ViewPortPanelSize = ImGui::GetContentRegionAvail();
 

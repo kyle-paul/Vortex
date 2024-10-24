@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Vortex/Core/Core.h"
 #include "Graphics/VertexArray.h"
 
 namespace Vortex 
@@ -21,7 +22,7 @@ namespace Vortex
         
         private:
             uint32_t m_VertexArrayID;
-            std::vector<std::shared_ptr<VertexBuffer>> m_VertexBufferArrays;
-            std::shared_ptr<IndexBuffer> m_IndexBuffer;
+            std::vector<Ref<VertexBuffer>> m_VertexBufferArrays;
+            Ref<IndexBuffer> m_IndexBuffer;
     };
 }
