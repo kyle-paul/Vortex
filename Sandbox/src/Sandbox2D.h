@@ -32,4 +32,5 @@ private:
 	// Imgui control
 	Vortex::ImGuiComponents m_ImGuiComponents;
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+	Vortex::Ref<Vortex::Framebuffer> m_Framebuffer;
 };

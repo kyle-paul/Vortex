@@ -59,7 +59,7 @@ namespace Vortex
         return  nullptr;
     }
 
-        IndexBuffer::~IndexBuffer() {
+    IndexBuffer::~IndexBuffer() {
         
     }
 }

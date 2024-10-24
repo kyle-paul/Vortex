@@ -196,6 +196,10 @@ void Sandbox2D::ShowDockSpaceApp(bool* p_open)
 	// uint32_t textureID = m_CheckerboardTexture->GetRendererID();
 	// ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ 256.0f, 256.0f });
 
+	Vortex::FramebufferSpecification fbSpec;
+	fbSpec.Width = 1280;
+	fbSpec.Height = 720;
+
     ImGui::End();
 
     ImGui::End();
