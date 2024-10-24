@@ -1,20 +1,22 @@
 #include "Vortex.h"
-#include "Sandbox2D.h"
+#include "EditorLayer.h"
 #include "Vortex/Core/EntryPoint.h"
 
-class Sandbox : public Vortex::Application 
+class VortexEditor : public Vortex::Application 
 {
 public:
-	Sandbox() {
-		PushLayer(new Sandbox2D());
+	VortexEditor() : Application("Vortex Application")
+	{
+		PushLayer(new EditorLayer());
 	}
 
-	~Sandbox () {
+	~VortexEditor () 
+	{
 
 	}
 };
 
 Vortex::Application* Vortex::CreateApplication()
 {
-	return new Sandbox();
+	return new VortexEditor();
 }

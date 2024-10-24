@@ -1,15 +1,15 @@
 #include "Vortex/Core/Core.h"
-#include "Sandbox2D.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "EditorLayer.h"
 
-Sandbox2D::Sandbox2D()
-    : Layer("Sandbox2D"), m_CameraController(1300.0f / 800.0f, true)
+EditorLayer::EditorLayer()
+    : Layer("EditorLayer"), m_CameraController(1300.0f / 800.0f, true)
 {
     
 }
 
-void Sandbox2D::OnAttach()
+void EditorLayer::OnAttach()
 {
 	VX_PROFILE_FUNCTION();
 
@@ -23,15 +23,16 @@ void Sandbox2D::OnAttach()
     m_CheckerboardTexture = Vortex::Texture2D::Create("/home/pc/dev/engine/Sandbox/assets/Textures/Checkerboard.png");
 }
 
-void Sandbox2D::OnDetach()
+void EditorLayer::OnDetach()
 {
 	VX_PROFILE_FUNCTION();
 }
 
-void Sandbox2D::OnUpdate(Vortex::TimeStep ts)
+void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 {
     // Key event controller for camera
-	m_CameraController.OnUpdate(ts);
+	if (is_ViewPortFocused)
+		m_CameraController.OnUpdate(ts);
 
 	{
 		VX_PROFILE_SCOPE("Renderer Prep");
@@ -51,7 +52,7 @@ void Sandbox2D::OnUpdate(Vortex::TimeStep ts)
 	m_Framebuffer->Unbind();
 }
 
-void Sandbox2D::OnEvent(Vortex::Event &event) 
+void EditorLayer::OnEvent(Vortex::Event &event) 
 {
     m_CameraController.OnEvent(event);
 }
@@ -67,7 +68,7 @@ static void ShowDockingDisabledMessage()
 }
 
 
-void Sandbox2D::ShowDockSpaceApp(bool* p_open)
+void EditorLayer::ShowDockSpaceApp(bool* p_open)
 {
 
     static bool opt_fullscreen = true;
@@ -203,16 +204,30 @@ void Sandbox2D::ShowDockSpaceApp(bool* p_open)
 	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
     ImGui::End();
 
-	ImGui::Begin("Viewer");
+	ImGui::Begin("Viewport");
+
+
+	// Viewport focused event
+	is_ViewPortFocused = ImGui::IsWindowFocused();
+	Vortex::Application::GetApplication().GetImGuiLayer()->SetBlockEvent(!is_ViewPortFocused);
+
+	ImVec2 ViewPortPanelSize = ImGui::GetContentRegionAvail();
+
+	if (m_ViewPortSize != *((glm::vec2*)&ViewPortPanelSize))
+	{
+		m_Framebuffer->Resize((uint32_t)ViewPortPanelSize.x, (uint32_t)ViewPortPanelSize.y);
+		m_ViewPortSize = {ViewPortPanelSize.x, ViewPortPanelSize.y}; 
+	}
+
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ 1300.0f, 800.0f });
+	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
 	ImGui::End();
 
     ImGui::End();
 }
 
 
-void Sandbox2D::OnImGuiRender()
+void EditorLayer::OnImGuiRender()
 {
 	bool showDockSpace = true;
 	ShowDockSpaceApp(&showDockSpace);

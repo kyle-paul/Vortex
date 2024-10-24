@@ -1,11 +1,11 @@
 #pragma once
 #include "Vortex.h"
 
-class Sandbox2D : public Vortex::Layer
+class EditorLayer : public Vortex::Layer
 {
 public:
-	Sandbox2D();
-	virtual ~Sandbox2D() = default;
+	EditorLayer();
+	virtual ~EditorLayer() = default;
 
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
@@ -32,7 +32,11 @@ private:
 	// Imgui control
 	Vortex::ImGuiComponents m_ImGuiComponents;
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+	
+	// Imgui layer events
+	bool is_ViewPortFocused;
 
 	// Frame buffer
 	Vortex::Ref<Vortex::Framebuffer> m_Framebuffer;
+	glm::vec2 m_ViewPortSize = {0.0f, 0.0f};
 };

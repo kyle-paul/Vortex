@@ -77,7 +77,6 @@ namespace Vortex
     bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event)
 	{
 		VX_PROFILE_FUNCTION();
-		
 		m_AspectRatio = (float)event.GetWidth() / (float)event.GetHeight();
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;

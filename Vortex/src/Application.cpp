@@ -7,7 +7,7 @@ namespace Vortex
 {
 	Application *Application::m_AppInstance = nullptr;
 
-	Application::Application() 
+	Application::Application(const std::string &name) 
 	{
 		VX_PROFILE_FUNCTION();
 
@@ -16,7 +16,7 @@ namespace Vortex
 		m_AppInstance = this;
 
 		// Init window
-		WindowProps props("Vortex Engine", 1300, 800);
+		WindowProps props(name, 1300, 800);
 		m_AppWindow = std::unique_ptr<Window>(Window::Create(props));
 		m_AppWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
 

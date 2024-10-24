@@ -27,7 +27,7 @@ namespace Vortex {
 	class VORTEX_API Application 
 	{
 	public: 
-		Application();
+		Application(const std::string &name = "Vortex Application");
 		virtual ~Application();
 		void Run();
 		void OnEvent(Event &event);
@@ -36,6 +36,7 @@ namespace Vortex {
 
 		inline static Application& GetApplication() { return *m_AppInstance; } 
 		inline Window& GetWindow() { return *m_AppWindow; }
+		inline ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
 		void Close();
 	

@@ -7,7 +7,7 @@ set(${ENGINE_NAME}_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../${ENGINE_NAME})
 # Add the executable and source files
 add_executable(SandboxEngine 
 	src/SandboxApp.cpp
-	src/Sandbox2D.cpp
+	src/EditorLayer.cpp
 	${${ENGINE_NAME}_DIR}/vendor/glad/src/glad.c
 )
 

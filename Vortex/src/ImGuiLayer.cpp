@@ -19,6 +19,15 @@ namespace Vortex
     {
     }
 
+    void ImGuiLayer::OnEvent(Event &event)
+    {
+        if (m_BlockEvent) {
+            ImGuiIO &io = ImGui::GetIO();
+            event.Handled |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+            event.Handled |= event.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+        }
+    }
+
     void ImGuiLayer::OnAttach() 
     {
         VX_PROFILE_FUNCTION();    

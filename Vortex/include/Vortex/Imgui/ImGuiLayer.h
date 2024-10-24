@@ -33,10 +33,13 @@ namespace Vortex
 
         virtual void OnAttach() override;
         virtual void OnDetach() override;
+        virtual void OnEvent(Event &event) override;
         virtual void OnUpdate(TimeStep ts) override;
 
         void Begin();
         void End();
+
+        void SetBlockEvent(bool block) { m_BlockEvent = block; }
 
     private:
         static void setKeyMapping(); 
@@ -48,5 +51,6 @@ namespace Vortex
         bool fullscreen = true;
         bool show_demo_window = true;
         bool show_another_window = true;
+        bool m_BlockEvent = true;
     };
 }

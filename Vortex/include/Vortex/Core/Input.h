@@ -7,6 +7,8 @@ namespace Vortex
     class VORTEX_API Input
     {
     public:
+        virtual ~Input() = default;
+
         static bool IsKeyPressed(uint16_t keycode) { return m_InputInstance->IsKeyPressedImpl(keycode); }
         static bool IsMouseButtonPressed(uint16_t button) { return m_InputInstance->IsMouseButtonPressedImpl(button); }
 
