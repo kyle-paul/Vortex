@@ -9,18 +9,31 @@ EditorLayer::EditorLayer()
     
 }
 
+glm::mat4 GetTransformQuad(const glm::vec3 &position, const glm::vec2 &size, const float &rotation)
+{
+	return glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
+			glm::translate(glm::mat4(1.0f), position) *
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+}
+
 void EditorLayer::OnAttach()
 {
 	VX_PROFILE_FUNCTION();
 
+	// Frame buffer
 	Vortex::FramebufferSpecification fbspec;
 	fbspec.Width = 1300.0f;
 	fbspec.Height = 800.0f;
 	m_Framebuffer = Vortex::Framebuffer::Create(fbspec);
 
-
-	m_ImGuiComponents.colorControl = glm::vec4(0.8f, 0.2f, 0.2f, 0.5f);
+	// Texture registry
     m_CheckerboardTexture = Vortex::Texture2D::Create("/home/pc/dev/engine/Sandbox/assets/Textures/Checkerboard.png");
+
+	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
+	auto square = m_ActiveScene->CreateEntity();
+	m_ActiveScene->Reg().emplace<Vortex::TransformComponent>(square, glm::mat4(1.0f));
+	m_ActiveScene->Reg().emplace<Vortex::SpriteRendererComponent>(square, m_ImGuiComponents.ObjectColor);
+	m_SquareEntity = square;
 }
 
 void EditorLayer::OnDetach()
@@ -34,21 +47,15 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 	if (is_ViewPortFocused)
 		m_CameraController.OnUpdate(ts);
 
-	{
-		VX_PROFILE_SCOPE("Renderer Prep");
-		m_Framebuffer->Bind();
-		Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
-		Vortex::RenderCommand::ClearBufferBit();
-	}
+	m_Framebuffer->Bind();
+	Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
+	Vortex::RenderCommand::ClearBufferBit();
 
-	{
-		VX_PROFILE_SCOPE("Renderer Draw");
-		Vortex::Renderer2D::BeginScene(m_CameraController.GetCamera(), m_ImGuiComponents);
-		Vortex::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-		Vortex::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-		Vortex::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_CheckerboardTexture);
-		Vortex::Renderer2D::EndScene();
-	}
+	// Update for scene
+	Vortex::Renderer2D::BeginScene(m_CameraController.GetCamera(), m_ImGuiComponents);
+	m_ActiveScene->OnUpdate(ts);
+	Vortex::Renderer2D::EndScene();
+	
 	m_Framebuffer->Unbind();
 }
 
@@ -198,10 +205,24 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	ImGui::ShowDemoWindow(&showDemo);
 
 	ImGui::Begin("Settings");
-	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_ImGuiComponents.colorControl));	
+
+	auto &SquareColor = m_ActiveScene->Reg().get<Vortex::SpriteRendererComponent>(m_SquareEntity).Color;
+	auto &SquareTransform = m_ActiveScene->Reg().get<Vortex::TransformComponent>(m_SquareEntity).Transform;
+
+	ImGui::ColorEdit4("Object Color", glm::value_ptr(SquareColor));
+	ImGui::SliderFloat3("Object Postion", glm::value_ptr(m_ImGuiComponents.ObjectPosition), -1.0f, 1.0f);
+	ImGui::SliderFloat2("Object Size", glm::value_ptr(m_ImGuiComponents.ObjectSize), 0.0f, 10.0f);
 	ImGui::SliderFloat("Object Rotation", &m_ImGuiComponents.ObjectRotation, 0.0f, 180.0f);
+
+	ImGui::ColorEdit4("Board Color", glm::value_ptr(m_ImGuiComponents.BoardColor));
 	ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
 	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
+	
+
+	SquareTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
+										m_ImGuiComponents.ObjectSize,
+										m_ImGuiComponents.ObjectRotation);
+
     ImGui::End();
 
 	ImGui::Begin("Viewport");

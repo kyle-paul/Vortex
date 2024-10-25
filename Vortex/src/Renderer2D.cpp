@@ -12,7 +12,7 @@ namespace Vortex
     struct Renderer2DStorage
 	{
 		Ref<VertexArray> QuadVertexArray;
-		Ref<Shader> TextureShader;
+		Ref<Shader> shad;
 		Ref<Texture2D> WhiteTexture;
 	};
 
@@ -49,9 +49,9 @@ namespace Vortex
 		uint32_t whiteTextureData = 0xffffffff;
 		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-		s_Data->TextureShader = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
-		s_Data->TextureShader->Bind();
-		s_Data->TextureShader->SetInt("u_Texture", 0);
+		s_Data->shad = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
+		s_Data->shad->Bind();
+		s_Data->shad->SetInt("u_Texture", 0);
     }
 
     void Renderer2D::Shutdown()
@@ -64,8 +64,8 @@ namespace Vortex
 	{
 		VX_PROFILE_FUNCTION();
 		m_ImGuiComponents = imgui_components;
-		s_Data->TextureShader->Bind();
-		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Data->shad->Bind();
+		s_Data->shad->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 	}
 
     void Renderer2D::EndScene()
@@ -82,12 +82,23 @@ namespace Vortex
 	{
 		VX_PROFILE_FUNCTION();
 
-		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->shad->SetFloat4("u_Color", color);
 		s_Data->WhiteTexture->Bind();
 
-		s_Data->TextureShader->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.ObjectRotation, size));
+		s_Data->shad->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.ObjectRotation, size));
 
 		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	{
+		s_Data->shad->SetFloat4("u_Color", color);
+		s_Data->WhiteTexture->Bind();
+
+		s_Data->shad->SetMat4("u_Transform", transform);
+		s_Data->QuadVertexArray->Bind();
+
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
@@ -100,12 +111,25 @@ namespace Vortex
 	{
 		VX_PROFILE_FUNCTION();
 		
-		s_Data->TextureShader->SetFloat4("u_Color", m_ImGuiComponents.colorControl);
-		s_Data->TextureShader->SetFloat("u_TilingFactor", m_ImGuiComponents.TilingFactor);
+		s_Data->shad->SetFloat4("u_Color", m_ImGuiComponents.BoardColor);
+		s_Data->shad->SetFloat("u_TilingFactor", m_ImGuiComponents.TilingFactor);
 
 		texture->Bind();
 
-		s_Data->TextureShader->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.BoardRotation, size));
+		s_Data->shad->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.BoardRotation, size));
+
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture)
+	{
+		s_Data->shad->SetFloat4("u_Color", m_ImGuiComponents.BoardColor);
+		s_Data->shad->SetFloat("u_TilingFactor", m_ImGuiComponents.TilingFactor);
+
+		texture->Bind();
+
+		s_Data->shad->SetMat4("u_Transform", transform);
 
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);

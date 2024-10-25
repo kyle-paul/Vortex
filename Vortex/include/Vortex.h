@@ -28,6 +28,10 @@
 #include "Graphics/OrthographicCameraController.h"
 #include "Graphics/Framebuffer.h"
 
+// Include Scene
+#include "Vortex/Scene/Scene.h"
+#include "Vortex/Scene/Component.h"
+
 
 // Include platform
 #include "Platform/Linux/LinuxWindow.h"

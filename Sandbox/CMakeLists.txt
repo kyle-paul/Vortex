@@ -17,6 +17,7 @@ target_include_directories(SandboxEngine PRIVATE
 	${${ENGINE_NAME}_DIR}/vendor/spdlog/include
 	${${ENGINE_NAME}_DIR}/vendor/glad/include
 	${${ENGINE_NAME}_DIR}/vendor/imgui
+	${${ENGINE_NAME}_DIR}/vendor/entt/include
 	${${ENGINE_NAME}_DIR}/libs/glfw-build/include
 	${${ENGINE_NAME}_DIR}/libs/glm-build/include
 	${${ENGINE_NAME}_DIR}/libs/shaderc-build/include

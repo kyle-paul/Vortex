@@ -66,6 +66,9 @@ add_library(${PROJECT_NAME} SHARED
 	src/Framebuffer.cpp
 	src/OpenGLFramebuffer.cpp
 
+	# Entity components
+	src/Scene.cpp
+
 	# Vendor sources
 	vendor/glad/src/glad.c
 	vendor/stb/stb_image.cpp
@@ -91,6 +94,7 @@ include_directories(${PROJECT_NAME}
 	vendor/glad/include
 	vendor/imgui
 	vendor/stb
+	vendor/entt/include
 	libs/glfw-build/include/GLFW
 	libs/glm-build/include/glm
 	libs/shaderc-build/include

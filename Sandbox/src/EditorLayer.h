@@ -40,4 +40,8 @@ private:
 	// Frame buffer
 	Vortex::Ref<Vortex::Framebuffer> m_Framebuffer;
 	glm::vec2 m_ViewPortSize = {0.0f, 0.0f};
+
+	// Scene - entity
+	Vortex::Ref<Vortex::Scene> m_ActiveScene;
+	entt::entity m_SquareEntity;
 };
