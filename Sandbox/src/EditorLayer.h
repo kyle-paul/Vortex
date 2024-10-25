@@ -43,5 +43,5 @@ private:
 
 	// Scene - entity
 	Vortex::Ref<Vortex::Scene> m_ActiveScene;
-	entt::entity m_SquareEntity;
+	Vortex::Entity SquareEntity;
 };

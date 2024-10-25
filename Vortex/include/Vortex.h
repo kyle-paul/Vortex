@@ -31,6 +31,7 @@
 // Include Scene
 #include "Vortex/Scene/Scene.h"
 #include "Vortex/Scene/Component.h"
+#include "Vortex/Scene/Entity.h"
 
 
 // Include platform

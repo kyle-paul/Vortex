@@ -68,6 +68,7 @@ add_library(${PROJECT_NAME} SHARED
 
 	# Entity components
 	src/Scene.cpp
+	src/Entity.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

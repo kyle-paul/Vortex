@@ -29,11 +29,11 @@ void EditorLayer::OnAttach()
 	// Texture registry
     m_CheckerboardTexture = Vortex::Texture2D::Create("/home/pc/dev/engine/Sandbox/assets/Textures/Checkerboard.png");
 
+	// Entity components 
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
-	auto square = m_ActiveScene->CreateEntity();
-	m_ActiveScene->Reg().emplace<Vortex::TransformComponent>(square, glm::mat4(1.0f));
-	m_ActiveScene->Reg().emplace<Vortex::SpriteRendererComponent>(square, m_ImGuiComponents.ObjectColor);
-	m_SquareEntity = square;
+
+	SquareEntity = m_ActiveScene->CreateEntity("Square_Entity");
+	SquareEntity.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
 }
 
 void EditorLayer::OnDetach()
@@ -205,21 +205,24 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	ImGui::ShowDemoWindow(&showDemo);
 
 	ImGui::Begin("Settings");
+	
+	auto &SquareEntityTag = SquareEntity.GetComponent<Vortex::TagComponent>().Tag;
+	auto &SquareEntityTransform = SquareEntity.GetComponent<Vortex::TransformComponent>().Transform;
+	auto &SquareEntityColor = SquareEntity.GetComponent<Vortex::SpriteRendererComponent>().Color;
 
-	auto &SquareColor = m_ActiveScene->Reg().get<Vortex::SpriteRendererComponent>(m_SquareEntity).Color;
-	auto &SquareTransform = m_ActiveScene->Reg().get<Vortex::TransformComponent>(m_SquareEntity).Transform;
-
-	ImGui::ColorEdit4("Object Color", glm::value_ptr(SquareColor));
+	ImGui::Separator();
+	ImGui::Text("%s", SquareEntityTag.c_str());
+	ImGui::ColorEdit4("Object Color", glm::value_ptr(SquareEntityColor));
 	ImGui::SliderFloat3("Object Postion", glm::value_ptr(m_ImGuiComponents.ObjectPosition), -1.0f, 1.0f);
 	ImGui::SliderFloat2("Object Size", glm::value_ptr(m_ImGuiComponents.ObjectSize), 0.0f, 10.0f);
 	ImGui::SliderFloat("Object Rotation", &m_ImGuiComponents.ObjectRotation, 0.0f, 180.0f);
-
+	ImGui::Separator();
 	ImGui::ColorEdit4("Board Color", glm::value_ptr(m_ImGuiComponents.BoardColor));
 	ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
 	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
-	
+	ImGui::Separator();
 
-	SquareTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
+	SquareEntityTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
 										m_ImGuiComponents.ObjectSize,
 										m_ImGuiComponents.ObjectRotation);
 

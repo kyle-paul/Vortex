@@ -6,18 +6,22 @@
 
 namespace Vortex
 {
+    class Entity;
+
     class Scene
     {
     public:
         Scene();
         ~Scene();
 
-        entt::entity CreateEntity() { return  m_registry.create(); }
+        Entity CreateEntity(const std::string &name = "");
         entt::registry& Reg() { return m_registry; }
 
         void OnUpdate(TimeStep ts);
 
     private:
         entt::registry m_registry;
+
+        friend class Entity;
     };
 }
