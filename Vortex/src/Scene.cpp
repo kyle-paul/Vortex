@@ -18,7 +18,7 @@ namespace Vortex
     Entity Scene::CreateEntity(const std::string &name)
     {
         Entity entity = { m_registry.create(), this };
-        entity.AddComponent<TransformComponent>(glm::mat4(1.0f));
+        entity.AddComponent<TransformComponent>();
         auto &tag = entity.AddComponent<TagComponent>();
         tag.Tag = name.empty() ? "Unnamed_Entity" : name;
         return entity;
@@ -44,16 +44,16 @@ namespace Vortex
 
         // Rendering
         Camera *MainCamera = nullptr;
-        glm::mat4 *CameraTransform = nullptr;
+        glm::mat4 CameraTransform;
 
         auto view = m_registry.view<TransformComponent, CameraComponent>();        
         for (auto entity : view)
         {
-            const auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+            auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
             if (camera.Primary)
             {
                 MainCamera = &camera.Camera;
-                CameraTransform = &transform.Transform; // later -> inverse as view matrix
+                CameraTransform = transform.GetTransform(); // later -> inverse as view matrix
                 break;
             }
         }
@@ -61,12 +61,12 @@ namespace Vortex
         // Begin rendering the scene
         if (MainCamera)
         {
-            Renderer2D::BeginScene(*MainCamera, *CameraTransform);
+            Renderer2D::BeginScene(*MainCamera, CameraTransform);
             auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
             for (auto entity : group)
             {
-                const auto [transform_s, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-                Renderer2D::DrawQuad(transform_s.Transform, sprite.Color);
+                auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+                Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
             }
             Renderer2D::EndScene();
         }

@@ -51,9 +51,9 @@ void EditorLayer::OnAttach()
 	public:
 		void OnCreate()
 		{
-			auto& transform = GetComponent<Vortex::TransformComponent>().Transform;
-			transform[3][0] = rand() % 10 - 5.0f;
-		}
+			auto &translation = GetComponent<Vortex::TransformComponent>().Translation;
+			translation.x = rand() % 10 - 5.0f;
+		}	
 
 		void OnDestroy()
 		{
@@ -62,16 +62,16 @@ void EditorLayer::OnAttach()
 		void OnUpdate(Vortex::TimeStep ts)
 		{
 			float speed = 5.0f;
-			auto& transform = GetComponent<Vortex::TransformComponent>().Transform;
+			auto& translation = GetComponent<Vortex::TransformComponent>().Translation;
 
 			if (Vortex::Input::IsKeyPressed(Vortex::Key::A))
-				transform[3][0] -= speed * ts;
+				translation.x -= speed * ts;
 			if (Vortex::Input::IsKeyPressed(Vortex::Key::D))
-				transform[3][0] += speed * ts;
+				translation.x += speed * ts;
 			if (Vortex::Input::IsKeyPressed(Vortex::Key::W))
-				transform[3][1] += speed * ts;
+				translation.y += speed * ts;
 			if (Vortex::Input::IsKeyPressed(Vortex::Key::S))
-				transform[3][1] -= speed * ts;
+				translation.y -= speed * ts;
 		}
 	};
 
@@ -265,14 +265,13 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	ImGui::Begin("Settings");
 	
 	auto &SquareEntityTag = SquareEntity.GetComponent<Vortex::TagComponent>().Tag;
-	auto &SquareEntityTransform = SquareEntity.GetComponent<Vortex::TransformComponent>().Transform;
 	auto &SquareEntityColor = SquareEntity.GetComponent<Vortex::SpriteRendererComponent>().Color;
 
 	auto &CameraEntityTag = CameraEntity.GetComponent<Vortex::TagComponent>().Tag;
-	auto &CameraEntityTransform = CameraEntity.GetComponent<Vortex::TransformComponent>().Transform[3];
+	auto &CameraEntityTranslation = CameraEntity.GetComponent<Vortex::TransformComponent>().Translation;
 
 	auto &CameraEntityTag2 = CameraEntity2.GetComponent<Vortex::TagComponent>().Tag;
-	auto &CameraEntityTransform2 = CameraEntity2.GetComponent<Vortex::TransformComponent>().Transform[3];
+	auto &CameraEntityTranslation2 = CameraEntity2.GetComponent<Vortex::TransformComponent>().Translation;
 
 	auto &cam1 = CameraEntity.GetComponent<Vortex::CameraComponent>();
 	auto &cam2 = CameraEntity2.GetComponent<Vortex::CameraComponent>();
@@ -292,10 +291,10 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	ImGui::Separator();
 	
 	ImGui::Text("%s", CameraEntityTag.c_str());
-	ImGui::SliderFloat3("1st Position", glm::value_ptr(CameraEntityTransform), -16.0f, 16.0f);
+	ImGui::SliderFloat3("1st Position", glm::value_ptr(CameraEntityTranslation), -16.0f, 16.0f);
 	if (ImGui::DragFloat("1st Zoom", &ortho_size_1)) cam1.Camera.SetOrthographicSize(ortho_size_1);
 	ImGui::Text("%s", CameraEntityTag2.c_str());
-	ImGui::SliderFloat3("2nd Position", glm::value_ptr(CameraEntityTransform2), -m_AspectRatio, m_AspectRatio);
+	ImGui::SliderFloat3("2nd Position", glm::value_ptr(CameraEntityTranslation2), -m_AspectRatio, m_AspectRatio);
 	if (ImGui::DragFloat("2nd Zoom", &ortho_size_2)) cam2.Camera.SetOrthographicSize(ortho_size_2);
 
 	ImGui::Separator();

@@ -83,11 +83,22 @@ namespace Vortex
 
             if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
 			{
-				auto &transform = entity.GetComponent<TransformComponent>().Transform;
-				if(ImGui::DragFloat3("Position", glm::value_ptr(transform[3]), 0.1f))
-                {
-                }
+				auto &tc = entity.GetComponent<TransformComponent>();
+				ImGui::DragFloat3("Position", glm::value_ptr(tc.Translation), 0.1f);
+				ImGui::DragFloat3("Rotation", glm::value_ptr(tc.Rotation), 0.1f);
+				ImGui::DragFloat3("Scale", glm::value_ptr(tc.scale), 0.1f);
 				ImGui::TreePop();
+			}
+        }
+
+        if (entity.HasComponent<SpriteRendererComponent>())
+        {
+
+            if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer"))
+			{
+                auto &src = entity.GetComponent<SpriteRendererComponent>();
+                ImGui::ColorEdit4("Color Edit", glm::value_ptr(src.Color));
+                ImGui::TreePop();
 			}
         }
 
