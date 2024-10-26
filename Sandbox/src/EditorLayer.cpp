@@ -74,6 +74,9 @@ void EditorLayer::OnAttach()
 	CameraEntity.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
 	CameraEntity2.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
 
+
+	// Scene Hierachy Panel
+	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 }
 
 void EditorLayer::OnDetach()
@@ -248,10 +251,14 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 		
     }
 
-	bool showDemo = true;
+	// Render Scene Hierarchy
+	m_SceneHierarchyPanel.OnImGuiRender();
 
+	// Render Demo window
+	bool showDemo = true;
 	ImGui::ShowDemoWindow(&showDemo);
 
+	// Render Setting Panel
 	ImGui::Begin("Settings");
 	
 	auto &SquareEntityTag = SquareEntity.GetComponent<Vortex::TagComponent>().Tag;
@@ -267,7 +274,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	auto &cam1 = CameraEntity.GetComponent<Vortex::CameraComponent>();
 	auto &cam2 = CameraEntity2.GetComponent<Vortex::CameraComponent>();
 	auto ortho_size_1 = cam1.Camera.GetOrthographicSize();
-
+	auto ortho_size_2 = cam2.Camera.GetOrthographicSize();
 
 	ImGui::Separator();
 	ImGui::Text("%s", SquareEntityTag.c_str());
@@ -280,15 +287,14 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
 	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
 	ImGui::Separator();
+	
 	ImGui::Text("%s", CameraEntityTag.c_str());
-	ImGui::SliderFloat3("1st Camera Position", glm::value_ptr(CameraEntityTransform), -16.0f, 16.0f);
-	if (ImGui::DragFloat("1st Camera ortho size", &ortho_size_1))
-	{
-		cam1.Camera.SetOrthographicSize(ortho_size_1);
-	}
-
+	ImGui::SliderFloat3("1st Position", glm::value_ptr(CameraEntityTransform), -16.0f, 16.0f);
+	if (ImGui::DragFloat("1st Zoom", &ortho_size_1)) cam1.Camera.SetOrthographicSize(ortho_size_1);
 	ImGui::Text("%s", CameraEntityTag2.c_str());
-	ImGui::SliderFloat3("2nd Camera Position", glm::value_ptr(CameraEntityTransform2), -m_AspectRatio, m_AspectRatio);
+	ImGui::SliderFloat3("2nd Position", glm::value_ptr(CameraEntityTransform2), -m_AspectRatio, m_AspectRatio);
+	if (ImGui::DragFloat("2nd Zoom", &ortho_size_2)) cam2.Camera.SetOrthographicSize(ortho_size_2);
+
 	ImGui::Separator();
 
 	if (ImGui::Checkbox("Primary Camera", &m_PrimaryCamera))
@@ -304,10 +310,10 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
     ImGui::End();
 
+
+	// Render Viewport
 	ImGui::Begin("Viewport");
-
-
-	// Viewport focused event
+	
 	is_ViewPortFocused = ImGui::IsWindowFocused();
 	is_ViewPortHovered = ImGui::IsWindowHovered();
 	Vortex::Application::GetApplication().GetImGuiLayer()->SetBlockEvent(!is_ViewPortFocused || !is_ViewPortHovered);

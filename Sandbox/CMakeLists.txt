@@ -8,6 +8,7 @@ set(${ENGINE_NAME}_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../${ENGINE_NAME})
 add_executable(SandboxEngine 
 	src/SandboxApp.cpp
 	src/EditorLayer.cpp
+	src/SceneHierarchyPanel.cpp
 	${${ENGINE_NAME}_DIR}/vendor/glad/src/glad.c
 )
 

@@ -1,5 +1,7 @@
 #pragma once
 #include "Vortex.h"
+#include "Panels/SceneHierarchyPanel.h"
+
 
 class EditorLayer : public Vortex::Layer
 {
@@ -47,4 +49,7 @@ private:
 	Vortex::Ref<Vortex::Scene> m_ActiveScene;
 	Vortex::Entity SquareEntity, CameraEntity, CameraEntity2;
 	bool m_PrimaryCamera = true;
+
+	// Scene Hierachy Panel
+	Vortex::SceneHierarchyPanel m_SceneHierarchyPanel;
 };

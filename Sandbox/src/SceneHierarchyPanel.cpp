@@ -1,0 +1,51 @@
+#include "Panels/SceneHierarchyPanel.h"
+
+
+namespace Vortex
+{
+    SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene> &context)
+    {
+        SetContext(context);
+    }
+
+    void SceneHierarchyPanel::SetContext(const Ref<Scene> &context)
+    {
+        m_Context = context;
+    }
+
+    void SceneHierarchyPanel::OnImGuiRender()
+    {
+        ImGui::Begin("Scene Hierachy");
+        m_Context->m_registry.each([&](auto entityID)
+        {
+            Entity entity {entityID, m_Context.get()};
+            DrawEntityNode(entity);
+        });
+        ImGui::End();
+    }
+    
+    void SceneHierarchyPanel::DrawEntityNode(Entity entity)
+    {
+        auto &tc = entity.GetComponent<TagComponent>();
+        ImGui::Text("%s", tc.Tag.c_str());
+
+        ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tc.Tag.c_str());
+
+        if (ImGui::IsItemClicked())
+        {
+            m_SelectionContext = entity;
+        }
+
+        if (opened)
+        {
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+            bool opened = ImGui::TreeNodeEx((void*)25255, flags, tc.Tag.c_str());
+            if (opened)
+            {
+                ImGui::TreePop();
+            }
+            ImGui::TreePop();
+        }
+    }
+}
