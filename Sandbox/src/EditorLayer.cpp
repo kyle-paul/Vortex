@@ -33,7 +33,10 @@ void EditorLayer::OnAttach()
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 
 	SquareEntity = m_ActiveScene->CreateEntity("Square_Entity");
+	CameraEntity = m_ActiveScene->CreateEntity("Camera_Entity");
+
 	SquareEntity.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
+	CameraEntity.AddComponent<Vortex::CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 }
 
 void EditorLayer::OnDetach()
@@ -44,18 +47,13 @@ void EditorLayer::OnDetach()
 void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 {
     // Key event controller for camera
-	if (is_ViewPortFocused)
-		m_CameraController.OnUpdate(ts);
+	// if (is_ViewPortFocused)
+	// 	m_CameraController.OnUpdate(ts);
 
 	m_Framebuffer->Bind();
 	Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 	Vortex::RenderCommand::ClearBufferBit();
-
-	// Update for scene
-	Vortex::Renderer2D::BeginScene(m_CameraController.GetCamera(), m_ImGuiComponents);
-	m_ActiveScene->OnUpdate(ts);
-	Vortex::Renderer2D::EndScene();
-	
+	m_ActiveScene->OnUpdate(ts);	
 	m_Framebuffer->Unbind();
 }
 

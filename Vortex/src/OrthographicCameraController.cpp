@@ -20,39 +20,46 @@ namespace Vortex
     void OrthographicCameraController::OnUpdate(TimeStep ts)
     {
 		VX_PROFILE_FUNCTION();
-
-        if (Vortex::Input::IsKeyPressed(Vortex::Key::Left)) {
-			m_CameraPosition.x -= m_CameraTranslationSpeed * float(ts);
+		
+		if (Input::IsKeyPressed(Key::A))
+		{
+			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
+		else if (Input::IsKeyPressed(Key::D))
+		{
+			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 
-		else if (Vortex::Input::IsKeyPressed(Vortex::Key::Right)) {
-			m_CameraPosition.x += m_CameraTranslationSpeed * float(ts);
+		if (Input::IsKeyPressed(Key::W))
+		{
+			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-
-		if (Vortex::Input::IsKeyPressed(Vortex::Key::Up)) {
-			m_CameraPosition.y += m_CameraTranslationSpeed * float(ts);
+		else if (Input::IsKeyPressed(Key::S))
+		{
+			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-
-		else if (Vortex::Input::IsKeyPressed(Vortex::Key::Down)) {
-			m_CameraPosition.y -= m_CameraTranslationSpeed * float(ts);
-		}
-
 
 		if (m_Rotation)
 		{
-			if (Input::IsKeyPressed(Vortex::Key::A)) {
+			if (Input::IsKeyPressed(Key::Q))
 				m_CameraRotation += m_CameraRotationSpeed * ts;
-            }
-
-			if (Input::IsKeyPressed(Vortex::Key::D)) {
+			if (Input::IsKeyPressed(Key::E))
 				m_CameraRotation -= m_CameraRotationSpeed * ts;
 
-            }
+			if (m_CameraRotation > 180.0f)
+				m_CameraRotation -= 360.0f;
+			else if (m_CameraRotation <= -180.0f)
+				m_CameraRotation += 360.0f;
+
 			m_Camera.SetRotation(m_CameraRotation);
 		}
 
-        m_Camera.SetPosition(m_CameraPosition);
-        m_CameraTranslationSpeed = m_ZoomLevel;
+		m_Camera.SetPosition(m_CameraPosition);
+		m_CameraTranslationSpeed = m_ZoomLevel;
     }
 
     void OrthographicCameraController::OnEvent(Event &event)

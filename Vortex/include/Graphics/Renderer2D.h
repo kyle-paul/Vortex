@@ -2,6 +2,7 @@
 
 #include "Graphics/OrthographicCamera.h"
 #include "Graphics/Texture.h"
+#include "Graphics/Camera.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
 
 namespace Vortex
@@ -12,7 +13,7 @@ namespace Vortex
 		static void Init();
 		static void Shutdown();
 
-		static void BeginScene(const OrthographicCamera& camera, ImGuiComponents &imgui_components);
+		static void BeginScene(const Camera& camera, const glm::mat4 &transform);
 		static void EndScene();
 
 		// Primitives

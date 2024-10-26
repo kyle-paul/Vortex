@@ -63,7 +63,7 @@ namespace Vortex
     Entity Scene::CreateEntity(const std::string &name)
     {
         Entity entity = { m_registry.create(), this };
-        entity.AddComponent<TransformComponent>();
+        entity.AddComponent<TransformComponent>(glm::mat4(1.0f));
         auto &tag = entity.AddComponent<TagComponent>();
         tag.Tag = name.empty() ? "Unnamed_Entity" : name;
         return entity;
@@ -71,11 +71,32 @@ namespace Vortex
 
     void Scene::OnUpdate(TimeStep ts)
     {
-        auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+        Camera *MainCamera = nullptr;
+        glm::mat4 *CameraTransform = nullptr;
+
+        auto group = m_registry.view<TransformComponent, CameraComponent>();        
         for (auto entity : group)
         {
-            const auto &[transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::DrawQuad(transform.Transform, sprite.Color);
+            const auto &[transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+            if (camera.Primary)
+            {
+                MainCamera = &camera.Camera;
+                CameraTransform = &transform.Transform; // later -> inverse as view matrix
+                break;
+            }
+        }
+
+        // Begin rendering the scene
+        if (MainCamera)
+        {
+            Renderer2D::BeginScene(*MainCamera, *CameraTransform);
+            auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+            for (auto entity : group)
+            {
+                const auto &[transform_s, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+                Renderer2D::DrawQuad(transform_s.Transform, sprite.Color);
+            }
+            Renderer2D::EndScene();
         }
     }
 }

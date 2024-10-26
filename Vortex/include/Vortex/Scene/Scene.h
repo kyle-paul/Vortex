@@ -1,7 +1,7 @@
 #pragma once
 #include <entt.hpp>
 #include "Vortex/Core/TimeStep.h"
-#include <glm/glm.hpp>
+#include "Vortex/Core/Math.h"
 #include "Vortex/Core/Math.h"
 
 namespace Vortex

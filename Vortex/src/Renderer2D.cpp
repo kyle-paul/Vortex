@@ -60,13 +60,21 @@ namespace Vortex
 		delete s_Data;
 	}
 
-    void Renderer2D::BeginScene(const OrthographicCamera& camera, ImGuiComponents &imgui_components) 
+	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4 &transform) 
 	{
 		VX_PROFILE_FUNCTION();
-		m_ImGuiComponents = imgui_components;
 		s_Data->shad->Bind();
-		s_Data->shad->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Data->shad->SetMat4("u_ViewProjection", camera.GetProjection() * glm::inverse(transform));
 	}
+
+	// TODO: remove this + imgui_components since the properties can be controlled in the sand box with entt
+    // void Renderer2D::BeginScene(const OrthographicCamera& camera, ImGuiComponents &imgui_components) 
+	// {
+	// 	VX_PROFILE_FUNCTION();
+	// 	m_ImGuiComponents = imgui_components;
+	// 	s_Data->shad->Bind();
+	// 	s_Data->shad->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+	// }
 
     void Renderer2D::EndScene()
 	{

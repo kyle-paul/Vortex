@@ -1,5 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Graphics/OrthographicCamera.h"
+#include "Graphics/Camera.h"
 
 namespace Vortex
 {
@@ -31,8 +33,16 @@ namespace Vortex
         SpriteRendererComponent(const SpriteRendererComponent&) = default;
         SpriteRendererComponent(const glm::vec4 &color) 
             : Color(color) { } 
+    };
 
-        operator glm::vec4& () { return Color; }
-        operator const glm::vec4& () const { return Color; }
+    struct CameraComponent
+    {
+        Vortex::Camera Camera;
+        bool Primary = true;
+        
+        CameraComponent() = default;
+        CameraComponent(const CameraComponent&) = default;
+        CameraComponent(const glm::mat4 projection)
+            :Camera(projection) { }
     };
 };
