@@ -14,6 +14,7 @@ namespace Vortex
 
     private:
         void DrawEntityNode(Entity entity);
+        void DisplayProperties(Entity entity);
 
     private:
         Ref<Scene> m_Context;

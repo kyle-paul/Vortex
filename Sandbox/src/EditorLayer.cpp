@@ -33,15 +33,19 @@ void EditorLayer::OnAttach()
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 
 	SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
-	CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
-	CameraEntity2 = m_ActiveScene->CreateEntity("Camera Entity 2");
-
 	SquareEntity.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
+
+	CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
 	CameraEntity.AddComponent<Vortex::CameraComponent>();
-	
+
+	CameraEntity2 = m_ActiveScene->CreateEntity("Camera Entity 2");
 	auto &cam2 = CameraEntity2.AddComponent<Vortex::CameraComponent>();
 	cam2.Primary = false;
 
+	auto Square2 = m_ActiveScene->CreateEntity("Square Entity 2");
+	Square2.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4{ 0.2f, 0.2f, 0.8f, 1.0f });
+	
+	// Native Scripting
 	class CameraController : public Vortex::ScriptableEntity
 	{
 	public:
@@ -73,7 +77,6 @@ void EditorLayer::OnAttach()
 
 	CameraEntity.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
 	CameraEntity2.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
-
 
 	// Scene Hierachy Panel
 	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -304,9 +307,9 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	}
 
 
-	SquareEntityTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
-										     m_ImGuiComponents.ObjectSize,
-										     m_ImGuiComponents.ObjectRotation);
+	// SquareEntityTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
+	// 									     m_ImGuiComponents.ObjectSize,
+	// 									     m_ImGuiComponents.ObjectRotation);
 
     ImGui::End();
 

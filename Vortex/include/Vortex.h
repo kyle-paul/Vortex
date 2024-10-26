@@ -10,6 +10,7 @@
 #include "Vortex/Core/Input.h"
 #include "Vortex/Core/Application.h"
 #include "Vortex/Core/TimeStep.h"
+#include "Vortex/Core/Math.h"
 
 // Include input codes
 #include "Vortex/Core/KeyCodes.h"
