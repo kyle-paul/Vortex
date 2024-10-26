@@ -43,5 +43,6 @@ private:
 
 	// Scene - entity
 	Vortex::Ref<Vortex::Scene> m_ActiveScene;
-	Vortex::Entity SquareEntity, CameraEntity;
+	Vortex::Entity SquareEntity, CameraEntity, CameraEntity2;
+	bool m_PrimaryCamera = true;
 };

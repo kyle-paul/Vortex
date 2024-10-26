@@ -32,11 +32,14 @@ void EditorLayer::OnAttach()
 	// Entity components 
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 
-	SquareEntity = m_ActiveScene->CreateEntity("Square_Entity");
-	CameraEntity = m_ActiveScene->CreateEntity("Camera_Entity");
+	SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
+	CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+	CameraEntity2 = m_ActiveScene->CreateEntity("Camera Entity 2");
 
 	SquareEntity.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
 	CameraEntity.AddComponent<Vortex::CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+	auto &cam2 = CameraEntity2.AddComponent<Vortex::CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+	cam2.Primary = false;
 }
 
 void EditorLayer::OnDetach()
@@ -208,6 +211,12 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	auto &SquareEntityTransform = SquareEntity.GetComponent<Vortex::TransformComponent>().Transform;
 	auto &SquareEntityColor = SquareEntity.GetComponent<Vortex::SpriteRendererComponent>().Color;
 
+	auto &CameraEntityTag = CameraEntity.GetComponent<Vortex::TagComponent>().Tag;
+	auto &CameraEntityTransform = CameraEntity.GetComponent<Vortex::TransformComponent>().Transform[3];
+	auto &CameraEntityTag2 = CameraEntity2.GetComponent<Vortex::TagComponent>().Tag;
+	auto &CameraEntityTransform2 = CameraEntity2.GetComponent<Vortex::TransformComponent>().Transform[3];
+
+
 	ImGui::Separator();
 	ImGui::Text("%s", SquareEntityTag.c_str());
 	ImGui::ColorEdit4("Object Color", glm::value_ptr(SquareEntityColor));
@@ -219,10 +228,22 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
 	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
 	ImGui::Separator();
+	ImGui::Text("%s", CameraEntityTag.c_str());
+	ImGui::SliderFloat3("1st Camera Position", glm::value_ptr(CameraEntityTransform), -16.0f, 16.0f);
+	ImGui::Text("%s", CameraEntityTag2.c_str());
+	ImGui::SliderFloat3("2nd Camera Position", glm::value_ptr(CameraEntityTransform2), -16.0f, 16.0f);
+	ImGui::Separator();
+
+	if (ImGui::Checkbox("Primary Camera", &m_PrimaryCamera))
+	{
+		CameraEntity.GetComponent<Vortex::CameraComponent>().Primary = m_PrimaryCamera;
+		CameraEntity2.GetComponent<Vortex::CameraComponent>().Primary = !m_PrimaryCamera;
+	}
+
 
 	SquareEntityTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
-										m_ImGuiComponents.ObjectSize,
-										m_ImGuiComponents.ObjectRotation);
+										     m_ImGuiComponents.ObjectSize,
+										     m_ImGuiComponents.ObjectRotation);
 
     ImGui::End();
 
