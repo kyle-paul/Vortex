@@ -1,3 +1,4 @@
+
 #pragma once
 
 // Include Core
@@ -30,9 +31,10 @@
 
 // Include Scene
 #include "Vortex/Scene/Scene.h"
+#include "Vortex/Scene/SceneCamera.h"
 #include "Vortex/Scene/Component.h"
 #include "Vortex/Scene/Entity.h"
-
+#include "Vortex/Scene/ScriptableEntity.h"
 
 // Include platform
 #include "Platform/Linux/LinuxWindow.h"

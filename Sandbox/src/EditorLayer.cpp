@@ -37,9 +37,40 @@ void EditorLayer::OnAttach()
 	CameraEntity2 = m_ActiveScene->CreateEntity("Camera Entity 2");
 
 	SquareEntity.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
-	CameraEntity.AddComponent<Vortex::CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
-	auto &cam2 = CameraEntity2.AddComponent<Vortex::CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+	CameraEntity.AddComponent<Vortex::CameraComponent>();
+	
+	auto &cam2 = CameraEntity2.AddComponent<Vortex::CameraComponent>();
 	cam2.Primary = false;
+
+	class CameraController : public Vortex::ScriptableEntity
+	{
+	public:
+		void OnCreate()
+		{
+		}
+
+		void OnDestroy()
+		{
+		}
+
+		void OnUpdate(Vortex::TimeStep ts)
+		{
+			float speed = 5.0f;
+			auto& transform = GetComponent<Vortex::TransformComponent>().Transform;
+
+			if (Vortex::Input::IsKeyPressed(Vortex::Key::A))
+				transform[3][0] -= speed * ts;
+			if (Vortex::Input::IsKeyPressed(Vortex::Key::D))
+				transform[3][0] += speed * ts;
+			if (Vortex::Input::IsKeyPressed(Vortex::Key::W))
+				transform[3][1] += speed * ts;
+			if (Vortex::Input::IsKeyPressed(Vortex::Key::S))
+				transform[3][1] -= speed * ts;
+		}
+	};
+
+	CameraEntity.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
+
 }
 
 void EditorLayer::OnDetach()
@@ -49,14 +80,27 @@ void EditorLayer::OnDetach()
 
 void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 {
-    // Key event controller for camera
-	// if (is_ViewPortFocused)
-	// 	m_CameraController.OnUpdate(ts);
+	// // Resize
+	if (Vortex::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+		m_ViewPortSize.x > 0.0f && m_ViewPortSize.y > 0.0f &&
+		(spec.Width != m_ViewPortSize.x || spec.Height != m_ViewPortSize.y))
+	{
+		// VX_INFO("buffer width {0} - height {1}", spec.Width, spec.Height);
+		// VX_INFO("viewport width {0} - height {1}", m_ViewPortSize.x, m_ViewPortSize.y);
+		m_Framebuffer->Resize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
+		m_CameraController.OnResize(m_ViewPortSize.x, m_ViewPortSize.y);
+		m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
+		// CameraEntity.GetComponent<Vortex::CameraComponent>().Camera.SetProjection(m_CameraController.GetCamera().GetProjectionMatrix());	
+	}
+
+    // // Key event controller for camera
+	if (is_ViewPortFocused)
+		m_CameraController.OnUpdate(ts);
 
 	m_Framebuffer->Bind();
 	Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 	Vortex::RenderCommand::ClearBufferBit();
-	m_ActiveScene->OnUpdate(ts);	
+	m_ActiveScene->OnUpdate(ts);
 	m_Framebuffer->Unbind();
 }
 
@@ -213,8 +257,13 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	auto &CameraEntityTag = CameraEntity.GetComponent<Vortex::TagComponent>().Tag;
 	auto &CameraEntityTransform = CameraEntity.GetComponent<Vortex::TransformComponent>().Transform[3];
+
 	auto &CameraEntityTag2 = CameraEntity2.GetComponent<Vortex::TagComponent>().Tag;
 	auto &CameraEntityTransform2 = CameraEntity2.GetComponent<Vortex::TransformComponent>().Transform[3];
+
+	auto &cam1 = CameraEntity.GetComponent<Vortex::CameraComponent>();
+	auto &cam2 = CameraEntity2.GetComponent<Vortex::CameraComponent>();
+	auto ortho_size_1 = cam1.Camera.GetOrthographicSize();
 
 
 	ImGui::Separator();
@@ -230,14 +279,19 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	ImGui::Separator();
 	ImGui::Text("%s", CameraEntityTag.c_str());
 	ImGui::SliderFloat3("1st Camera Position", glm::value_ptr(CameraEntityTransform), -16.0f, 16.0f);
+	if (ImGui::DragFloat("1st Camera ortho size", &ortho_size_1))
+	{
+		cam1.Camera.SetOrthographicSize(ortho_size_1);
+	}
+
 	ImGui::Text("%s", CameraEntityTag2.c_str());
-	ImGui::SliderFloat3("2nd Camera Position", glm::value_ptr(CameraEntityTransform2), -16.0f, 16.0f);
+	ImGui::SliderFloat3("2nd Camera Position", glm::value_ptr(CameraEntityTransform2), -m_AspectRatio, m_AspectRatio);
 	ImGui::Separator();
 
 	if (ImGui::Checkbox("Primary Camera", &m_PrimaryCamera))
 	{
-		CameraEntity.GetComponent<Vortex::CameraComponent>().Primary = m_PrimaryCamera;
-		CameraEntity2.GetComponent<Vortex::CameraComponent>().Primary = !m_PrimaryCamera;
+		cam1.Primary = m_PrimaryCamera;
+		cam2.Primary = !m_PrimaryCamera;
 	}
 
 
@@ -256,12 +310,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	Vortex::Application::GetApplication().GetImGuiLayer()->SetBlockEvent(!is_ViewPortFocused || !is_ViewPortHovered);
 
 	ImVec2 ViewPortPanelSize = ImGui::GetContentRegionAvail();
-
-	if (m_ViewPortSize != *((glm::vec2*)&ViewPortPanelSize))
-	{
-		m_Framebuffer->Resize((uint32_t)ViewPortPanelSize.x, (uint32_t)ViewPortPanelSize.y);
-		m_ViewPortSize = {ViewPortPanelSize.x, ViewPortPanelSize.y}; 
-	}
+	m_ViewPortSize = { ViewPortPanelSize.x, ViewPortPanelSize.y };
 
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{0, 1}, ImVec2{1, 0});

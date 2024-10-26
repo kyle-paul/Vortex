@@ -21,6 +21,8 @@ private:
 private:
 	// camera component
 	Vortex::OrthographicCameraController m_CameraController;
+	float m_AspectRatio = 1300.0f / 800.0f;
+	float m_ZoomLevel = 1.0f;
 
 	// Vertex Array and Buffer
 	Vortex::Ref<Vortex::VertexArray> m_SquareVA;
