@@ -6,53 +6,8 @@
 
 namespace Vortex
 {
-    static void DoMath(const glm::mat4 &transform)
-    {
-
-    }
-
-    static void OnTransformConstruct(entt::registry &registry, entt::entity entity)
-    {
-        
-    }
-
     Scene::Scene()
-    {
-        struct MeshComponent 
-        {
-            float value;
-            MeshComponent() = default;
-        };
-
-        struct TransformComponent
-        {
-            glm::mat4 Transform;
-            TransformComponent() = default;
-            TransformComponent(const TransformComponent&) = default;
-            TransformComponent(const glm::mat4 &transform) 
-                : Transform(transform) { } 
-
-            operator glm::mat4& () { return Transform; }
-            operator const glm::mat4& () const { return Transform; }
-        };
-
-        TransformComponent transform_component;
-        DoMath(glm::mat4(transform_component));
-
-        // push back this entity as a TransformComponent type 
-        // with initialization of glm::mat4(1.0f) into the registry
-        entt::entity entity = m_registry.create();
-        m_registry.emplace<TransformComponent>(entity, glm::mat4(1.0f)); 
-
-        if (m_registry.has<TransformComponent>(entity))
-            TransformComponent& transform = m_registry.get<TransformComponent>(entity);
-
-        // iterate through all view to get entity
-        auto view = m_registry.view<TransformComponent>();
-        for (auto entity : view)
-        {
-            TransformComponent& transform = m_registry.get<TransformComponent>(entity);
-        }        
+    {     
     }
 
     Scene::~Scene()
@@ -74,19 +29,18 @@ namespace Vortex
 
         // Script update
         {
-            m_registry.view<NativeScriptComponent>().each([=](auto entity, auto &nsc){
-                if (!nsc.Instance)
-                {
-                    nsc.InstantiateFunction();
-                    nsc.Instance->m_Entity = Entity { entity, this };
-                    if (nsc.OnCreateFunction)
-						nsc.OnCreateFunction(nsc.Instance);
-                }
-                if (nsc.OnUpdateFunction)
-					nsc.OnUpdateFunction(nsc.Instance, ts);
-            });
-        }
-
+			m_registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+			{
+				// TODO: Move to Scene::OnScenePlay
+				if (!nsc.Instance)
+				{
+					nsc.Instance = nsc.InstantiateScript();
+					nsc.Instance->m_Entity = Entity{ entity, this };
+					nsc.Instance->OnCreate();
+				}
+				nsc.Instance->OnUpdate(ts);
+			});
+		}
 
         // Rendering
         Camera *MainCamera = nullptr;
@@ -95,7 +49,7 @@ namespace Vortex
         auto view = m_registry.view<TransformComponent, CameraComponent>();        
         for (auto entity : view)
         {
-            const auto &[transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+            const auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
             if (camera.Primary)
             {
                 MainCamera = &camera.Camera;
@@ -111,7 +65,7 @@ namespace Vortex
             auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
             for (auto entity : group)
             {
-                const auto &[transform_s, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+                const auto [transform_s, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
                 Renderer2D::DrawQuad(transform_s.Transform, sprite.Color);
             }
             Renderer2D::EndScene();

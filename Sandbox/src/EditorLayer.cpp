@@ -47,6 +47,8 @@ void EditorLayer::OnAttach()
 	public:
 		void OnCreate()
 		{
+			auto& transform = GetComponent<Vortex::TransformComponent>().Transform;
+			transform[3][0] = rand() % 10 - 5.0f;
 		}
 
 		void OnDestroy()
@@ -70,6 +72,7 @@ void EditorLayer::OnAttach()
 	};
 
 	CameraEntity.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
+	CameraEntity2.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
 
 }
 

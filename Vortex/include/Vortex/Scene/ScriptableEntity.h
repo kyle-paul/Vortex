@@ -8,6 +8,7 @@ namespace Vortex {
 	class ScriptableEntity
 	{
 	public:
+		virtual ~ScriptableEntity() {}
 		template<typename T>
 		T& GetComponent()
 		{
