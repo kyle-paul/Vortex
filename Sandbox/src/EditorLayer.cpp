@@ -2,7 +2,9 @@
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "EditorLayer.h"
+
 #include "Vortex/Scene/SceneSerializer.h"
+#include "Vortex/Utils/PlatformUtils.h"
 
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_CameraController(1300.0f / 800.0f, true)
@@ -33,6 +35,7 @@ void EditorLayer::OnAttach()
 	// Entity components 
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 
+#if 0
 	auto Square1 = m_ActiveScene->CreateEntity("Square Entity");
 	Square1.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
 
@@ -78,6 +81,7 @@ void EditorLayer::OnAttach()
 
 	CameraEntity.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
 	CameraEntity2.AddComponent<Vortex::NativeScriptComponent>().Bind<CameraController>();
+#endif
 
 	// Scene Hierachy Panel
 	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -191,12 +195,21 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
     }
 	style.WindowMinSize.x = minWinSizeX;
 
+
+	// Serialization
+	Vortex::SceneSerializer serializer(m_ActiveScene);
+
     if (ImGui::BeginMenuBar())
     {
 		// Menu bar example
 
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("Clear Scene", "Ctrl+N"))
+			{
+				ClearScene();
+			}
+
 			if (ImGui::BeginMenu("Open file", "Ctrl+O")) {
 				ImGui::MenuItem("Open nifti");
 				ImGui::MenuItem("Open dicom");
@@ -205,17 +218,21 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 			}
 			if (ImGui::MenuItem("Load Scene", "Crtl+L"))
 			{
-				Vortex::SceneSerializer serializer(m_ActiveScene);
-				serializer.Deserialize("assets/Scenes/Vortex.vx");
+				LoadScene();
 			}
 			if (ImGui::MenuItem("Save Scene", "Ctrl+S")) 
 			{
-				Vortex::SceneSerializer serializer(m_ActiveScene);
 				serializer.Serialize("assets/Scenes/Vortex.vx");
 			}
-			ImGui::MenuItem("Save as..");
+			if(ImGui::MenuItem("Save as.."))
+			{
+				SaveSceneAs();
+			}
 			if (ImGui::MenuItem("Exit"))
+			{
+				serializer.Serialize("assets/Scenes/Vortex.vx");
 				Vortex::Application::GetApplication().Close();
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Edit")) {
@@ -277,54 +294,6 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	// Render Setting Panel
 	ImGui::Begin("Settings");
-	
-	// auto &SquareEntityTag = SquareEntity.GetComponent<Vortex::TagComponent>().Tag;
-	// auto &SquareEntityColor = SquareEntity.GetComponent<Vortex::SpriteRendererComponent>().Color;
-
-	// auto &CameraEntityTag = CameraEntity.GetComponent<Vortex::TagComponent>().Tag;
-	// auto &CameraEntityTranslation = CameraEntity.GetComponent<Vortex::TransformComponent>().Translation;
-
-	// auto &CameraEntityTag2 = CameraEntity2.GetComponent<Vortex::TagComponent>().Tag;
-	// auto &CameraEntityTranslation2 = CameraEntity2.GetComponent<Vortex::TransformComponent>().Translation;
-
-	// auto &cam1 = CameraEntity.GetComponent<Vortex::CameraComponent>();
-	// auto &cam2 = CameraEntity2.GetComponent<Vortex::CameraComponent>();
-	// auto ortho_size_1 = cam1.Camera.GetOrthographicSize();
-	// auto ortho_size_2 = cam2.Camera.GetOrthographicSize();
-
-	ImGui::Separator();
-	// ImGui::Text("%s", SquareEntityTag.c_str());
-	// ImGui::ColorEdit4("Object Color", glm::value_ptr(SquareEntityColor));
-	// ImGui::SliderFloat3("Object Postion", glm::value_ptr(m_ImGuiComponents.ObjectPosition), -1.0f, 1.0f);
-	// ImGui::SliderFloat2("Object Size", glm::value_ptr(m_ImGuiComponents.ObjectSize), 0.0f, 10.0f);
-	// ImGui::SliderFloat("Object Rotation", &m_ImGuiComponents.ObjectRotation, 0.0f, 180.0f);
-	// ImGui::Separator();
-	// ImGui::ColorEdit4("Board Color", glm::value_ptr(m_ImGuiComponents.BoardColor));
-	// ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
-	// ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
-	// ImGui::Separator();
-	
-	// ImGui::Text("%s", CameraEntityTag.c_str());
-	// ImGui::SliderFloat3("1st Position", glm::value_ptr(CameraEntityTranslation), -16.0f, 16.0f);
-	// if (ImGui::DragFloat("1st Zoom", &ortho_size_1)) cam1.Camera.SetOrthographicSize(ortho_size_1);
-
-	// ImGui::Text("%s", CameraEntityTag2.c_str());
-	// ImGui::SliderFloat3("2nd Position", glm::value_ptr(CameraEntityTranslation2), -m_AspectRatio, m_AspectRatio);
-	// if (ImGui::DragFloat("2nd Zoom", &ortho_size_2)) cam2.Camera.SetOrthographicSize(ortho_size_2);
-
-	// ImGui::Separator();
-
-	// if (ImGui::Checkbox("Primary Camera", &m_PrimaryCamera))
-	// {
-	// 	cam1.Primary = m_PrimaryCamera;
-	// 	cam2.Primary = !m_PrimaryCamera;
-	// }
-
-
-	// SquareEntityTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
-	// 									     m_ImGuiComponents.ObjectSize,
-	// 									     m_ImGuiComponents.ObjectRotation);
-
     ImGui::End();
 
 	// Render Viewport
@@ -344,9 +313,38 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
     ImGui::End();
 }
 
+void EditorLayer::LoadScene()
+{
+	std::string filepath = Vortex::FileDialogs::OpenFile("Vortex Scene (*.vx)\0*.vortex\0");
+	if (!filepath.empty())
+	{
+		m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
+		m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		Vortex::SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(filepath);
+	}
+}
+
+void EditorLayer::ClearScene()
+{
+	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
+	m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
+	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+}
+
+void EditorLayer::SaveSceneAs()
+{
+	std::string filepath = Vortex::FileDialogs::SaveFile("Vortex Scene (*.vx)\0*.vortex\0");
+	if (!filepath.empty())
+	{
+		Vortex::SceneSerializer serializer(m_ActiveScene);
+		serializer.Serialize(filepath);
+	}
+}
 
 void EditorLayer::OnImGuiRender()
 {
 	bool showDockSpace = true;
-	ShowDockSpaceApp(&showDockSpace);
+ShowDockSpaceApp(&showDockSpace);
 }

@@ -36,6 +36,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/Logging.cpp
 	src/PreHeaders.cpp
 	src/LinuxWindow.cpp
+	src/LinuxPlatformUtils.cpp
 	src/WIndowInput.cpp
 	src/Layer.cpp
 	src/LayerStack.cpp

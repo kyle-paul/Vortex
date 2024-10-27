@@ -70,6 +70,9 @@ namespace Vortex
     void SceneHierarchyPanel::SetContext(const Ref<Scene> &context)
     {
         m_Context = context;
+        if (m_SelectionContext) {
+            m_SelectionContext = {};
+        }
     }
 
     void SceneHierarchyPanel::OnImGuiRender()

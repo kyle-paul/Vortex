@@ -19,6 +19,9 @@ public:
 	
 private:
 	void ShowDockSpaceApp(bool *p_open);
+	void LoadScene(); 
+	void ClearScene();
+	void SaveSceneAs();
     
 private:
 	// camera component
