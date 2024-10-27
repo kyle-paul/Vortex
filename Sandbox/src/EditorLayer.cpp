@@ -2,6 +2,7 @@
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "EditorLayer.h"
+#include "Vortex/Scene/SceneSerializer.h"
 
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_CameraController(1300.0f / 800.0f, true)
@@ -202,7 +203,16 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 				ImGui::MenuItem("Open nrrd");
 				ImGui::EndMenu();
 			}
-			ImGui::MenuItem("Save", "Ctrl+S");
+			if (ImGui::MenuItem("Load Scene", "Crtl+L"))
+			{
+				Vortex::SceneSerializer serializer(m_ActiveScene);
+				serializer.Deserialize("assets/Scenes/Vortex.vx");
+			}
+			if (ImGui::MenuItem("Save Scene", "Ctrl+S")) 
+			{
+				Vortex::SceneSerializer serializer(m_ActiveScene);
+				serializer.Serialize("assets/Scenes/Vortex.vx");
+			}
 			ImGui::MenuItem("Save as..");
 			if (ImGui::MenuItem("Exit"))
 				Vortex::Application::GetApplication().Close();

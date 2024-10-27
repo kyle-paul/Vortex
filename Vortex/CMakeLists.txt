@@ -65,6 +65,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/OpenGLTexture2D.cpp
 	src/Framebuffer.cpp
 	src/OpenGLFramebuffer.cpp
+	src/SceneSerializer.cpp
 
 	# Entity components
 	src/Scene.cpp
@@ -101,10 +102,12 @@ include_directories(${PROJECT_NAME}
 	libs/glm-build/include/glm
 	libs/shaderc-build/include
 	libs/spirv-cross-build/include
+	libs/yaml-cpp-build/include
 )
 
 # Include built packages
 set(SHADERC_LIB ${CMAKE_CURRENT_SOURCE_DIR}/libs/shaderc-build/lib/libshaderc_combined.a)
+set(YAML_LIB ${CMAKE_CURRENT_SOURCE_DIR}/libs/yaml-cpp-build/lib/libyaml-cpp.a)
 set(SPIRV_CROSS_LIBS 
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-core.a 
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-cpp.a 
@@ -112,8 +115,7 @@ set(SPIRV_CROSS_LIBS
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-hlsl.a
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-msl.a
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-reflect.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-util.a
-)
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/spirv-cross-build/libspirv-cross-util.a)
 
 list(APPEND CMAKE_PREFIX_PATH libs/glfw-build/lib/cmake/glfw3)
 list(APPEND CMAKE_PREFIX_PATH libs/glm-build/share/glm)
@@ -134,11 +136,13 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include>
 )
 
+
+
 # Link dependencies into my lib
 target_link_libraries(
 		${PROJECT_NAME} PRIVATE 
 		glfw glm::glm ${OPENGL_LIBRARIES} 
-		${SHADERC_LIB} ${SPIRV_CROSS_LIBS})
+		${SHADERC_LIB} ${SPIRV_CROSS_LIBS} ${YAML_LIB})
 
 # Installation
 set(INSTALL_BINDIR "bin")

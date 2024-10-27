@@ -16,3 +16,6 @@
 [submodule "Vortex/vendor/spirv-cross"]
 	path = Vortex/vendor/spirv-cross
 	url = https://github.com/KhronosGroup/SPIRV-Cross.git
+[submodule "Vortex/vendor/yaml-cpp"]
+	path = Vortex/vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git

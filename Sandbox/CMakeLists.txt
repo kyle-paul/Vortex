@@ -23,6 +23,7 @@ target_include_directories(SandboxEngine PRIVATE
 	${${ENGINE_NAME}_DIR}/libs/glm-build/include
 	${${ENGINE_NAME}_DIR}/libs/shaderc-build/include
 	${${ENGINE_NAME}_DIR}/libs/spirv-cross-build/include
+	${${ENGINE_NAME}_DIR}/libs/yaml-cpp-build/include
 )
 
 target_link_libraries(SandboxEngine ${${ENGINE_NAME}_DIR}/build/install/lib/libVortex.so)

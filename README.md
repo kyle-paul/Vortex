@@ -61,6 +61,16 @@ cmake --build Vortex/libs/spirv-cross-build --parallel <your-cpu-threads>
 cmake --install Vortex/libs/spirv-cross-build --prefix Vortex/libs/spirv-cross-build
 ```
 
+Build YAML library
+```bash
+cmake -S Vortex/vendor/yaml-cpp \
+      -B Vortex/libs/yaml-cpp-build \
+      -D YAML_BUILD_SHARED_LIBS=OFF
+
+cmake --build Vortex/libs/yaml-cpp-build --parallel <your-cpu-threads>
+cmake --install Vortex/libs/yaml-cpp-build --prefix Vortex/libs/yaml-cpp-build
+```
+
 Build and install the Vortex engine that can be used in any other subprojects (e.g Sandbox)
 ```bash
 cmake -B build

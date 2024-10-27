@@ -1,6 +1,11 @@
-[22:17:49] [warning] HAZEL: Initialized Logging !
-[22:17:49] [info] APP: WELCOME! Var=10
-[22:17:49] [info] HAZEL: Creating window Vortex Application (1300, 800)
-[22:17:49] [info] HAZEL: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
-[22:17:49] [info] HAZEL: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
-[22:17:49] [info] HAZEL: Using Default Graphics Card
+[05:13:02] [warning] HAZEL: Initialized Logging !
+[05:13:02] [info] APP: WELCOME! Var=10
+[05:13:02] [info] HAZEL: Creating window Vortex Application (1300, 800)
+[05:13:02] [info] HAZEL: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
+[05:13:02] [info] HAZEL: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
+[05:13:02] [info] HAZEL: Using Default Graphics Card
+[05:13:15] [trace] HAZEL: Deserializing scene 'Untitled'
+[05:13:15] [trace] HAZEL: Deserialized entity with ID = 12837192831273, name = Square Entity 2
+[05:13:15] [trace] HAZEL: Deserialized entity with ID = 12837192831273, name = Camera Entity 2
+[05:13:15] [trace] HAZEL: Deserialized entity with ID = 12837192831273, name = Camera Entity
+[05:13:15] [trace] HAZEL: Deserialized entity with ID = 12837192831273, name = Square Entity
