@@ -22,6 +22,8 @@ private:
 	void LoadScene(); 
 	void ClearScene();
 	void SaveSceneAs();
+	void SaveDefault();
+	bool OnKeyPressed(Vortex::KeyPressedEvent& e);
     
 private:
 	// camera component

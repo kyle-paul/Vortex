@@ -121,6 +121,37 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 void EditorLayer::OnEvent(Vortex::Event &event) 
 {
     m_CameraController.OnEvent(event);
+	Vortex::EventDispatcher dispatcher(event);
+	dispatcher.Dispatch<Vortex::KeyPressedEvent>(VX_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+}
+
+bool EditorLayer::OnKeyPressed(Vortex::KeyPressedEvent& event)
+{
+	// Shortcuts
+	if (event.IsRepeat()) return false;
+	bool control = Vortex::Input::IsKeyPressed(Vortex::Key::LeftControl) || Vortex::Input::IsKeyPressed(Vortex::Key::RightControl);
+	bool shift = Vortex::Input::IsKeyPressed(Vortex::Key::LeftShift) || Vortex::Input::IsKeyPressed(Vortex::Key::RightShift);
+
+	switch (event.GetKeyCode())
+	{
+		case Vortex::Key::O:
+		{
+			if (control) LoadScene();
+			break;
+		}
+		case Vortex::Key::L:
+		{
+			if (control) ClearScene();
+			break;
+		}
+		case Vortex::Key::S:
+		{
+			if (control && shift) SaveSceneAs();
+			else if (control) SaveDefault();
+			break;
+		}
+	}
+	return false;
 }
 
 static void ShowDockingDisabledMessage()
@@ -195,17 +226,13 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
     }
 	style.WindowMinSize.x = minWinSizeX;
 
-
-	// Serialization
-	Vortex::SceneSerializer serializer(m_ActiveScene);
-
     if (ImGui::BeginMenuBar())
     {
 		// Menu bar example
 
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Clear Scene", "Ctrl+N"))
+			if (ImGui::MenuItem("Clear Scene", "Ctrl+L"))
 			{
 				ClearScene();
 			}
@@ -216,20 +243,21 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 				ImGui::MenuItem("Open nrrd");
 				ImGui::EndMenu();
 			}
-			if (ImGui::MenuItem("Load Scene", "Crtl+L"))
+			if (ImGui::MenuItem("Load Scene", "Crtl+O"))
 			{
 				LoadScene();
 			}
 			if (ImGui::MenuItem("Save Scene", "Ctrl+S")) 
 			{
-				serializer.Serialize("assets/Scenes/Vortex.vx");
+				SaveDefault();
 			}
-			if(ImGui::MenuItem("Save as.."))
+			if(ImGui::MenuItem("Save as..", "Ctrl+Shift+S"))
 			{
 				SaveSceneAs();
 			}
 			if (ImGui::MenuItem("Exit"))
 			{
+				Vortex::SceneSerializer serializer(m_ActiveScene);
 				serializer.Serialize("assets/Scenes/Vortex.vx");
 				Vortex::Application::GetApplication().Close();
 			}
@@ -341,6 +369,12 @@ void EditorLayer::SaveSceneAs()
 		Vortex::SceneSerializer serializer(m_ActiveScene);
 		serializer.Serialize(filepath);
 	}
+}
+
+void EditorLayer::SaveDefault()
+{
+	Vortex::SceneSerializer serializer(m_ActiveScene);
+	serializer.Serialize("assets/Scenes/default.vx");
 }
 
 void EditorLayer::OnImGuiRender()

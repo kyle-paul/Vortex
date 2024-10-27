@@ -4,7 +4,7 @@ Entities:
     TagComponent:
       Tag: Square Entity 2
     TransformComponent:
-      Translation: [0.200000003, 1.79999995, 0]
+      Translation: [0.5, 1.79999995, 0]
       Rotation: [0, 0.300000012, 3.4000001]
       Scale: [1.79999995, 1.79999995, 1]
     SpriteRendererComponent:
@@ -49,7 +49,7 @@ Entities:
     TagComponent:
       Tag: Square Entity
     TransformComponent:
-      Translation: [-3.0999999, 0, 0]
+      Translation: [0.600000024, 0, 0]
       Rotation: [3.70000005, 0.5, 5.5]
       Scale: [2.29999995, 1, 1]
     SpriteRendererComponent:
