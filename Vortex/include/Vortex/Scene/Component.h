@@ -20,7 +20,7 @@ namespace Vortex
     {
         glm::vec3 Translation = { 0.0f, 0.0f, 0.0f }; 
         glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f }; // Radians => for serialization purpose
-        glm::vec3 scale = {1.0f, 1.0f, 1.0f };
+        glm::vec3 Scale = {1.0f, 1.0f, 1.0f };
 
         TransformComponent() = default;
         TransformComponent(const TransformComponent&) = default;
@@ -33,7 +33,7 @@ namespace Vortex
                                        glm::rotate(glm::mat4(1.0f), Rotation.y, {0, 1, 0}) *
                                        glm::rotate(glm::mat4(1.0f), Rotation.z, {0, 0, 1});
             return glm::translate(glm::mat4(1.0f), Translation) * 
-                   rotation_matrix * glm::scale(glm::mat4(1.0f), scale);
+                   rotation_matrix * glm::scale(glm::mat4(1.0f), Scale);
         }
     };
 
