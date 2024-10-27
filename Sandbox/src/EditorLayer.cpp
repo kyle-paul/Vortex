@@ -176,6 +176,9 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
     // Submit the DockSpace
     ImGuiIO& io = ImGui::GetIO();
+	ImGuiStyle& style = ImGui::GetStyle();
+	float minWinSizeX = style.WindowMinSize.x;
+	style.WindowMinSize.x = 380.0f;
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
     {
         ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
@@ -185,6 +188,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
     {
         ShowDockingDisabledMessage();
     }
+	style.WindowMinSize.x = minWinSizeX;
 
     if (ImGui::BeginMenuBar())
     {
