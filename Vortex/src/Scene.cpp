@@ -24,6 +24,11 @@ namespace Vortex
         return entity;
     }
 
+    void Scene::DestroyEntity(Entity entity)
+    {
+        m_registry.destroy(entity);
+    }
+
     void Scene::OnUpdate(TimeStep ts)
     {
 
@@ -90,5 +95,31 @@ namespace Vortex
 				cameraComponent.Camera.SetViewPortSize(width, height);
             }
 		}
+    }   
+
+
+    template<>
+    void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component) {
+        // Logic for TransformComponent
+    }
+
+    template<>
+    void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component) {
+        component.Camera.SetViewPortSize(m_ViewportWidth, m_ViewportHeight);
+    }
+
+    template<>
+    void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {
+        // Logic for SpriteRendererComponent
+    }
+
+    template<>
+    void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component) {
+        // Logic for TagComponent, if needed
+    }
+
+    template<>
+    void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component) {
+        // Logic for NativeScriptComponent, if needed
     }
 }

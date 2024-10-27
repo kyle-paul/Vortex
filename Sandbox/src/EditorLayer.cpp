@@ -32,13 +32,13 @@ void EditorLayer::OnAttach()
 	// Entity components 
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 
-	SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
-	SquareEntity.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
+	auto Square1 = m_ActiveScene->CreateEntity("Square Entity");
+	Square1.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
 
-	CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+	auto CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
 	CameraEntity.AddComponent<Vortex::CameraComponent>();
 
-	CameraEntity2 = m_ActiveScene->CreateEntity("Camera Entity 2");
+	auto CameraEntity2 = m_ActiveScene->CreateEntity("Camera Entity 2");
 	auto &cam2 = CameraEntity2.AddComponent<Vortex::CameraComponent>();
 	cam2.Primary = false;
 
@@ -264,46 +264,47 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	// Render Setting Panel
 	ImGui::Begin("Settings");
 	
-	auto &SquareEntityTag = SquareEntity.GetComponent<Vortex::TagComponent>().Tag;
-	auto &SquareEntityColor = SquareEntity.GetComponent<Vortex::SpriteRendererComponent>().Color;
+	// auto &SquareEntityTag = SquareEntity.GetComponent<Vortex::TagComponent>().Tag;
+	// auto &SquareEntityColor = SquareEntity.GetComponent<Vortex::SpriteRendererComponent>().Color;
 
-	auto &CameraEntityTag = CameraEntity.GetComponent<Vortex::TagComponent>().Tag;
-	auto &CameraEntityTranslation = CameraEntity.GetComponent<Vortex::TransformComponent>().Translation;
+	// auto &CameraEntityTag = CameraEntity.GetComponent<Vortex::TagComponent>().Tag;
+	// auto &CameraEntityTranslation = CameraEntity.GetComponent<Vortex::TransformComponent>().Translation;
 
-	auto &CameraEntityTag2 = CameraEntity2.GetComponent<Vortex::TagComponent>().Tag;
-	auto &CameraEntityTranslation2 = CameraEntity2.GetComponent<Vortex::TransformComponent>().Translation;
+	// auto &CameraEntityTag2 = CameraEntity2.GetComponent<Vortex::TagComponent>().Tag;
+	// auto &CameraEntityTranslation2 = CameraEntity2.GetComponent<Vortex::TransformComponent>().Translation;
 
-	auto &cam1 = CameraEntity.GetComponent<Vortex::CameraComponent>();
-	auto &cam2 = CameraEntity2.GetComponent<Vortex::CameraComponent>();
-	auto ortho_size_1 = cam1.Camera.GetOrthographicSize();
-	auto ortho_size_2 = cam2.Camera.GetOrthographicSize();
+	// auto &cam1 = CameraEntity.GetComponent<Vortex::CameraComponent>();
+	// auto &cam2 = CameraEntity2.GetComponent<Vortex::CameraComponent>();
+	// auto ortho_size_1 = cam1.Camera.GetOrthographicSize();
+	// auto ortho_size_2 = cam2.Camera.GetOrthographicSize();
 
 	ImGui::Separator();
-	ImGui::Text("%s", SquareEntityTag.c_str());
-	ImGui::ColorEdit4("Object Color", glm::value_ptr(SquareEntityColor));
-	ImGui::SliderFloat3("Object Postion", glm::value_ptr(m_ImGuiComponents.ObjectPosition), -1.0f, 1.0f);
-	ImGui::SliderFloat2("Object Size", glm::value_ptr(m_ImGuiComponents.ObjectSize), 0.0f, 10.0f);
-	ImGui::SliderFloat("Object Rotation", &m_ImGuiComponents.ObjectRotation, 0.0f, 180.0f);
-	ImGui::Separator();
-	ImGui::ColorEdit4("Board Color", glm::value_ptr(m_ImGuiComponents.BoardColor));
-	ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
-	ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
-	ImGui::Separator();
+	// ImGui::Text("%s", SquareEntityTag.c_str());
+	// ImGui::ColorEdit4("Object Color", glm::value_ptr(SquareEntityColor));
+	// ImGui::SliderFloat3("Object Postion", glm::value_ptr(m_ImGuiComponents.ObjectPosition), -1.0f, 1.0f);
+	// ImGui::SliderFloat2("Object Size", glm::value_ptr(m_ImGuiComponents.ObjectSize), 0.0f, 10.0f);
+	// ImGui::SliderFloat("Object Rotation", &m_ImGuiComponents.ObjectRotation, 0.0f, 180.0f);
+	// ImGui::Separator();
+	// ImGui::ColorEdit4("Board Color", glm::value_ptr(m_ImGuiComponents.BoardColor));
+	// ImGui::SliderFloat("Board Rotation", &m_ImGuiComponents.BoardRotation, 0.0f, 180.0f);
+	// ImGui::SliderFloat("Tiling Factor", &m_ImGuiComponents.TilingFactor, 0.0f, 100.0f);
+	// ImGui::Separator();
 	
-	ImGui::Text("%s", CameraEntityTag.c_str());
-	ImGui::SliderFloat3("1st Position", glm::value_ptr(CameraEntityTranslation), -16.0f, 16.0f);
-	if (ImGui::DragFloat("1st Zoom", &ortho_size_1)) cam1.Camera.SetOrthographicSize(ortho_size_1);
-	ImGui::Text("%s", CameraEntityTag2.c_str());
-	ImGui::SliderFloat3("2nd Position", glm::value_ptr(CameraEntityTranslation2), -m_AspectRatio, m_AspectRatio);
-	if (ImGui::DragFloat("2nd Zoom", &ortho_size_2)) cam2.Camera.SetOrthographicSize(ortho_size_2);
+	// ImGui::Text("%s", CameraEntityTag.c_str());
+	// ImGui::SliderFloat3("1st Position", glm::value_ptr(CameraEntityTranslation), -16.0f, 16.0f);
+	// if (ImGui::DragFloat("1st Zoom", &ortho_size_1)) cam1.Camera.SetOrthographicSize(ortho_size_1);
 
-	ImGui::Separator();
+	// ImGui::Text("%s", CameraEntityTag2.c_str());
+	// ImGui::SliderFloat3("2nd Position", glm::value_ptr(CameraEntityTranslation2), -m_AspectRatio, m_AspectRatio);
+	// if (ImGui::DragFloat("2nd Zoom", &ortho_size_2)) cam2.Camera.SetOrthographicSize(ortho_size_2);
 
-	if (ImGui::Checkbox("Primary Camera", &m_PrimaryCamera))
-	{
-		cam1.Primary = m_PrimaryCamera;
-		cam2.Primary = !m_PrimaryCamera;
-	}
+	// ImGui::Separator();
+
+	// if (ImGui::Checkbox("Primary Camera", &m_PrimaryCamera))
+	// {
+	// 	cam1.Primary = m_PrimaryCamera;
+	// 	cam2.Primary = !m_PrimaryCamera;
+	// }
 
 
 	// SquareEntityTransform = GetTransformQuad(m_ImGuiComponents.ObjectPosition, 
@@ -311,7 +312,6 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	// 									     m_ImGuiComponents.ObjectRotation);
 
     ImGui::End();
-
 
 	// Render Viewport
 	ImGui::Begin("Viewport");

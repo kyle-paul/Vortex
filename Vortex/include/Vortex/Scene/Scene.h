@@ -2,7 +2,6 @@
 #include <entt.hpp>
 #include "Vortex/Core/TimeStep.h"
 #include "Vortex/Core/Math.h"
-#include "Vortex/Core/Math.h"
 
 namespace Vortex
 {
@@ -15,10 +14,16 @@ namespace Vortex
         ~Scene();
 
         Entity CreateEntity(const std::string &name = "");
+        void DestroyEntity(Entity entity);
+
         entt::registry& Reg() { return m_registry; }
 
         void OnUpdate(TimeStep ts);
         void OnViewPortResize(uint32_t width, uint32_t height);
+
+   	public:
+		template<typename T>
+		void OnComponentAdded(Entity entity, T& component);
 
     private:
         entt::registry m_registry;
@@ -27,4 +32,10 @@ namespace Vortex
         friend class Entity;
         friend class SceneHierarchyPanel;
     };
+
+    struct TransformComponent;
+    struct CameraComponent;
+    struct SpriteRendererComponent;
+    struct TagComponent;
+    struct NativeScriptComponent;
 }
