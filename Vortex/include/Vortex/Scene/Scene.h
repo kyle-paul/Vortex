@@ -2,6 +2,7 @@
 #include <entt.hpp>
 #include "Vortex/Core/TimeStep.h"
 #include "Vortex/Core/Math.h"
+#include "Graphics/EditorCamera.h"
 
 namespace Vortex
 {
@@ -18,7 +19,8 @@ namespace Vortex
 
         entt::registry& Reg() { return m_registry; }
 
-        void OnUpdate(TimeStep ts);
+        void OnUpdateEditor(TimeStep ts, EditorCamera &camera);
+        void OnUpdateRuntime(TimeStep ts);
         void OnViewPortResize(uint32_t width, uint32_t height);
 
         Entity GetPrimaryCameraEntity();

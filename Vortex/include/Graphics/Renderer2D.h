@@ -4,6 +4,7 @@
 #include "Graphics/Texture.h"
 #include "Graphics/Camera.h"
 #include "Vortex/Imgui/ImGuiLayer.h"
+#include "Graphics/EditorCamera.h"
 
 namespace Vortex
 {
@@ -14,6 +15,7 @@ namespace Vortex
 		static void Shutdown();
 
 		static void BeginScene(const Camera& camera, const glm::mat4 &transform);
+		static void BeginScene(EditorCamera& camera);
 		static void EndScene();
 
 		// Primitives

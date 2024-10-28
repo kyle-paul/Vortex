@@ -75,6 +75,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/Framebuffer.cpp
 	src/OpenGLFramebuffer.cpp
 	src/SceneSerializer.cpp
+	src/EditorCamera.cpp
 
 	# Entity components
 	src/Scene.cpp

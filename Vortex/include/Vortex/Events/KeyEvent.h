@@ -5,7 +5,7 @@
 
 namespace Vortex {
 
-	class VORTEX_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		KeyCode GetKeyCode() const { return m_KeyCode; }
@@ -15,7 +15,7 @@ namespace Vortex {
 		KeyCode m_KeyCode;
 	};
 
-	class VORTEX_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(const KeyCode keycode, bool isRepeat = false)
@@ -34,7 +34,7 @@ namespace Vortex {
 		bool m_IsRepeat;
 	};
 
-	class VORTEX_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(const KeyCode keycode)
@@ -49,7 +49,7 @@ namespace Vortex {
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class VORTEX_API KeyTypedEvent : public KeyEvent
+	class KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(const KeyCode keycode) 

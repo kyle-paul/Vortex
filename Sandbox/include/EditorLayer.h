@@ -1,6 +1,7 @@
 #pragma once
 #include "Vortex.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Graphics/EditorCamera.h"
 
 
 class EditorLayer : public Vortex::Layer
@@ -28,6 +29,7 @@ private:
 private:
 	// camera component
 	Vortex::OrthographicCameraController m_CameraController;
+	Vortex::EditorCamera m_EditorCamera; // Editor camera
 	float m_AspectRatio = 1300.0f / 800.0f;
 	float m_ZoomLevel = 1.0f;
 

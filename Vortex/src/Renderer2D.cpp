@@ -67,6 +67,13 @@ namespace Vortex
 		s_Data->shad->SetMat4("u_ViewProjection", camera.GetProjection() * glm::inverse(transform));
 	}
 
+	void Renderer2D::BeginScene(EditorCamera& camera) 
+	{
+		VX_PROFILE_FUNCTION();
+		s_Data->shad->Bind();
+		s_Data->shad->SetMat4("u_ViewProjection", camera.GetViewProjection());
+	}
+
     void Renderer2D::EndScene()
 	{
 		VX_PROFILE_FUNCTION();

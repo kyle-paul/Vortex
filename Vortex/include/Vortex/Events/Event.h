@@ -37,7 +37,7 @@ namespace Vortex {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class VORTEX_API Event {
+	class Event {
 	public:
 		virtual ~Event() = default;
 		bool Handled = false;
@@ -52,7 +52,7 @@ namespace Vortex {
 		}
 	};
 
-	class VORTEX_API EventDispatcher {
+	class EventDispatcher {
 	public:
 		EventDispatcher(Event& event)
 			: m_Event(event) {}

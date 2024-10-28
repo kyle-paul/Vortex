@@ -37,6 +37,9 @@ void EditorLayer::OnAttach()
 	// Entity components 
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 
+	// Editor Camera
+	m_EditorCamera = Vortex::EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+
 #if 0
 	auto Square1 = m_ActiveScene->CreateEntity("Square Entity");
 	Square1.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
@@ -105,24 +108,31 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 		// VX_INFO("viewport width {0} - height {1}", m_ViewPortSize.x, m_ViewPortSize.y);
 		m_Framebuffer->Resize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
 		m_CameraController.OnResize(m_ViewPortSize.x, m_ViewPortSize.y);
+
+		m_EditorCamera.SetViewportSize(m_ViewPortSize.x, m_ViewPortSize.y);
 		m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
 		// CameraEntity.GetComponent<Vortex::CameraComponent>().Camera.SetProjection(m_CameraController.GetCamera().GetProjectionMatrix());	
 	}
 
     // // Key event controller for camera
 	if (is_ViewPortFocused)
+	{
 		m_CameraController.OnUpdate(ts);
+	}
+	m_EditorCamera.OnUpdate(ts);
 
 	m_Framebuffer->Bind();
 	Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 	Vortex::RenderCommand::ClearBufferBit();
-	m_ActiveScene->OnUpdate(ts);
+	m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 	m_Framebuffer->Unbind();
 }
 
 void EditorLayer::OnEvent(Vortex::Event &event) 
 {
     m_CameraController.OnEvent(event);
+	m_EditorCamera.OnEvent(event);
+
 	Vortex::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Vortex::KeyPressedEvent>(VX_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 }
@@ -344,7 +354,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	
 	is_ViewPortFocused = ImGui::IsWindowFocused();
 	is_ViewPortHovered = ImGui::IsWindowHovered();
-	Vortex::Application::GetApplication().GetImGuiLayer()->SetBlockEvent(!is_ViewPortFocused || !is_ViewPortHovered);
+	Vortex::Application::GetApplication().GetImGuiLayer()->SetBlockEvent(!is_ViewPortFocused & !is_ViewPortHovered);
 
 	ImVec2 ViewPortPanelSize = ImGui::GetContentRegionAvail();
 	m_ViewPortSize = { ViewPortPanelSize.x, ViewPortPanelSize.y };
@@ -368,15 +378,19 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 		// Get Primary Camera (projection + view matrix)
 		auto PrimaryCameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
 
-		glm::mat4 camera_proj = glm::mat4(1.0f);
-		glm::mat4 camera_view = glm::mat4(1.0f);
+		// glm::mat4 camera_proj = glm::mat4(1.0f);
+		// glm::mat4 camera_view = glm::mat4(1.0f);
 
-		if (PrimaryCameraEntity)
-		{
-			const auto &cam = PrimaryCameraEntity.GetComponent<Vortex::CameraComponent>().Camera;
-			camera_proj = cam.GetProjection();
-			camera_view = glm::inverse(PrimaryCameraEntity.GetComponent<Vortex::TransformComponent>().GetTransform());
-		}
+		// if (PrimaryCameraEntity)
+		// {
+		// 	const auto &cam = PrimaryCameraEntity.GetComponent<Vortex::CameraComponent>().Camera;
+		// 	camera_proj = cam.GetProjection();
+		// 	camera_view = glm::inverse(PrimaryCameraEntity.GetComponent<Vortex::TransformComponent>().GetTransform());
+		// }
+
+		// Editor camera
+		const glm::mat4& camera_proj = m_EditorCamera.GetProjection();
+		glm::mat4 camera_view = m_EditorCamera.GetViewMatrix();
 
 		// Entity Transform
 		auto &transform_comp = SelectedEntity.GetComponent<Vortex::TransformComponent>();
