@@ -143,10 +143,16 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 	int mouseX = (int)mx;
 	int mouseY = (int)my;
 
-	if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+	if (mouseX > 0 && mouseY > 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y 
+		&& Vortex::Input::IsMouseButtonPressed(Vortex::Mouse::ButtonLeft))
 	{
 		int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
 		VX_CORE_WARN("Pixel data = {0}", pixelData);
+		Vortex::Entity selectedEntity = Vortex::Entity(static_cast<entt::entity>(pixelData), m_ActiveScene.get());
+		if (selectedEntity && selectedEntity.HasComponent<Vortex::TagComponent>())
+		{
+			m_SceneHierarchyPanel.SetSelectionContext(selectedEntity);
+		}
 	}
 
 	m_Framebuffer->Unbind();

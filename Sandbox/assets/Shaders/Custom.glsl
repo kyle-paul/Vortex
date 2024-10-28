@@ -6,12 +6,15 @@ layout(location = 1) in vec2 a_TexCoord;
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Transform;
+uniform int u_EntityID;
 
 out vec2 v_TexCoord;
+flat out int v_EntityID;
 
 void main()
 {
 	v_TexCoord = a_TexCoord;
+	v_EntityID = u_EntityID;
 	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 }
 
@@ -22,6 +25,7 @@ layout(location = 0) out vec4 color;
 layout(location = 1) out int color2;
 
 in vec2 v_TexCoord;
+flat in int v_EntityID;
 
 uniform sampler2D u_Texture;
 uniform vec4 u_Color;
@@ -30,5 +34,5 @@ uniform float u_TilingFactor;
 void main()
 {
 	color = texture(u_Texture, v_TexCoord * u_TilingFactor) * u_Color;
-	color2 = 50;
+	color2 = v_EntityID;
 }

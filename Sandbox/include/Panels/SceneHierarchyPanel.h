@@ -11,7 +11,9 @@ namespace Vortex
         
         void SetContext(const Ref<Scene> &context);
         void OnImGuiRender();
+
         inline const Entity GetSelectedEntity() { return m_SelectionContext; } 
+        inline void SetSelectionContext(Entity entity) { m_SelectionContext=entity; }
 
     private:
         void DrawEntityNode(Entity entity);
