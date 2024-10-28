@@ -27,6 +27,7 @@ void EditorLayer::OnAttach()
 
 	// Frame buffer
 	Vortex::FramebufferSpecification fbspec;
+	fbspec.Attachments = { Vortex::FramebufferTextureFormat::RGBA8, Vortex::FramebufferTextureFormat::RED_INTEGER, Vortex::FramebufferTextureFormat::Depth };
 	fbspec.Width = 1300.0f;
 	fbspec.Height = 800.0f;
 	m_Framebuffer = Vortex::Framebuffer::Create(fbspec);
@@ -124,7 +125,30 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 	m_Framebuffer->Bind();
 	Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 	Vortex::RenderCommand::ClearBufferBit();
+
+	// Clear our entity ID attachment to -1
+	m_Framebuffer->ClearAttachment(1, -1);
+	
+	// Update scene
 	m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+
+	// Clicking object
+	auto[mx, my] = ImGui::GetMousePos();
+	mx -= m_ViewportBounds[0].x;
+	my -= m_ViewportBounds[0].y;
+
+	glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+	my = viewportSize.y - my;
+
+	int mouseX = (int)mx;
+	int mouseY = (int)my;
+
+	if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+	{
+		int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+		VX_CORE_WARN("Pixel data = {0}", pixelData);
+	}
+
 	m_Framebuffer->Unbind();
 }
 
@@ -351,6 +375,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	// Render Viewport
 	ImGui::Begin("Viewport");
+	auto viewportOffset = ImGui::GetCursorPos(); // Includes tab bar
 	
 	is_ViewPortFocused = ImGui::IsWindowFocused();
 	is_ViewPortHovered = ImGui::IsWindowHovered();
@@ -361,6 +386,20 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
+
+	// Viewport Bound for object clicking
+	auto windowSize = ImGui::GetWindowSize();
+	ImVec2 minBound = ImGui::GetWindowPos();
+
+	minBound.x += viewportOffset.x;
+	minBound.y += viewportOffset.y;
+
+	ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+	m_ViewportBounds[0] = { minBound.x, minBound.y };
+	m_ViewportBounds[1] = { maxBound.x, maxBound.y };
+
+	// VX_CORE_INFO("Min Bounds = {0} - {1}", m_ViewportBounds[0].x, m_ViewportBounds[0].y);
+	// VX_CORE_INFO("Max Bounds = {0} - {1}", m_ViewportBounds[1].x, m_ViewportBounds[1].y);
 
 	// Gizmo
 	Vortex::Entity SelectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -463,5 +502,5 @@ void EditorLayer::SaveDefault()
 void EditorLayer::OnImGuiRender()
 {
 	bool showDockSpace = true;
-ShowDockSpaceApp(&showDockSpace);
+	ShowDockSpaceApp(&showDockSpace);
 }

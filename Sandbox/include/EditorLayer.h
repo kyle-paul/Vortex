@@ -2,6 +2,7 @@
 #include "Vortex.h"
 #include "Panels/SceneHierarchyPanel.h"
 #include "Graphics/EditorCamera.h"
+#include "Graphics/Framebuffer.h"
 
 
 class EditorLayer : public Vortex::Layer
@@ -51,6 +52,7 @@ private:
 	// Frame buffer
 	Vortex::Ref<Vortex::Framebuffer> m_Framebuffer;
 	glm::vec2 m_ViewPortSize = {0.0f, 0.0f};
+	glm::vec2 m_ViewportBounds[2]; // object clicking
 
 	// Scene - entity
 	Vortex::Ref<Vortex::Scene> m_ActiveScene;
