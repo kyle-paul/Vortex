@@ -21,6 +21,8 @@ namespace Vortex
         void OnUpdate(TimeStep ts);
         void OnViewPortResize(uint32_t width, uint32_t height);
 
+        Entity GetPrimaryCameraEntity();
+
    	public:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);

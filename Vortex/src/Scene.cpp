@@ -29,6 +29,20 @@ namespace Vortex
         m_registry.destroy(entity);
     }
 
+    Entity Scene::GetPrimaryCameraEntity()
+    {
+        auto view = m_registry.view<CameraComponent>();
+        for (auto entity : view)
+        {
+            auto camera_component = view.get<CameraComponent>(entity);
+            if (camera_component.Primary)
+            {
+                return Entity { entity, this };
+            }
+        }
+        return Entity{};
+    }
+
     void Scene::OnUpdate(TimeStep ts)
     {
 

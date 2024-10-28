@@ -29,6 +29,14 @@ else()
 	message(STATUS "BUILD_INSTANT_LIBRARY is set to ${BUILD_INSTANT_LIBRARY}")
 endif()
 
+
+# Set the root directory for your project files
+set(GIZMO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vendor/gizmo")
+
+# Gather all .h and .cpp files in variables
+file(GLOB_RECURSE GIZMO_HEADER_FILES "${GIZMO_ROOT}/*.h")
+file(GLOB_RECURSE GIZMO_SOURCE_FILES "${GIZMO_ROOT}/*.cpp")
+
 # Specify that Vortex is the shared library
 add_library(${PROJECT_NAME} SHARED 
 	# Vortex source
@@ -72,6 +80,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/Scene.cpp
 	src/Entity.cpp
 	src/SceneCamera.cpp
+	src/Math.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c
@@ -81,6 +90,8 @@ add_library(${PROJECT_NAME} SHARED
 	vendor/imgui/imgui_draw.cpp
 	vendor/imgui/imgui_tables.cpp
 	vendor/imgui/imgui_widgets.cpp
+
+	${GIZMO_SOURCE_FILES}
 )
 
 # Precompiled headers
@@ -104,6 +115,7 @@ include_directories(${PROJECT_NAME}
 	libs/shaderc-build/include
 	libs/spirv-cross-build/include
 	libs/yaml-cpp-build/include
+	${GIZMO_ROOT}
 )
 
 # Include built packages
@@ -136,8 +148,6 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
-
-
 
 # Link dependencies into my lib
 target_link_libraries(

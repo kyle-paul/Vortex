@@ -57,4 +57,7 @@ private:
 
 	// Scene Hierachy Panel
 	Vortex::SceneHierarchyPanel m_SceneHierarchyPanel;
+
+	// Gizmo
+	int m_GizmoType = -1;
 };

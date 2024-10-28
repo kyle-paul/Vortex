@@ -2,6 +2,7 @@
 #include "Vortex/Imgui/ImGuiLayer.h"
 #include "Vortex/Core/Application.h"
 #include "imgui_internal.h"
+#include "ImGuizmo.h"
 
 #define VX_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -87,6 +88,7 @@ namespace Vortex
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+        ImGuizmo::BeginFrame();
     }
 
     void ImGuiLayer::End() 

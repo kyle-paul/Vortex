@@ -1,5 +1,7 @@
 #pragma once
 
+#define IMGUI_DEFINE_MATH_OPERATORS
+
 #include "Vortex/PreHeaders.h"
 #include "Vortex/Core/Layer.h"
 #include "Vortex/Core/TimeStep.h"

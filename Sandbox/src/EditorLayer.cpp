@@ -5,6 +5,8 @@
 
 #include "Vortex/Scene/SceneSerializer.h"
 #include "Vortex/Utils/PlatformUtils.h"
+#include "Vortex/Core/Math.h"
+#include "ImGuizmo.h"
 
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_CameraController(1300.0f / 800.0f, true)
@@ -134,6 +136,7 @@ bool EditorLayer::OnKeyPressed(Vortex::KeyPressedEvent& event)
 
 	switch (event.GetKeyCode())
 	{
+		// File Dialogs
 		case Vortex::Key::O:
 		{
 			if (control) LoadScene();
@@ -148,8 +151,20 @@ bool EditorLayer::OnKeyPressed(Vortex::KeyPressedEvent& event)
 		{
 			if (control && shift) SaveSceneAs();
 			else if (control) SaveDefault();
+			else m_GizmoType = ImGuizmo::OPERATION::SCALE;
 			break;
 		}
+
+		// Gizmos
+		case Vortex::Key::Q:
+			m_GizmoType = -1;
+			break;
+		case Vortex::Key::T:
+			m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+			break;
+		case Vortex::Key::R:
+			m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+			break;			
 	}
 	return false;
 }
@@ -336,8 +351,62 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
-	ImGui::End();
 
+	// Gizmo
+	Vortex::Entity SelectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+	
+	if (SelectedEntity && m_GizmoType != -1)
+	{
+		ImGuizmo::SetOrthographic(false);
+		ImGuizmo::SetDrawlist();
+
+		// Get Window
+		float windowWidth = (float)ImGui::GetWindowWidth();
+		float windowHeight = (float)ImGui::GetWindowHeight();
+		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+		// Get Primary Camera (projection + view matrix)
+		auto PrimaryCameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+
+		glm::mat4 camera_proj = glm::mat4(1.0f);
+		glm::mat4 camera_view = glm::mat4(1.0f);
+
+		if (PrimaryCameraEntity)
+		{
+			const auto &cam = PrimaryCameraEntity.GetComponent<Vortex::CameraComponent>().Camera;
+			camera_proj = cam.GetProjection();
+			camera_view = glm::inverse(PrimaryCameraEntity.GetComponent<Vortex::TransformComponent>().GetTransform());
+		}
+
+		// Entity Transform
+		auto &transform_comp = SelectedEntity.GetComponent<Vortex::TransformComponent>();
+		glm::mat4 transform_object = transform_comp.GetTransform();
+
+		// Snapping
+		bool snap = Vortex::Input::IsKeyPressed(Vortex::Key::LeftControl);
+		float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+		
+		// Snap to 45 degrees for rotation
+		if (m_GizmoType == ImGuizmo::OPERATION::ROTATE) snapValue = 45.0f;
+		float snapValues[3] = { snapValue, snapValue, snapValue };
+
+		// Manipulate
+		ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_proj), 
+			(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform_object),
+			nullptr, snap ? snapValues : nullptr);
+
+		if (ImGuizmo::IsUsing())
+		{
+			glm::vec3 translation, rotation, scale;
+			Vortex::Math::DecomposeTransform(transform_object, translation, rotation, scale);
+			glm::vec3 deltaRotation = rotation - transform_comp.Rotation;
+			transform_comp.Translation = translation;
+			transform_comp.Rotation += deltaRotation;
+			transform_comp.Scale = scale;
+		}
+	}
+
+	ImGui::End();
     ImGui::End();
 }
 
