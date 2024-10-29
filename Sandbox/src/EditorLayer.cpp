@@ -90,7 +90,9 @@ void EditorLayer::OnAttach()
 #endif
 
 	// Scene Hierachy Panel
-	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	m_SceneHierarchyPanel = Vortex::CreateRef<Vortex::SceneHierarchyPanel>();
+	m_SceneHierarchyPanel->SetContext(m_ActiveScene);
+	m_ContentBrowserPanel.SetSceneHierarcyPanel(m_SceneHierarchyPanel);
 }
 
 void EditorLayer::OnDetach()
@@ -146,15 +148,15 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 	if (mouseX > 0 && mouseY > 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y 
 		&& Vortex::Input::IsMouseButtonPressed(Vortex::Mouse::ButtonLeft) && !Vortex::Input::IsKeyPressed(Vortex::Key::LeftAlt))
 	{
-		int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+		CurrentPixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
 		// VX_CORE_WARN("Pixel data = {0}", pixelData);
 
-		if (pixelData >= 0 && pixelData <= 100)
+		if (CurrentPixelData >= 0 && CurrentPixelData <= 100)
 		{
-			Vortex::Entity selectedEntity = Vortex::Entity(static_cast<entt::entity>(pixelData), m_ActiveScene.get());
-			if (selectedEntity && selectedEntity.HasComponent<Vortex::TagComponent>())
+			MouseSelectedEntity = Vortex::Entity(static_cast<entt::entity>(CurrentPixelData), m_ActiveScene.get());
+			if (MouseSelectedEntity && MouseSelectedEntity.HasComponent<Vortex::TagComponent>())
 			{
-				m_SceneHierarchyPanel.SetSelectionContext(selectedEntity);
+				m_SceneHierarchyPanel->SetSelectionContext(MouseSelectedEntity);
 			}
 		}
 	}
@@ -373,7 +375,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
     }
 
 	// Render Scene Hierarchy
-	m_SceneHierarchyPanel.OnImGuiRender();
+	m_SceneHierarchyPanel->OnImGuiRender();
 	m_ContentBrowserPanel.OnImGuiRender();
 
 	// Render Demo window
@@ -398,16 +400,26 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
 
-
 	// Drag and drop browser content
 	if (ImGui::BeginDragDropTarget())
 	{
-		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
-		if (payload != nullptr && payload->Data != nullptr)
+		const ImGuiPayload *scene_payload = ImGui::AcceptDragDropPayload("SCENE_ITEM");
+		if (scene_payload != nullptr && scene_payload->Data != nullptr)
 		{
-			std::string path(static_cast<const char*>(payload->Data), payload->DataSize - 1);
+			std::string path(static_cast<const char*>(scene_payload->Data), scene_payload->DataSize - 1);
 			OpenScene(path);
 		}
+
+		const ImGuiPayload *tex_payload = ImGui::AcceptDragDropPayload("TEXTURE_ITEM");
+		if (tex_payload != nullptr && tex_payload->Data != nullptr)
+		{
+			if (CurrentPixelData != -1)
+			{	
+				std::string path(static_cast<const char*>(tex_payload->Data), tex_payload->DataSize - 1);
+				m_SceneHierarchyPanel->UpdateTexture(path);
+			}			
+		}
+
 		ImGui::EndDragDropTarget();
 	}
 	
@@ -427,7 +439,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	// VX_CORE_INFO("Max Bounds = {0} - {1}", m_ViewportBounds[1].x, m_ViewportBounds[1].y);
 
 	// Gizmo
-	Vortex::Entity SelectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+	Vortex::Entity SelectedEntity = m_SceneHierarchyPanel->GetSelectedEntity();
 	
 	if (SelectedEntity && m_GizmoType != -1)
 	{
@@ -502,7 +514,7 @@ void EditorLayer::OpenScene(const std::string &filepath)
 	VX_INFO("{0}", filepath);
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 	m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
-	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	m_SceneHierarchyPanel->SetContext(m_ActiveScene);
 	Vortex::SceneSerializer serializer(m_ActiveScene);
 	serializer.Deserialize(filepath);
 }
@@ -511,7 +523,7 @@ void EditorLayer::ClearScene()
 {
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 	m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
-	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	m_SceneHierarchyPanel->SetContext(m_ActiveScene);
 }
 
 void EditorLayer::SaveSceneAs()

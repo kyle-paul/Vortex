@@ -19,16 +19,10 @@ namespace Vortex
 		static void EndScene();
 
 		// Primitives
-		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
-		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, const int EntityID);
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture);
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor);
 
-		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture);
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture);
-		static void DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture);
-
-
-		static glm::mat4 TransformQuad(const glm::vec3 &position, const float &rotation, const glm::vec2 &size);
+		static glm::mat4 BuildTransformObject(const glm::vec3 &position, const float &rotation, const glm::vec2 &size);
 		static ImGuiComponents m_ImGuiComponents;
 	};
 }

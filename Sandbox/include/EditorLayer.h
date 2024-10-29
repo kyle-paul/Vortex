@@ -55,6 +55,8 @@ private:
 	Vortex::Ref<Vortex::Framebuffer> m_Framebuffer;
 	glm::vec2 m_ViewPortSize = {0.0f, 0.0f};
 	glm::vec2 m_ViewportBounds[2]; // object clicking
+	int CurrentPixelData = -1;
+	Vortex::Entity MouseSelectedEntity;
 
 	// Scene - entity
 	Vortex::Ref<Vortex::Scene> m_ActiveScene;
@@ -62,7 +64,7 @@ private:
 	bool m_PrimaryCamera = true;
 
 	// Scene Hierachy Panel
-	Vortex::SceneHierarchyPanel m_SceneHierarchyPanel;
+	Vortex::Ref<Vortex::SceneHierarchyPanel> m_SceneHierarchyPanel;
 
 	// Gizmo
 	int m_GizmoType = -1;

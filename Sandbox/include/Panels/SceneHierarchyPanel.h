@@ -15,6 +15,8 @@ namespace Vortex
         inline const Entity GetSelectedEntity() { return m_SelectionContext; } 
         inline void SetSelectionContext(Entity entity) { m_SelectionContext=entity; }
 
+        void UpdateTexture(const std::string &TexturePath);
+
     private:
         void DrawEntityNode(Entity entity);
         void DisplayProperties(Entity entity);

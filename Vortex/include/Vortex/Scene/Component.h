@@ -1,4 +1,5 @@
 #pragma once
+#include "Graphics/Texture.h"
 #include "Graphics/OrthographicCamera.h"
 #include "Vortex/Scene/SceneCamera.h"
 #include "Vortex/Scene/ScriptableEntity.h"
@@ -36,6 +37,17 @@ namespace Vortex
             return glm::translate(glm::mat4(1.0f), Translation) * 
                    rotation_matrix * glm::scale(glm::mat4(1.0f), Scale);
         }
+    };
+
+    struct TextureComponent
+    {
+        Ref<Texture2D> Texture;
+        float TilingFactor;
+
+        TextureComponent() = default;
+        TextureComponent(const TextureComponent&) = default;
+        TextureComponent(Ref<Texture2D> texture, float tiling_factor) :
+            Texture(texture), TilingFactor(tiling_factor) { }
     };
 
     struct SpriteRendererComponent

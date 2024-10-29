@@ -45,9 +45,9 @@ namespace Vortex
 		squareIB = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		s_Data->VA->SetIndexBuffer(squareIB);
 
-		s_Data->WhiteTexture = Texture2D::Create(1, 1);
-		uint32_t whiteTextureData = 0xffffffff;
-		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+		// s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		// uint32_t whiteTextureData = 0xffffffff;
+		// s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
 		s_Data->shad = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
 		s_Data->shad->Bind();
@@ -79,70 +79,35 @@ namespace Vortex
 		VX_PROFILE_FUNCTION();
 	}
 
-    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
-	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, color);
-	}
 
-    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture)
 	{
 		VX_PROFILE_FUNCTION();
 
 		s_Data->shad->SetFloat4("u_Color", color);
-		s_Data->WhiteTexture->Bind();
+		s_Data->shad->SetInt("u_EntityID", EntityID);
+		s_Data->shad->SetMat4("u_Transform", BuildTransformObject(position, m_ImGuiComponents.ObjectRotation, size));
 
-		s_Data->shad->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.ObjectRotation, size));
-
+		texture->Bind();
 		s_Data->VA->Bind();
+		
 		RenderCommand::DrawIndexed(s_Data->VA);
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const int EntityID)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor)
 	{
 		s_Data->shad->SetFloat4("u_Color", color);
-		s_Data->WhiteTexture->Bind();
-
 		s_Data->shad->SetMat4("u_Transform", transform);
 		s_Data->shad->SetInt("u_EntityID", EntityID);
-		s_Data->VA->Bind();
-
-		RenderCommand::DrawIndexed(s_Data->VA);
-	}
-
-    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
-	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
-	{
-		VX_PROFILE_FUNCTION();
+		s_Data->shad->SetFloat("u_TilingFactor", tilingFactor);
 		
-		s_Data->shad->SetFloat4("u_Color", m_ImGuiComponents.BoardColor);
-		s_Data->shad->SetFloat("u_TilingFactor", m_ImGuiComponents.TilingFactor);
-
 		texture->Bind();
-
-		s_Data->shad->SetMat4("u_Transform", TransformQuad(position, m_ImGuiComponents.BoardRotation, size));
-
 		s_Data->VA->Bind();
+
 		RenderCommand::DrawIndexed(s_Data->VA);
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture)
-	{
-		s_Data->shad->SetFloat4("u_Color", m_ImGuiComponents.BoardColor);
-		s_Data->shad->SetFloat("u_TilingFactor", m_ImGuiComponents.TilingFactor);
-
-		texture->Bind();
-
-		s_Data->shad->SetMat4("u_Transform", transform);
-
-		s_Data->VA->Bind();
-		RenderCommand::DrawIndexed(s_Data->VA);
-	}
-
-	glm::mat4 Renderer2D::TransformQuad(const glm::vec3 &position, const float &rotation, const glm::vec2 &size)
+	glm::mat4 Renderer2D::BuildTransformObject(const glm::vec3 &position, const float &rotation, const glm::vec2 &size)
 	{
 		return glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
 		       glm::translate(glm::mat4(1.0f), position) *

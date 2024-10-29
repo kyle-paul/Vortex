@@ -41,6 +41,7 @@ namespace Vortex
     struct TransformComponent;
     struct CameraComponent;
     struct SpriteRendererComponent;
+    struct TextureComponent;
     struct TagComponent;
     struct NativeScriptComponent;
 }

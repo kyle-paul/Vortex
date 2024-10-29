@@ -18,9 +18,20 @@ namespace Vortex
     Entity Scene::CreateEntity(const std::string &name)
     {
         Entity entity = { m_registry.create(), this };
-        entity.AddComponent<TransformComponent>();
+        
         auto &tag = entity.AddComponent<TagComponent>();
         tag.Tag = name.empty() ? "Unnamed_Entity" : name;
+
+        entity.AddComponent<TransformComponent>();
+
+        // Ref<Texture2D> texture = Texture2D::Create(1, 1);
+		// uint32_t whiteTextureData = 0xffffffff;
+		// texture->SetData(&whiteTextureData, sizeof(uint32_t));
+
+    
+        Ref<Texture2D> texture = Vortex::Texture2D::Create("assets/Textures/Checkerboard.png");
+        entity.AddComponent<TextureComponent>(texture, 10.0f);
+        
         return entity;
     }
 
@@ -46,11 +57,12 @@ namespace Vortex
     void Scene::OnUpdateEditor(TimeStep ts, EditorCamera &camera)
     {
         Renderer2D::BeginScene(camera);
-        auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+        auto group = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
+
         for (auto entity : group)
         {
-            auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int)entity);
+            auto [transform, sprite, texture] = group.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+            Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
         }
         Renderer2D::EndScene();
     }
@@ -130,6 +142,11 @@ namespace Vortex
     template<>
     void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {
         // Logic for SpriteRendererComponent
+    }
+
+    template<>
+    void Scene::OnComponentAdded<TextureComponent>(Entity entity, TextureComponent& component) {
+        // Logic for TextureComponent
     }
 
     template<>

@@ -4,7 +4,6 @@
 
 namespace Vortex
 {
-
     static void DrawVec3Control(const std::string &label, glm::vec3 &values, float resetValue = 0.0f, float speed = 0.1f, float columnWidth = 100.0f)
     {
         ImGuiIO &io = ImGui::GetIO();
@@ -72,6 +71,15 @@ namespace Vortex
         m_Context = context;
         if (m_SelectionContext) {
             m_SelectionContext = {};
+        }
+    }
+
+    void SceneHierarchyPanel::UpdateTexture(const std::string &TexturePath)
+    {
+        if (m_SelectionContext) {
+            Vortex::Ref<Vortex::Texture2D> new_texture = Vortex::Texture2D::Create(TexturePath);
+            auto &text_comp = m_SelectionContext.GetComponent<Vortex::TextureComponent>();
+            text_comp.Texture = new_texture;
         }
     }
 
@@ -163,7 +171,6 @@ namespace Vortex
 			float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
             ImGui::Separator();
             bool opened = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, "%s", name.c_str());
-
             ImGui::PopStyleVar();
 
             ImGui::SameLine();
@@ -225,6 +232,9 @@ namespace Vortex
                 {
                     if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
                     {
+                        Ref<Texture2D> texture = Texture2D::Create(1, 1);
+                        uint32_t whiteTextureData = 0xffffffff;
+                        texture->SetData(&whiteTextureData, sizeof(uint32_t));
                         m_SelectionContext.AddComponent<SpriteRendererComponent>();
                     }
                     ImGui::CloseCurrentPopup();
@@ -252,6 +262,12 @@ namespace Vortex
         DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto &component)
         {
             ImGui::ColorEdit4("Color Edit", glm::value_ptr(component.Color));
+        });
+
+        DrawComponent<TextureComponent>("Texture Renderer", entity, [](auto &component)
+        {
+            ImGui::Button("Change Texture");
+            ImGui::DragFloat("Tiling factor", &component.TilingFactor, 1.0f, 0.0f, 10.0f);
         });
 
         DrawComponent<CameraComponent>("Camera", entity, [](auto &component)

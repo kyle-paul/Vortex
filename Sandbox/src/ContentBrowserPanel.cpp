@@ -13,6 +13,11 @@ namespace Vortex
 		m_FileIcon = Texture2D::Create("Resources/Icons/ContentBrowser/FileIcon.png");
     }
 
+	void ContentBrowserPanel::SetSceneHierarcyPanel(Ref<SceneHierarchyPanel> HierarchyPanel)
+	{ 
+		m_HierarchyPanel = HierarchyPanel;
+	}
+
     void ContentBrowserPanel::OnImGuiRender()
     {
         ImGui::Begin("Content Browser");
@@ -40,14 +45,7 @@ namespace Vortex
 		for (auto& directoryEntry : std::filesystem::directory_iterator(m_CurrentDirectory))
 		{
 			const auto& path = directoryEntry.path();
-			// std::cout << "path: " << path << "\n";
-
 			auto relativePath = std::filesystem::relative(path, s_AssetPath);
-			auto fullPath = std::filesystem::relative(path);
-
-			// std::cout << "fullPath: " << fullPath << "\n";
-			// std::cout << "relativePath: " << relativePath << "\n\n";
-
 
 			std::string filenameString = relativePath.filename().string();
 			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
@@ -55,13 +53,47 @@ namespace Vortex
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 			ImGui::ImageButton(filenameString.c_str(), reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(icon->GetRendererID())), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
 
-			if (ImGui::BeginDragDropSource())
+			if (relativePath.parent_path().string() == "Textures")
 			{
-				const char *itemPath = path.c_str();
-				VX_INFO("{0}", itemPath);
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, strlen(itemPath) + 1);
-				ImGui::EndDragDropSource();
+				if (ImGui::BeginPopupContextItem()){
+					if (ImGui::MenuItem("Add texture...")) 
+					{
+						m_HierarchyPanel->UpdateTexture(path.string());
+					}
+					else if (ImGui::MenuItem("View texture")) {
+
+					}	
+					else if (ImGui::MenuItem("Remove texture")) { }	
+					ImGui::EndPopup();
+				}
+
+				else if (ImGui::BeginDragDropSource())
+				{
+					const char *itemPath = path.c_str();
+					ImGui::SetDragDropPayload("TEXTURE_ITEM", itemPath, strlen(itemPath) + 1);
+					ImGui::EndDragDropSource();
+				}
 			}
+
+			else if (relativePath.parent_path().string() == "Scenes")
+			{
+				if (ImGui::BeginPopupContextItem()){
+					if (ImGui::MenuItem("Choose Scene...")) 
+					{
+
+					}
+					else if (ImGui::MenuItem("Remove texture")) { } 
+					ImGui::EndPopup();
+				}
+				
+				else if (ImGui::BeginDragDropSource())
+				{
+					const char *itemPath = path.c_str();
+					ImGui::SetDragDropPayload("SCENE_ITEM", itemPath, strlen(itemPath) + 1);
+					ImGui::EndDragDropSource();
+				}
+			}
+			
 
 			ImGui::PopStyleColor();
 
