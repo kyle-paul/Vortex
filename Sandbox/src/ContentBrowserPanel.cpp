@@ -36,21 +36,41 @@ namespace Vortex
 
         ImGui::Columns(columnCount, 0, false);
 
+
 		for (auto& directoryEntry : std::filesystem::directory_iterator(m_CurrentDirectory))
 		{
 			const auto& path = directoryEntry.path();
+			// std::cout << "path: " << path << "\n";
+
 			auto relativePath = std::filesystem::relative(path, s_AssetPath);
+			auto fullPath = std::filesystem::relative(path);
+
+			// std::cout << "fullPath: " << fullPath << "\n";
+			// std::cout << "relativePath: " << relativePath << "\n\n";
+
+
 			std::string filenameString = relativePath.filename().string();
-			
 			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
-			ImGui::ImageButton(filenameString.c_str(), (ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
+			
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+			ImGui::ImageButton(filenameString.c_str(), reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(icon->GetRendererID())), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
+
+			if (ImGui::BeginDragDropSource())
+			{
+				const char *itemPath = path.c_str();
+				VX_INFO("{0}", itemPath);
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, strlen(itemPath) + 1);
+				ImGui::EndDragDropSource();
+			}
+
+			ImGui::PopStyleColor();
+
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 			{
 				if (directoryEntry.is_directory())
 					m_CurrentDirectory /= path.filename();
-
 			}
-			ImGui::TextWrapped(filenameString.c_str());
+			ImGui::TextWrapped("%s", filenameString.c_str());
 
 			ImGui::NextColumn();
 

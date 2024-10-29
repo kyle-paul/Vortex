@@ -147,7 +147,8 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 		&& Vortex::Input::IsMouseButtonPressed(Vortex::Mouse::ButtonLeft) && !Vortex::Input::IsKeyPressed(Vortex::Key::LeftAlt))
 	{
 		int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-		VX_CORE_WARN("Pixel data = {0}", pixelData);
+		// VX_CORE_WARN("Pixel data = {0}", pixelData);
+
 		if (pixelData >= 0 && pixelData <= 100)
 		{
 			Vortex::Entity selectedEntity = Vortex::Entity(static_cast<entt::entity>(pixelData), m_ActiveScene.get());
@@ -397,6 +398,20 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImGui::Image((void*)(uintptr_t)textureID, ImVec2{ m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
 
+
+	// Drag and drop browser content
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
+		if (payload != nullptr && payload->Data != nullptr)
+		{
+			std::string path(static_cast<const char*>(payload->Data), payload->DataSize - 1);
+			OpenScene(path);
+		}
+		ImGui::EndDragDropTarget();
+	}
+	
+
 	// Viewport Bound for object clicking
 	auto windowSize = ImGui::GetWindowSize();
 	ImVec2 minBound = ImGui::GetWindowPos();
@@ -476,14 +491,20 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 void EditorLayer::LoadScene()
 {
 	std::string filepath = Vortex::FileDialogs::OpenFile("Vortex Scene (*.vx)\0*.vortex\0");
-	if (!filepath.empty())
+	if (!filepath.empty()) 
 	{
-		m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
-		m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-		Vortex::SceneSerializer serializer(m_ActiveScene);
-		serializer.Deserialize(filepath);
+		OpenScene(filepath);
 	}
+}
+
+void EditorLayer::OpenScene(const std::string &filepath)
+{
+	VX_INFO("{0}", filepath);
+	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
+	m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
+	m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	Vortex::SceneSerializer serializer(m_ActiveScene);
+	serializer.Deserialize(filepath);
 }
 
 void EditorLayer::ClearScene()

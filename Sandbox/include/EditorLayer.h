@@ -23,6 +23,7 @@ public:
 private:
 	void ShowDockSpaceApp(bool *p_open);
 	void LoadScene(); 
+	void OpenScene(const std::string &filepath);
 	void ClearScene();
 	void SaveSceneAs();
 	void SaveDefault();

@@ -1,276 +1,323 @@
-[07:19:26] [warning] VORTEX: Initialized Logging !
-[07:19:26] [info] APP: WELCOME! Var=10
-[07:19:26] [info] VORTEX: Creating window Vortex Application (1300, 800)
-[07:19:26] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
-[07:19:26] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
-[07:19:26] [info] VORTEX: Using Default Graphics Card
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:43] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:44] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:52] [warning] VORTEX: Pixel data = -1
-[07:19:55] [warning] VORTEX: Pixel data = -1
-[07:19:55] [warning] VORTEX: Pixel data = -1
-[07:19:55] [warning] VORTEX: Pixel data = -1
-[07:19:55] [warning] VORTEX: Pixel data = -1
-[07:19:55] [warning] VORTEX: Pixel data = -1
-[07:19:58] [trace] VORTEX: Deserializing scene 'Untitled'
-[07:19:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Left
-[07:19:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Right
-[07:19:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera
-[07:19:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Top
-[07:20:05] [warning] VORTEX: Pixel data = 0
-[07:20:05] [warning] VORTEX: Pixel data = 0
-[07:20:05] [warning] VORTEX: Pixel data = 0
-[07:20:05] [warning] VORTEX: Pixel data = 0
-[07:20:05] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = 0
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:08] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = 0
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:09] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:10] [warning] VORTEX: Pixel data = -1
-[07:20:11] [warning] VORTEX: Pixel data = -1
-[07:20:11] [warning] VORTEX: Pixel data = -1
-[07:20:11] [warning] VORTEX: Pixel data = -1
-[07:20:11] [warning] VORTEX: Pixel data = -1
-[07:20:11] [warning] VORTEX: Pixel data = -1
+[21:28:53] [warning] VORTEX: Initialized Logging !
+[21:28:53] [info] APP: WELCOME! Var=10
+[21:28:53] [info] VORTEX: Creating window Vortex Application (1300, 800)
+[21:28:53] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
+[21:28:53] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
+[21:28:53] [info] VORTEX: Using Default Graphics Card
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:57] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [info] APP: assets/Scenes/cube.vx
+[21:28:58] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:28:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Left
+[21:28:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Right
+[21:28:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera
+[21:28:58] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Top
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:28:59] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:00] [info] APP: assets/Scenes/cube.vx
+[21:29:01] [info] APP: assets/Scenes/cube.vx
+[21:29:01] [info] APP: assets/Scenes/cube.vx
+[21:29:01] [info] APP: assets/Scenes/cube.vx
+[21:29:01] [info] APP: assets/Scenes/cube.vx
+[21:29:01] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:29:01] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Left
+[21:29:01] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Right
+[21:29:01] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera
+[21:29:01] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Top
+[21:29:06] [info] APP: /home/pc/dev/engine/Sandbox/assets/Scenes/cube.vx
+[21:29:06] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:29:06] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Left
+[21:29:06] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Right
+[21:29:06] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera
+[21:29:06] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Top
+[21:29:09] [info] APP: assets/Scenes/cube.vx
+[21:29:09] [info] APP: assets/Scenes/cube.vx
+[21:29:09] [info] APP: assets/Scenes/cube.vx
+[21:29:09] [info] APP: assets/Scenes/cube.vx
+[21:29:09] [info] APP: assets/Scenes/cube.vx
+[21:29:09] [info] APP: assets/Scenes/cube.vx
+[21:29:09] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [info] APP: assets/Scenes/cube.vx
+[21:29:10] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:29:10] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Left
+[21:29:10] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Right
+[21:29:10] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera
+[21:29:10] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Top
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [info] APP: assets/Scenes/default.vx
+[21:29:14] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:29:14] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Square Entity 2
+[21:29:14] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera Entity 2
+[21:29:14] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera Entity
+[21:29:14] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Square Entity
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [info] APP: assets/Scenes/cube.vx
+[21:29:18] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:29:18] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Left
+[21:29:18] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Right
+[21:29:18] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera
+[21:29:18] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Top
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [info] APP: assets/Scenes/scene.vx
+[21:29:24] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:29:24] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Square Entity 2
+[21:29:24] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera Entity 2
+[21:29:24] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera Entity
+[21:29:24] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Square Entity
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [info] APP: assets/Scenes/Vortex.vx
+[21:29:30] [trace] VORTEX: Deserializing scene 'Untitled'
+[21:29:30] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Left
+[21:29:30] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Right
+[21:29:30] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Camera
+[21:29:30] [trace] VORTEX: Deserialized entity with ID = 12837192831273, name = Top
