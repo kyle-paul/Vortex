@@ -9,6 +9,7 @@ add_executable(SandboxEngine
 	src/SandboxApp.cpp
 	src/EditorLayer.cpp
 	src/SceneHierarchyPanel.cpp
+	src/ContentBrowserPanel.cpp
 	${${ENGINE_NAME}_DIR}/vendor/glad/src/glad.c
 )
 

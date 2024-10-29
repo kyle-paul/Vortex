@@ -144,14 +144,17 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 	int mouseY = (int)my;
 
 	if (mouseX > 0 && mouseY > 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y 
-		&& Vortex::Input::IsMouseButtonPressed(Vortex::Mouse::ButtonLeft))
+		&& Vortex::Input::IsMouseButtonPressed(Vortex::Mouse::ButtonLeft) && !Vortex::Input::IsKeyPressed(Vortex::Key::LeftAlt))
 	{
 		int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
 		VX_CORE_WARN("Pixel data = {0}", pixelData);
-		Vortex::Entity selectedEntity = Vortex::Entity(static_cast<entt::entity>(pixelData), m_ActiveScene.get());
-		if (selectedEntity && selectedEntity.HasComponent<Vortex::TagComponent>())
+		if (pixelData >= 0 && pixelData <= 100)
 		{
-			m_SceneHierarchyPanel.SetSelectionContext(selectedEntity);
+			Vortex::Entity selectedEntity = Vortex::Entity(static_cast<entt::entity>(pixelData), m_ActiveScene.get());
+			if (selectedEntity && selectedEntity.HasComponent<Vortex::TagComponent>())
+			{
+				m_SceneHierarchyPanel.SetSelectionContext(selectedEntity);
+			}
 		}
 	}
 
@@ -370,6 +373,7 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	// Render Scene Hierarchy
 	m_SceneHierarchyPanel.OnImGuiRender();
+	m_ContentBrowserPanel.OnImGuiRender();
 
 	// Render Demo window
 	bool showDemo = true;

@@ -3,6 +3,7 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Graphics/EditorCamera.h"
 #include "Graphics/Framebuffer.h"
+#include "Panels/ContentBrowserPanel.h"
 
 
 class EditorLayer : public Vortex::Layer
@@ -64,4 +65,7 @@ private:
 
 	// Gizmo
 	int m_GizmoType = -1;
+
+	// Content Browser
+	Vortex::ContentBrowserPanel m_ContentBrowserPanel;
 };
