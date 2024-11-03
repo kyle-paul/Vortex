@@ -1,8 +1,11 @@
 #pragma once
+#include "Vortex/Core/Core.h"
 #include "Graphics/Texture.h"
 #include "Graphics/Camera.h"
-#include "Vortex/Imgui/ImGuiLayer.h"
 #include "Graphics/EditorCamera.h"
+#include "Graphics/Shape.h"
+#include "Graphics/Shader.h"
+#include "Graphics/RenderCommand.h"
 
 namespace Vortex
 {
@@ -16,11 +19,6 @@ namespace Vortex
 		static void BeginScene(EditorCamera& camera);
 		static void EndScene();
 
-		// Primitives
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture);
-		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor);
-
-		static glm::mat4 BuildTransformObject(const glm::vec3 &position, const float &rotation, const glm::vec2 &size);
-		static ImGuiComponents m_ImGuiComponents;
+		static void DrawShape(const Shape &shape, const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor);
 	};
 }

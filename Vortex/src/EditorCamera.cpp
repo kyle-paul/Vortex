@@ -76,11 +76,11 @@ namespace Vortex
 			}
 			else if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
 			{
-				MouseRotate(delta * 0.008f);
+				MouseRotate(delta * 0.012f);
 			}
 			else if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
 			{
-				MouseZoom(delta.y * 0.006f);
+				MouseZoom(delta.y * 0.008f);
 			}
 		}
 		UpdateView();

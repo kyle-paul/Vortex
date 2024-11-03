@@ -1,76 +1,43 @@
-#include "Vortex/Core/Core.h"
 #include "Graphics/Renderer2D.h"
-#include "Graphics/VertexArray.h"
-#include "Graphics/Shader.h"
-#include "Vortex/Core/Math.h"
-#include "Graphics/RenderCommand.h"
 
 namespace Vortex
 {
-	ImGuiComponents Renderer2D::m_ImGuiComponents;
-
-    struct Renderer2DStorage
+    struct RendererManager
 	{
-		Ref<VertexArray> VA;
 		Ref<Shader> shad;
-		Ref<Texture2D> WhiteTexture;
 	};
 
-    static Renderer2DStorage* s_Data;
+    static RendererManager* manager;
 
     void Renderer2D::Init()
     {
 		VX_PROFILE_FUNCTION();
 
-        s_Data = new Renderer2DStorage();
+        manager = new RendererManager();
+		manager->shad = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
+		manager->shad->Bind();
+		manager->shad->SetInt("u_Texture", 0);
 
-		s_Data->shad = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
-		s_Data->shad->Bind();
-		s_Data->shad->SetInt("u_Texture", 0);
-
-        s_Data->VA = VertexArray::Create();
-
-		std::cout << "VA quad = " << s_Data->VA->GetVAID() << "\n";
-
-        float squareVertices[4 * 5] = {
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
-		};
-
-        Ref<VertexBuffer> VB;
-        VB = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
-		VB->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float2, "a_TextCoord" }
-		});
-		s_Data->VA->AddVertexBuffer(VB);
-
-        uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Ref<IndexBuffer> squareIB;
-		squareIB = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
-		s_Data->VA->SetIndexBuffer(squareIB);
     }
 
     void Renderer2D::Shutdown()
 	{
 		VX_PROFILE_FUNCTION();
-		delete s_Data;
+		delete manager;
 	}
 
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4 &transform) 
 	{
 		VX_PROFILE_FUNCTION();
-		s_Data->shad->Bind();
-		s_Data->shad->SetMat4("u_ViewProjection", camera.GetProjection() * glm::inverse(transform));
+		manager->shad->Bind();
+		manager->shad->SetMat4("u_ViewProjection", camera.GetProjection() * glm::inverse(transform));
 	}
 
 	void Renderer2D::BeginScene(EditorCamera& camera) 
 	{
 		VX_PROFILE_FUNCTION();
-		s_Data->shad->Bind();
-		s_Data->shad->SetMat4("u_ViewProjection", camera.GetViewProjection());
+		manager->shad->Bind();
+		manager->shad->SetMat4("u_ViewProjection", camera.GetViewProjection());
 	}
 
     void Renderer2D::EndScene()
@@ -79,33 +46,14 @@ namespace Vortex
 	}
 
 
-    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture)
+	void Renderer2D::DrawShape(const Shape &shape, const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor)
 	{
-		VX_PROFILE_FUNCTION();
-
-		s_Data->shad->SetFloat4("u_Color", color);
-		s_Data->shad->SetInt("u_EntityID", EntityID);
-		s_Data->shad->SetMat4("u_Transform", BuildTransformObject(position, m_ImGuiComponents.ObjectRotation, size));
-
-		texture->Bind();
-		RenderCommand::DrawIndexed(s_Data->VA);
-	}
-
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor)
-	{
-		s_Data->shad->SetFloat4("u_Color", color);
-		s_Data->shad->SetMat4("u_Transform", transform);
-		s_Data->shad->SetInt("u_EntityID", EntityID);
-		s_Data->shad->SetFloat("u_TilingFactor", tilingFactor);
+		manager->shad->SetFloat4("u_Color", color);
+		manager->shad->SetMat4("u_Transform", transform);
+		manager->shad->SetInt("u_EntityID", EntityID);
+		manager->shad->SetFloat("u_TilingFactor", tilingFactor);
 		
 		texture->Bind();
-		RenderCommand::DrawIndexed(s_Data->VA);
-	}
-
-	glm::mat4 Renderer2D::BuildTransformObject(const glm::vec3 &position, const float &rotation, const glm::vec2 &size)
-	{
-		return glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
-		       glm::translate(glm::mat4(1.0f), position) *
-			   glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		RenderCommand::DrawIndexed(shape.GetVertexArray());
 	}
 }

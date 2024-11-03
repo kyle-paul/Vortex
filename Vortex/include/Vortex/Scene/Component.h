@@ -1,6 +1,7 @@
 #pragma once
 #include "Graphics/Texture.h"
 #include "Graphics/Mesh.h"
+#include "Graphics/Shape.h"
 #include "Vortex/Scene/SceneCamera.h"
 #include "Vortex/Scene/ScriptableEntity.h"
 #include "Vortex/Core/TimeStep.h"
@@ -20,8 +21,8 @@ namespace Vortex
     struct TransformComponent
     {
         glm::vec3 Translation = { 0.0f, 0.0f, 0.0f }; 
-        glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f }; // Radians => for serialization purpose
-        glm::vec3 Scale = {1.0f, 1.0f, 1.0f };
+        glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
+        glm::vec3 Scale = {1.0f, 1.0f, 1.0f };        
 
         TransformComponent() = default;
         TransformComponent(const TransformComponent&) = default;
@@ -38,13 +39,23 @@ namespace Vortex
 
     struct MeshComponent 
     {
-        Mesh MehsObj;
+        Mesh MeshObj;
         bool Distorted = false;
 
         MeshComponent() = default;
         MeshComponent(const MeshComponent&) = default;
         MeshComponent(const Mesh &mesh_obj)
-            : MehsObj(mesh_obj) { }
+            : MeshObj(mesh_obj) { }
+    };
+
+    struct ShapeComponent
+    {
+        Shape ShapeObj;
+
+        ShapeComponent() = default;
+        ShapeComponent(const ShapeComponent&) = default;
+        ShapeComponent(const Shape &shape)
+            : ShapeObj(shape) { }
     };
 
     struct TextureComponent

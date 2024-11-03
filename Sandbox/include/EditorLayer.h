@@ -47,10 +47,6 @@ private:
 	Vortex::EditorCamera m_EditorCamera;
 	float m_AspectRatio = 1300.0f / 800.0f;
 	float m_ZoomLevel = 1.0f;
-
-	// Imgui control
-	Vortex::ImGuiComponents m_ImGuiComponents;
-	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 	
 	// Imgui layer events
 	bool is_ViewPortFocused;

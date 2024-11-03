@@ -84,6 +84,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/SceneCamera.cpp
 	src/Math.cpp
 	src/Mesh.cpp
+	src/Shape.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

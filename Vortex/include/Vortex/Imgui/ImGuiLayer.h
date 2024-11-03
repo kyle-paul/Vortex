@@ -20,17 +20,6 @@
 
 namespace Vortex 
 {
-    struct ImGuiComponents {
-        glm::vec4 ObjectColor = {0.8f, 0.2f, 0.2f, 1.f};
-        glm::vec3 ObjectPosition = {0.0f, 0.0f, 1.0f};
-        glm::vec2 ObjectSize = {1.0f, 1.0f};
-        float ObjectRotation = 0.0f;
-
-        glm::vec4 BoardColor = {0.2f, 0.2f, 0.8f, 0.5f};
-        float BoardRotation = 10.0f;
-        float TilingFactor = 1.0f;
-    };
-
     class VORTEX_API ImGuiLayer : public Layer 
     {
     public:

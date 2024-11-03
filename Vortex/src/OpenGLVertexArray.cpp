@@ -37,6 +37,53 @@ namespace Vortex
 
         const auto &layout = vertex_buffer->GetLayout();
         uint32_t index = 0;
+
+        /*
+        glVertexAttribPointer explanation:
+
+        # position, normals, textcoords, face
+        
+        glCreateBuffers(1, &VBO_VBO_POS_IDID);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO_POS_ID);
+        glBufferData(GL_ARRAY_BUFFER, position.size() * sizeof(float), position.data(), GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+        glCreateBuffers(1, &VBO_NORMS_ID);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO_NORMS_ID);
+        glBindBuffer(GL_ARRAY_BUFFER, normals.size() * sizeof(float), normals.data(), GL_STATIC_DRAW);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+        glCreateBuffers(1, &VBO_TEX_ID);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO_TEX_ID);
+        glBindBuffer(GL_ARRAY_BUFFER, texture.size() * sizeof(float), texture.data(), GL_STATIC_DRAW);
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+        glCreateBuffers(1, &VBO_FACE_ID)
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, face);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, face.size() * sizeof(unsigned int), face.data(), GL_STATIC_DRAW);
+
+
+        # one vertices
+        glCreateBuffers(1, &VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+        glCreateBuffers(1, &VBO_FACE_ID)
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, face);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, face.size() * sizeof(unsigned int), face.data(), GL_STATIC_DRAW);
+        */
 		
 		for (auto &element : layout) {
 			glEnableVertexAttribArray(index);

@@ -7,22 +7,6 @@
 
 namespace Vortex
 {
-
-    void PrintMatrix(const glm::mat4 &matrix)
-    {
-        std::cout << std::fixed << std::setprecision(2);
-        for (int i = 0; i < 4; ++i)
-        {
-            for (int j = 0; j < 4; ++j)
-            {
-                std::cout << matrix[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::defaultfloat;
-    }
-
-
     Scene::Scene()
     {     
     }
@@ -72,24 +56,34 @@ namespace Vortex
 
     void Scene::OnUpdateEditor(TimeStep ts, EditorCamera &camera)
     {
-        // Begin Simple Shape Scene
-        // Renderer2D::BeginScene(camera);
-        // auto GroupQuad = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
-        // for (auto entity : GroupQuad)
-        // {
-        //     auto [transform, sprite, texture] = GroupQuad.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
-        //     Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
-        // }
-        // Renderer2D::EndScene();
-
-        // Begin Mesh Scene
+        // Begin Scene
+        Renderer2D::BeginScene(camera);
         MeshRenderer::BeginScene(camera);
-        auto GroupMesh = m_registry.group<MeshComponent, TransformComponent, SpriteRendererComponent, TextureComponent>();
-        for (auto entity : GroupMesh)
+
+        // Single group with shared components
+        auto group = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
+
+        for (auto entity : group)
         {
-            auto [mesh, transform, sprite, texture] = GroupMesh.get<MeshComponent, TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
-            MeshRenderer::DrawMesh(mesh.MehsObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture);
+            auto [transform, sprite, texture] = group.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+            
+            // ShapeComponent
+            if (m_registry.has<ShapeComponent>(entity))
+            {
+                auto& shape = m_registry.get<ShapeComponent>(entity);
+                Renderer2D::DrawShape(shape.ShapeObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+            }
+            
+            // MeshComponent
+            if (m_registry.has<MeshComponent>(entity))
+            {
+                auto& mesh = m_registry.get<MeshComponent>(entity);
+                MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+            }
         }
+
+        // End Scene
+        Renderer2D::EndScene();
         MeshRenderer::EndScene();
     }
 
@@ -130,15 +124,36 @@ namespace Vortex
         // Begin rendering the scene
         if (MainCamera)
         {
+            // Begin Scene
             Renderer2D::BeginScene(*MainCamera, CameraTransform);
+            MeshRenderer::BeginScene(*MainCamera, CameraTransform);
+
+            // Single group with shared components
             auto group = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
 
             for (auto entity : group)
             {
                 auto [transform, sprite, texture] = group.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
-                Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                
+                // ShapeComponent
+                if (m_registry.has<ShapeComponent>(entity))
+                {
+                    auto& shape = m_registry.get<ShapeComponent>(entity);
+                    Renderer2D::DrawShape(shape.ShapeObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                }
+                
+                // MeshComponent
+                if (m_registry.has<MeshComponent>(entity))
+                {
+                    auto& mesh = m_registry.get<MeshComponent>(entity);
+                    MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                }
             }
+
+            // End Scene
             Renderer2D::EndScene();
+            MeshRenderer::EndScene();
+
         }
     }
 
@@ -180,6 +195,11 @@ namespace Vortex
 
     template<>
     void Scene::OnComponentAdded<MeshComponent>(Entity entity, MeshComponent& component) {
+        // Logic for SpriteRendererComponent
+    }
+
+    template<>
+    void Scene::OnComponentAdded<ShapeComponent>(Entity entity, ShapeComponent& component) {
         // Logic for SpriteRendererComponent
     }
 

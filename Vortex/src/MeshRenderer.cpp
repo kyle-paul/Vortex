@@ -39,12 +39,12 @@ namespace Vortex
         manager->shad->SetMat4("u_ViewProjection", camera.GetViewProjection());
     }
 
-    void MeshRenderer::DrawMesh(const Mesh &mesh, const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture)
+    void MeshRenderer::DrawMesh(const Mesh &mesh, const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor)
     {
         manager->shad->SetFloat4("u_Color", color);
 		manager->shad->SetMat4("u_Transform", transform);
 		manager->shad->SetInt("u_EntityID", EntityID);
-        manager->shad->SetFloat("u_TilingFactor", 1.0f);
+        manager->shad->SetFloat("u_TilingFactor", tilingFactor);
 
         texture->Bind();
         RenderCommand::DrawIndexed(mesh.GetVertexArray());

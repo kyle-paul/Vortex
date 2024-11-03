@@ -13,7 +13,7 @@ namespace Vortex
         VX_PROFILE_FUNCTION();
         RenderCommand::Init();
         MeshRenderer::Init();
-        // Renderer2D::Init();
+        Renderer2D::Init();
     }
 
     void Renderer::OnWindowResize(uint32_t width, uint32_t height)

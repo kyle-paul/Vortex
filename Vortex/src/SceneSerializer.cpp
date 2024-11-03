@@ -75,7 +75,7 @@ namespace Vortex
     static void SerializeEntity(YAML::Emitter &out, Entity entity)
     {
         out << YAML::BeginMap;
-        out << YAML::Key << "Entity" << YAML::Value << "12837192831273"; // TODO: Entity ID goes here
+        out << YAML::Key << "Entity" << YAML::Value << (uint32_t)entity;
         
         if (entity.HasComponent<TagComponent>())
         {
@@ -85,6 +85,24 @@ namespace Vortex
             out << YAML::Key << "Tag" << YAML::Value << tag;
             out << YAML::EndMap; // TagComponent
         }
+
+		if (entity.HasComponent<ShapeComponent>())
+        {
+            out << YAML::Key << "ShapeComponent";
+            out << YAML::BeginMap; // ShapeComponent
+            const auto &type = (int)entity.GetComponent<ShapeComponent>().ShapeObj.GetType();
+            out << YAML::Key << "Type" << YAML::Value << type;
+            out << YAML::EndMap; // ShapeComponent
+        }
+
+		else if (entity.HasComponent<MeshComponent>())
+		{
+			out << YAML::Key << "MeshComponent";
+			out << YAML::BeginMap; // MeshComponent
+			const auto &path = entity.GetComponent<MeshComponent>().MeshObj.GetFilePath();
+            out << YAML::Key << "Path" << YAML::Value << path;
+			out << YAML::EndMap; // MeshComponent
+		}
 
         if (entity.HasComponent<TransformComponent>())
         {
@@ -173,17 +191,33 @@ namespace Vortex
         {
             for (auto entity : entities)
             {
-                uint64_t uuid = entity["Entity"].as<uint64_t>(); // TODO
+                uint32_t uuid = entity["Entity"].as<uint32_t>(); // TODO
 
                 std::string name;
                 auto tagComponent = entity["TagComponent"];
-                if (tagComponent)
-					name = tagComponent["Tag"].as<std::string>();
+                if (tagComponent) name = tagComponent["Tag"].as<std::string>();
+
                 VX_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
                 Entity deserializedEntity = m_Context->CreateEntity(name);
 
+				auto shapeComponent = entity["ShapeComponent"];
+				auto meshComponent = entity["MeshComponent"];
 
-                auto transformComponent = entity["TransformComponent"];
+				if (shapeComponent) 
+				{
+					Shape::BasicType type = (Shape::BasicType)shapeComponent["Type"].as<int>();
+					Shape ShapeObj = Shape(type);
+					deserializedEntity.AddComponent<ShapeComponent>(ShapeObj);
+					deserializedEntity.GetComponent<ShapeComponent>().ShapeObj.SetType((type));
+				}
+
+				else if (meshComponent)
+				{
+					Vortex::Mesh MeshObj = Vortex::Mesh(meshComponent["Path"].as<std::string>());
+					deserializedEntity.AddComponent<Vortex::MeshComponent>(MeshObj);
+				}
+
+				auto transformComponent = entity["TransformComponent"];
 				if (transformComponent) // Entities always have transforms
 				{
 					auto& tc = deserializedEntity.GetComponent<TransformComponent>();

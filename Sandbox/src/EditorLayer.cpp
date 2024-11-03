@@ -381,15 +381,16 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	// ================ Setting Panel ================
 	ImGui::Begin("Settings");
-	if (ImGui::Button("Render Mesh")) {
-		Vortex::Mesh MeshObj = Vortex::Mesh();
+	if (ImGui::Button("Render Brain")) {
+		Vortex::Mesh MeshObj = Vortex::Mesh("/home/pc/dev/dataset/medical-image/MbrainS/objects/brain.obj");
 
 		// TODO; This is then load by content browser by taking the path and registert as entity
-		MeshObj.Init("/home/pc/dev/engine/Sandbox/assets/Meshes/skull.obj");
-		auto cube = m_ActiveScene->CreateEntity("cube");
-		cube.AddComponent<Vortex::MeshComponent>(MeshObj);
-		cube.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.5f, 0.0f, 0.2f, 1.0f));
+		auto brain = m_ActiveScene->CreateEntity("Brain");
+		brain.AddComponent<Vortex::MeshComponent>(MeshObj);
+		brain.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.5f, 0.0f, 0.2f, 1.0f));
+		brain.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
+
     ImGui::End(); // Setting
 
 	// ================ Render Viewport ================
