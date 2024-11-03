@@ -18,6 +18,8 @@ namespace Vortex
         virtual const std::vector<Ref<VertexBuffer>> GetVertexBuffer() const = 0;
         virtual const Ref<IndexBuffer> GetIndexBuffer() const = 0;
 
+        virtual const uint32_t GetVAID() const = 0;
+
         static Ref<VertexArray> Create();
 
     private:

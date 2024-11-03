@@ -1,6 +1,4 @@
 #pragma once
-
-#include "Graphics/OrthographicCamera.h"
 #include "Graphics/Texture.h"
 #include "Graphics/Camera.h"
 #include "Vortex/Imgui/ImGuiLayer.h"

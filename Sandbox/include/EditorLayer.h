@@ -1,8 +1,6 @@
 #pragma once
 #include "Vortex.h"
 #include "Panels/SceneHierarchyPanel.h"
-#include "Graphics/EditorCamera.h"
-#include "Graphics/Framebuffer.h"
 #include "Panels/ContentBrowserPanel.h"
 
 
@@ -27,21 +25,28 @@ private:
 	void ClearScene();
 	void SaveSceneAs();
 	void SaveDefault();
-	bool OnKeyPressed(Vortex::KeyPressedEvent& e);
+
+	bool OnKeyPressed(Vortex::KeyPressedEvent& event);
+
+	void OnScenePlay();
+	void OnSceneStop();
+
+	void PlayToolBar();
+	void RenderViewPort();
     
 private:
+	// Play button
+	enum class SceneState
+	{
+		Edit = 0, Play = 1
+	};
+	SceneState m_SceneState = SceneState::Edit;
+	Vortex::Ref<Vortex::Texture2D> m_IconPlay, m_IconStop;
+
 	// camera component
-	Vortex::OrthographicCameraController m_CameraController;
-	Vortex::EditorCamera m_EditorCamera; // Editor camera
+	Vortex::EditorCamera m_EditorCamera;
 	float m_AspectRatio = 1300.0f / 800.0f;
 	float m_ZoomLevel = 1.0f;
-
-	// Vertex Array and Buffer
-	Vortex::Ref<Vortex::VertexArray> m_SquareVA;
-
-	// Shader control
-	Vortex::Ref<Vortex::Shader> m_FlatColorShader;
-	Vortex::Ref<Vortex::Texture2D> m_CheckerboardTexture;
 
 	// Imgui control
 	Vortex::ImGuiComponents m_ImGuiComponents;

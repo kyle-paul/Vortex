@@ -3,9 +3,26 @@
 #include "Vortex/Scene/Component.h"
 #include "Vortex/Scene/Entity.h"
 #include "Graphics/Renderer2D.h"
+#include "Graphics/MeshRenderer.h"
 
 namespace Vortex
 {
+
+    void PrintMatrix(const glm::mat4 &matrix)
+    {
+        std::cout << std::fixed << std::setprecision(2);
+        for (int i = 0; i < 4; ++i)
+        {
+            for (int j = 0; j < 4; ++j)
+            {
+                std::cout << matrix[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::defaultfloat;
+    }
+
+
     Scene::Scene()
     {     
     }
@@ -22,14 +39,13 @@ namespace Vortex
         auto &tag = entity.AddComponent<TagComponent>();
         tag.Tag = name.empty() ? "Unnamed_Entity" : name;
 
+        // Default Transform
         entity.AddComponent<TransformComponent>();
 
-        // Ref<Texture2D> texture = Texture2D::Create(1, 1);
-		// uint32_t whiteTextureData = 0xffffffff;
-		// texture->SetData(&whiteTextureData, sizeof(uint32_t));
-
-    
-        Ref<Texture2D> texture = Vortex::Texture2D::Create("assets/Textures/Checkerboard.png");
+        // Default white texture
+        Ref<Texture2D> texture = Texture2D::Create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		texture->SetData(&whiteTextureData, sizeof(uint32_t));
         entity.AddComponent<TextureComponent>(texture, 10.0f);
         
         return entity;
@@ -56,15 +72,25 @@ namespace Vortex
 
     void Scene::OnUpdateEditor(TimeStep ts, EditorCamera &camera)
     {
-        Renderer2D::BeginScene(camera);
-        auto group = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
+        // Begin Simple Shape Scene
+        // Renderer2D::BeginScene(camera);
+        // auto GroupQuad = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
+        // for (auto entity : GroupQuad)
+        // {
+        //     auto [transform, sprite, texture] = GroupQuad.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+        //     Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+        // }
+        // Renderer2D::EndScene();
 
-        for (auto entity : group)
+        // Begin Mesh Scene
+        MeshRenderer::BeginScene(camera);
+        auto GroupMesh = m_registry.group<MeshComponent, TransformComponent, SpriteRendererComponent, TextureComponent>();
+        for (auto entity : GroupMesh)
         {
-            auto [transform, sprite, texture] = group.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
-            Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+            auto [mesh, transform, sprite, texture] = GroupMesh.get<MeshComponent, TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+            MeshRenderer::DrawMesh(mesh.MehsObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture);
         }
-        Renderer2D::EndScene();
+        MeshRenderer::EndScene();
     }
 
     void Scene::OnUpdateRuntime(TimeStep ts)
@@ -104,7 +130,15 @@ namespace Vortex
         // Begin rendering the scene
         if (MainCamera)
         {
-            
+            Renderer2D::BeginScene(*MainCamera, CameraTransform);
+            auto group = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
+
+            for (auto entity : group)
+            {
+                auto [transform, sprite, texture] = group.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+                Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+            }
+            Renderer2D::EndScene();
         }
     }
 
@@ -141,6 +175,11 @@ namespace Vortex
 
     template<>
     void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {
+        // Logic for SpriteRendererComponent
+    }
+
+    template<>
+    void Scene::OnComponentAdded<MeshComponent>(Entity entity, MeshComponent& component) {
         // Logic for SpriteRendererComponent
     }
 

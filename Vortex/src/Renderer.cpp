@@ -1,6 +1,7 @@
 #include "Vortex/Core/Core.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/Renderer2D.h"
+#include "Graphics/MeshRenderer.h"
 
 namespace Vortex 
 {
@@ -11,7 +12,8 @@ namespace Vortex
     {
         VX_PROFILE_FUNCTION();
         RenderCommand::Init();
-        Renderer2D::Init();
+        MeshRenderer::Init();
+        // Renderer2D::Init();
     }
 
     void Renderer::OnWindowResize(uint32_t width, uint32_t height)

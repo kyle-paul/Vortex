@@ -80,7 +80,7 @@ namespace Vortex
 				if (ImGui::BeginPopupContextItem()){
 					if (ImGui::MenuItem("Choose Scene...")) 
 					{
-
+						
 					}
 					else if (ImGui::MenuItem("Remove texture")) { } 
 					ImGui::EndPopup();

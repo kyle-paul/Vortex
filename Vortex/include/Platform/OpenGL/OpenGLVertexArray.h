@@ -19,6 +19,8 @@ namespace Vortex
 
             virtual const std::vector<std::shared_ptr<VertexBuffer>> GetVertexBuffer() const override { return m_VertexBufferArrays; }
             virtual const std::shared_ptr<IndexBuffer> GetIndexBuffer() const override { return m_IndexBuffer; }
+
+            virtual const uint32_t GetVAID() const override { return m_VertexArrayID; }
         
         private:
             uint32_t m_VertexArrayID;

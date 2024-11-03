@@ -76,12 +76,14 @@ add_library(${PROJECT_NAME} SHARED
 	src/OpenGLFramebuffer.cpp
 	src/SceneSerializer.cpp
 	src/EditorCamera.cpp
+	src/MeshRenderer.cpp
 
 	# Entity components
 	src/Scene.cpp
 	src/Entity.cpp
 	src/SceneCamera.cpp
 	src/Math.cpp
+	src/Mesh.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

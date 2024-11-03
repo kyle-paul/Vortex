@@ -23,7 +23,14 @@ namespace Vortex
 		VX_PROFILE_FUNCTION();
 
         s_Data = new Renderer2DStorage();
+
+		s_Data->shad = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
+		s_Data->shad->Bind();
+		s_Data->shad->SetInt("u_Texture", 0);
+
         s_Data->VA = VertexArray::Create();
+
+		std::cout << "VA quad = " << s_Data->VA->GetVAID() << "\n";
 
         float squareVertices[4 * 5] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -44,14 +51,6 @@ namespace Vortex
 		Ref<IndexBuffer> squareIB;
 		squareIB = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		s_Data->VA->SetIndexBuffer(squareIB);
-
-		// s_Data->WhiteTexture = Texture2D::Create(1, 1);
-		// uint32_t whiteTextureData = 0xffffffff;
-		// s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
-
-		s_Data->shad = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
-		s_Data->shad->Bind();
-		s_Data->shad->SetInt("u_Texture", 0);
     }
 
     void Renderer2D::Shutdown()
@@ -89,8 +88,6 @@ namespace Vortex
 		s_Data->shad->SetMat4("u_Transform", BuildTransformObject(position, m_ImGuiComponents.ObjectRotation, size));
 
 		texture->Bind();
-		s_Data->VA->Bind();
-		
 		RenderCommand::DrawIndexed(s_Data->VA);
 	}
 
@@ -102,8 +99,6 @@ namespace Vortex
 		s_Data->shad->SetFloat("u_TilingFactor", tilingFactor);
 		
 		texture->Bind();
-		s_Data->VA->Bind();
-
 		RenderCommand::DrawIndexed(s_Data->VA);
 	}
 

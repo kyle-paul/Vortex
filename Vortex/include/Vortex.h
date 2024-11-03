@@ -36,6 +36,8 @@
 #include "Vortex/Scene/Component.h"
 #include "Vortex/Scene/Entity.h"
 #include "Vortex/Scene/ScriptableEntity.h"
+#include "Graphics/EditorCamera.h"
+#include "Graphics/Mesh.h"
 
 // Include platform
 #include "Platform/Linux/LinuxWindow.h"
