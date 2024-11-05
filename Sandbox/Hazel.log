@@ -1,8 +1,6 @@
-[20:22:11] [warning] VORTEX: Initialized Logging !
-[20:22:11] [info] APP: WELCOME! Var=10
-[20:22:11] [info] VORTEX: Creating window Vortex Application (1300, 800)
-[20:22:11] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
-[20:22:11] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
-[20:22:11] [info] VORTEX: Using Default Graphics Card
-[20:22:18] [trace] VORTEX: Deserializing scene 'Untitled'
-[20:22:18] [trace] VORTEX: Deserialized entity with ID = 0, name = Brain
+[15:56:49] [warning] VORTEX: Initialized Logging !
+[15:56:49] [info] APP: WELCOME! Var=10
+[15:56:49] [info] VORTEX: Creating window Vortex Application (1300, 800)
+[15:56:49] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
+[15:56:49] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
+[15:56:49] [info] VORTEX: Using Default Graphics Card

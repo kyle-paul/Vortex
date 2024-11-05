@@ -12,12 +12,18 @@ namespace Vortex
         OpenGLTexture2D(const std::string &path);
         virtual ~OpenGLTexture2D();
 
-        virtual inline uint32_t GetWidth() const override { return m_Width; }
-        virtual inline uint32_t GetHeight() const override { return m_Height; }
+        virtual uint32_t GetWidth() const override { return m_Width; }
+        virtual uint32_t GetHeight() const override { return m_Height; }
         virtual uint32_t GetRendererID() const override {  return m_RendererID; }
         
         virtual void SetData(void* data, uint32_t size) override;
         virtual void Bind(uint32_t slot = 0) const override;
+
+        virtual std::string GetPath() const override 
+        {
+            if (m_Path.size() > 0) return m_Path;
+            else return "white texture";
+        }
 
     private:
         unsigned int m_RendererID;

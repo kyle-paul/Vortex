@@ -32,10 +32,14 @@ endif()
 
 # Set the root directory for your project files
 set(GIZMO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vendor/gizmo")
+set(IMNODE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imnode")
 
 # Gather all .h and .cpp files in variables
 file(GLOB_RECURSE GIZMO_HEADER_FILES "${GIZMO_ROOT}/*.h")
 file(GLOB_RECURSE GIZMO_SOURCE_FILES "${GIZMO_ROOT}/*.cpp")
+
+file(GLOB_RECURSE IMNODE_HEADER_FILES "${IMNODE_ROOT}/*.h")
+file(GLOB_RECURSE IMNODE_SOURCE_FILES "${IMNODE_ROOT}/*.cpp")
 
 # Specify that Vortex is the shared library
 add_library(${PROJECT_NAME} SHARED 
@@ -45,7 +49,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/PreHeaders.cpp
 	src/LinuxWindow.cpp
 	src/LinuxPlatformUtils.cpp
-	src/WIndowInput.cpp
+	src/WindowInput.cpp
 	src/Layer.cpp
 	src/LayerStack.cpp
 	src/LayerStack.cpp
@@ -96,6 +100,7 @@ add_library(${PROJECT_NAME} SHARED
 	vendor/imgui/imgui_widgets.cpp
 
 	${GIZMO_SOURCE_FILES}
+	vendor/imnodes/imnodes.cpp
 )
 
 # Precompiled headers
@@ -114,6 +119,7 @@ include_directories(${PROJECT_NAME}
 	vendor/imgui
 	vendor/stb
 	vendor/entt/include
+	vendor/imnodes
 	libs/glfw-build/include/GLFW
 	libs/glm-build/include/glm
 	libs/shaderc-build/include

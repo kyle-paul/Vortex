@@ -10,6 +10,7 @@ add_executable(SandboxEngine
 	src/EditorLayer.cpp
 	src/SceneHierarchyPanel.cpp
 	src/ContentBrowserPanel.cpp
+	src/NodePanels.cpp
 	${${ENGINE_NAME}_DIR}/vendor/glad/src/glad.c
 )
 
@@ -21,6 +22,7 @@ target_include_directories(SandboxEngine PRIVATE
 	${${ENGINE_NAME}_DIR}/vendor/imgui
 	${${ENGINE_NAME}_DIR}/vendor/entt/include
 	${${ENGINE_NAME}_DIR}/vendor/gizmo
+	${${ENGINE_NAME}_DIR}/vendor/imnodes
 	${${ENGINE_NAME}_DIR}/libs/glfw-build/include
 	${${ENGINE_NAME}_DIR}/libs/glm-build/include
 	${${ENGINE_NAME}_DIR}/libs/shaderc-build/include

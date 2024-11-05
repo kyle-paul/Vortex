@@ -47,6 +47,10 @@ void EditorLayer::OnAttach()
 	// Editor Camera
 	m_EditorCamera = Vortex::EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
+	// Node Editor
+	// m_NodeEditor.OnAttach();
+	m_NodePanels.OnAttach();
+
 #if 0
 	auto Square1 = m_ActiveScene->CreateEntity("Square Entity");
 	Square1.AddComponent<Vortex::SpriteRendererComponent>(m_ImGuiComponents.ObjectColor);
@@ -99,6 +103,8 @@ void EditorLayer::OnAttach()
 void EditorLayer::OnDetach()
 {
 	VX_PROFILE_FUNCTION();
+	// m_NodeEditor.OnDetach();
+	m_NodePanels.OnDetach();
 }
 
 void EditorLayer::OnUpdate(Vortex::TimeStep ts)
@@ -371,6 +377,9 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
         ImGui::EndMenuBar();
     }
 
+	// ================ Node Editor ================
+	// m_NodeEditor.OnImGuiRender();
+
 	// ================ Scene Hierarchy ================
 	m_SceneHierarchyPanel->OnImGuiRender();
 	m_ContentBrowserPanel.OnImGuiRender();
@@ -389,6 +398,16 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 		brain.AddComponent<Vortex::MeshComponent>(MeshObj);
 		brain.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.5f, 0.0f, 0.2f, 1.0f));
 		brain.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
+	}
+
+	if (ImGui::Button("Render Robot Arms")) {
+		Vortex::Mesh MeshObj = Vortex::Mesh("/home/pc/dev/engine/Sandbox/assets/Meshes/models/RobotArms.obj");
+
+		// TODO; This is then load by content browser by taking the path and registert as entity
+		auto robot = m_ActiveScene->CreateEntity("Robot Arms");
+		robot.AddComponent<Vortex::MeshComponent>(MeshObj);
+		robot.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.5f, 0.0f, 0.2f, 1.0f));
+		robot.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
 
     ImGui::End(); // Setting
@@ -447,6 +466,8 @@ void EditorLayer::OnImGuiRender()
 {
 	bool showDockSpace = true;
 	ShowDockSpaceApp(&showDockSpace);
+
+	m_NodePanels.OnImGuiRender();
 }
 
 void EditorLayer::PlayToolBar()

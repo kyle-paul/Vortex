@@ -124,6 +124,19 @@ namespace Vortex
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
 
+		if (entity.HasComponent<TextureComponent>())
+		{
+			out << YAML::Key << "TextureComponent";
+			out << YAML::BeginMap; // TextureComponent
+			auto& texture = entity.GetComponent<TextureComponent>();
+			out << YAML::Key << "Texture" << YAML::Value;
+			out << YAML::BeginMap; // TextureProps
+			out << YAML::Key << "Path" << YAML::Value << texture.Texture->GetPath();
+			out << YAML::EndMap; // TextureProps
+			out << YAML::Key << "Tiling factor" << YAML::Value << texture.TilingFactor;
+			out << YAML::EndMap; // TextureComponent
+		}
+
         if (entity.HasComponent<CameraComponent>())
 		{
 			out << YAML::Key << "CameraComponent";
@@ -131,7 +144,7 @@ namespace Vortex
 			auto& cameraComponent = entity.GetComponent<CameraComponent>();
 			auto& camera = cameraComponent.Camera;
 			out << YAML::Key << "Camera" << YAML::Value;
-			out << YAML::BeginMap; // Camera
+			out << YAML::BeginMap; // CameraProps
 			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
 			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
 			out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
@@ -139,7 +152,7 @@ namespace Vortex
 			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
 			out << YAML::Key << "OrthographicNear" << YAML::Value << camera.GetOrthographicNearClip();
 			out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
-			out << YAML::EndMap; // Camera
+			out << YAML::EndMap; // CameraProps
 			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
 			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
 			out << YAML::EndMap; // CameraComponent
@@ -217,8 +230,18 @@ namespace Vortex
 					deserializedEntity.AddComponent<Vortex::MeshComponent>(MeshObj);
 				}
 
+				auto textureComponent = entity["TextureComponent"];
+				if (textureComponent)
+				{
+					auto& tec = deserializedEntity.GetComponent<TextureComponent>();
+					std::string path = textureComponent["Texture"]["Path"].as<std::string>();
+					if (path != "white texture")
+						tec.Texture = Texture2D::Create(path);	
+					tec.TilingFactor = textureComponent["Tiling factor"].as<float>();	
+				}
+
 				auto transformComponent = entity["TransformComponent"];
-				if (transformComponent) // Entities always have transforms
+				if (transformComponent)
 				{
 					auto& tc = deserializedEntity.GetComponent<TransformComponent>();
 					tc.Translation = transformComponent["Translation"].as<glm::vec3>();

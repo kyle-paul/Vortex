@@ -36,6 +36,7 @@ namespace Vortex
         // Basic Config
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
+        
         ImGui::StyleColorsDark();
 
         if (!ImGui_ImplOpenGL3_Init("#version 410")) {

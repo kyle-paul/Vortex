@@ -2,6 +2,7 @@
 #include "Vortex.h"
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/ContentBrowserPanel.h"
+#include "NodePanels.h"
 
 
 class EditorLayer : public Vortex::Layer
@@ -35,6 +36,9 @@ private:
 	void RenderViewPort();
     
 private:
+	// Node Editor
+	Vortex::NodePanels m_NodePanels;
+
 	// Play button
 	enum class SceneState
 	{
