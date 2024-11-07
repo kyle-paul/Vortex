@@ -35,7 +35,7 @@ namespace Vortex
 
     void Scene::OnRuntimeStart()
     {
-        m_PhysicsWorld = new b2World({ 0.0f, -9.8f });
+        m_PhysicsWorld = new b2World({ 0.0f, -9.8f });  // The gravity
 
 		auto view = m_registry.view<Rigidbody2DComponent>();
 		for (auto e : view)
