@@ -1,6 +1,6 @@
-[15:56:49] [warning] VORTEX: Initialized Logging !
-[15:56:49] [info] APP: WELCOME! Var=10
-[15:56:49] [info] VORTEX: Creating window Vortex Application (1300, 800)
-[15:56:49] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
-[15:56:49] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
-[15:56:49] [info] VORTEX: Using Default Graphics Card
+[11:20:21] [warning] VORTEX: Initialized Logging !
+[11:20:21] [info] APP: WELCOME! Var=10
+[11:20:21] [info] VORTEX: Creating window Vortex Application (1800, 1200)
+[11:20:21] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
+[11:20:21] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
+[11:20:21] [info] VORTEX: Using Default Graphics Card

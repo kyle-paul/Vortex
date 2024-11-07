@@ -1,17 +1,66 @@
 Scene: Untitled
 Entities:
-  - Entity: 0
+  - Entity: 2
     TagComponent:
-      Tag: Square
+      Tag: Ground
     ShapeComponent:
       Type: 0
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Translation: [-0.081600368, 0.350560993, -0.0407602042]
+      Rotation: [1.5739131, 0, 0]
+      Scale: [5.68301725, 3.56477427, 0.999931991]
     SpriteRendererComponent:
-      Color: [1, 0, 0, 1]
+      Color: [0.486911267, 0.678208947, 0.933852136, 1]
     TextureComponent:
       Texture:
         Path: white texture
       Tiling factor: 10
+  - Entity: 1
+    TagComponent:
+      Tag: Camera
+    ShapeComponent:
+      Type: 0
+    TransformComponent:
+      Translation: [-0.428899974, 0.778226018, 2.15242934]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    TextureComponent:
+      Texture:
+        Path: white texture
+      Tiling factor: 10
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -4
+        OrthographicFar: 4
+      Primary: true
+      FixedAspectRatio: false
+  - Entity: 0
+    TagComponent:
+      Tag: Object 1
+    ShapeComponent:
+      Type: 0
+    TransformComponent:
+      Translation: [-0.00341035426, 1.63056648, -0.0277709942]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    TextureComponent:
+      Texture:
+        Path: white texture
+      Tiling factor: 10
+    RigidbodyComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5

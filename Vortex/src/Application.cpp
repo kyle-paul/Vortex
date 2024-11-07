@@ -16,7 +16,7 @@ namespace Vortex
 		m_AppInstance = this;
 
 		// Init window
-		WindowProps props(name, 1300, 800);
+		WindowProps props(name, 1800, 1200);
 		m_AppWindow = std::unique_ptr<Window>(Window::Create(props));
 		m_AppWindow->SetEventCallback( BIND_EVENT_FUNCTION(Application::OnEvent) );
 

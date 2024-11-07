@@ -23,6 +23,8 @@ target_include_directories(SandboxEngine PRIVATE
 	${${ENGINE_NAME}_DIR}/vendor/entt/include
 	${${ENGINE_NAME}_DIR}/vendor/gizmo
 	${${ENGINE_NAME}_DIR}/vendor/imnodes
+	${${ENGINE_NAME}_DIR}/vendor/box2d/include
+	${${ENGINE_NAME}_DIR}/box2d/src/dynamics
 	${${ENGINE_NAME}_DIR}/libs/glfw-build/include
 	${${ENGINE_NAME}_DIR}/libs/glm-build/include
 	${${ENGINE_NAME}_DIR}/libs/shaderc-build/include

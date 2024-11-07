@@ -28,8 +28,8 @@ void EditorLayer::OnAttach()
 	// Frame buffer
 	Vortex::FramebufferSpecification fbspec;
 	fbspec.Attachments = { Vortex::FramebufferTextureFormat::RGBA8, Vortex::FramebufferTextureFormat::RED_INTEGER, Vortex::FramebufferTextureFormat::Depth };
-	fbspec.Width = 1300.0f;
-	fbspec.Height = 800.0f;
+	fbspec.Width = 1800.0f;
+	fbspec.Height = 1200.0f;
 	m_Framebuffer = Vortex::Framebuffer::Create(fbspec);
 
 	// Texture registry
@@ -45,10 +45,9 @@ void EditorLayer::OnAttach()
 	m_ContentBrowserPanel.SetSceneHierarcyPanel(m_SceneHierarchyPanel);
 
 	// Editor Camera
-	m_EditorCamera = Vortex::EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+	m_EditorCamera = Vortex::EditorCamera(30.0f, 1800.0f / 1200.0f, 0.1f, 1000.0f);
 
 	// Node Editor
-	// m_NodeEditor.OnAttach();
 	m_NodePanels.OnAttach();
 
 #if 0
@@ -103,7 +102,6 @@ void EditorLayer::OnAttach()
 void EditorLayer::OnDetach()
 {
 	VX_PROFILE_FUNCTION();
-	// m_NodeEditor.OnDetach();
 	m_NodePanels.OnDetach();
 }
 
@@ -377,9 +375,6 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
         ImGui::EndMenuBar();
     }
 
-	// ================ Node Editor ================
-	// m_NodeEditor.OnImGuiRender();
-
 	// ================ Scene Hierarchy ================
 	m_SceneHierarchyPanel->OnImGuiRender();
 	m_ContentBrowserPanel.OnImGuiRender();
@@ -396,18 +391,24 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 		// TODO; This is then load by content browser by taking the path and registert as entity
 		auto brain = m_ActiveScene->CreateEntity("Brain");
 		brain.AddComponent<Vortex::MeshComponent>(MeshObj);
-		brain.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.5f, 0.0f, 0.2f, 1.0f));
+		brain.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.7f, 0.0f, 0.2f, 1.0f));
 		brain.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
 
 	if (ImGui::Button("Render Robot Arms")) {
 		Vortex::Mesh MeshObj = Vortex::Mesh("/home/pc/dev/engine/Sandbox/assets/Meshes/models/RobotArms.obj");
-
-		// TODO; This is then load by content browser by taking the path and registert as entity
 		auto robot = m_ActiveScene->CreateEntity("Robot Arms");
 		robot.AddComponent<Vortex::MeshComponent>(MeshObj);
-		robot.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.5f, 0.0f, 0.2f, 1.0f));
+		robot.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.3f, 0.7f, 0.2f, 1.0f));
 		robot.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
+	}
+
+	if (ImGui::Button("Render Cube")) {
+		Vortex::Mesh MeshObj = Vortex::Mesh("/home/pc/dev/engine/Sandbox/assets/Meshes/BasicType/Cube.obj");
+		auto cube = m_ActiveScene->CreateEntity("Cube");
+		cube.AddComponent<Vortex::MeshComponent>(MeshObj);
+		cube.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.1f, 0.2f, 0.7f, 1.0f));
+		cube.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
 
     ImGui::End(); // Setting
@@ -510,11 +511,13 @@ void EditorLayer::PlayToolBar()
 void EditorLayer::OnScenePlay()
 {
 	m_SceneState = SceneState::Play;
+	m_ActiveScene->OnRuntimeStart();
 }
 
 void EditorLayer::OnSceneStop()
 {
 	m_SceneState = SceneState::Edit;
+	m_ActiveScene->OnRuntimeStop();
 }
 
 void EditorLayer::RenderViewPort()
@@ -579,22 +582,28 @@ void EditorLayer::RenderViewPort()
 		float windowHeight = (float)ImGui::GetWindowHeight();
 		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-		// Get Primary Camera (projection + view matrix)
-		auto PrimaryCameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+		glm::mat4 camera_proj = glm::mat4(1.0f);
+		glm::mat4 camera_view = glm::mat4(1.0f);
 
-		// glm::mat4 camera_proj = glm::mat4(1.0f);
-		// glm::mat4 camera_view = glm::mat4(1.0f);
+		if (m_SceneState == SceneState::Play)
+		{			
+			// Get Primary Camera (projection + view matrix)
+			auto PrimaryCameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
 
-		// if (PrimaryCameraEntity)
-		// {
-		// 	const auto &cam = PrimaryCameraEntity.GetComponent<Vortex::CameraComponent>().Camera;
-		// 	camera_proj = cam.GetProjection();
-		// 	camera_view = glm::inverse(PrimaryCameraEntity.GetComponent<Vortex::TransformComponent>().GetTransform());
-		// }
+			if (PrimaryCameraEntity)
+			{
+				const auto &cam = PrimaryCameraEntity.GetComponent<Vortex::CameraComponent>().Camera;
+				camera_proj = cam.GetProjection();
+				camera_view = glm::inverse(PrimaryCameraEntity.GetComponent<Vortex::TransformComponent>().GetTransform());
+			}
+		}
 
-		// Editor camera
-		const glm::mat4& camera_proj = m_EditorCamera.GetProjection();
-		glm::mat4 camera_view = m_EditorCamera.GetViewMatrix();
+		else if (m_SceneState == SceneState::Edit)
+		{
+			// Editor camera
+			camera_proj = m_EditorCamera.GetProjection();
+			camera_view = m_EditorCamera.GetViewMatrix();
+		}
 
 		// Entity Transform
 		auto &transform_comp = SelectedEntity.GetComponent<Vortex::TransformComponent>();

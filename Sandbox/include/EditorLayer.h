@@ -49,7 +49,7 @@ private:
 
 	// camera component
 	Vortex::EditorCamera m_EditorCamera;
-	float m_AspectRatio = 1300.0f / 800.0f;
+	float m_AspectRatio = 1800.0f / 1200.0f;
 	float m_ZoomLevel = 1.0f;
 	
 	// Imgui layer events

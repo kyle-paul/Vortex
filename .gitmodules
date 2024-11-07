@@ -28,3 +28,12 @@
 [submodule "Vortex/vendor/imnodes"]
 	path = Vortex/vendor/imnodes
 	url = https://github.com/Nelarius/imnodes.git
+[submodule "Vortex/vendor/box2d"]
+	path = Vortex/vendor/box2d
+	url = https://github.com/erincatto/box2d.git
+[submodule "Vortex/vendor/bullet3"]
+	path = Vortex/vendor/bullet3
+	url = https://github.com/bulletphysics/bullet3.git
+[submodule "Vortex/vendor/imguizmo"]
+	path = Vortex/vendor/imguizmo
+	url = https://github.com/TheCherno/ImGuizmo.git

@@ -101,11 +101,20 @@ namespace Vortex
         {
             if (ImGui::BeginPopupContextWindow(0, 1))
             {
-                if (ImGui::MenuItem("Create Square"))
+                if (ImGui::MenuItem("Create Camera"))
+                {
+                    Shape ShapeObj = Shape(Shape::BasicType::Square);
+                    auto Cam = m_Context->CreateEntity("Camera");
+                    Cam.AddComponent<ShapeComponent>(ShapeObj);
+                    Cam.AddComponent<CameraComponent>();
+                }
+                
+                else if (ImGui::MenuItem("Create Square"))
                 {
                     Shape ShapeObj = Shape(Shape::BasicType::Square);
                     auto Square = m_Context->CreateEntity("Square");
                     Square.AddComponent<ShapeComponent>(ShapeObj);
+                    Square.AddComponent<SpriteRendererComponent>();
                 }
 
                 else if (ImGui::MenuItem("Create Triangle")) 
@@ -125,8 +134,9 @@ namespace Vortex
                 else if (ImGui::MenuItem("Create Cube")) 
                 {
                     Shape ShapeObj = Shape(Shape::BasicType::Cube);
-                    auto Square = m_Context->CreateEntity("Cube");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
+                    auto Cube = m_Context->CreateEntity("Cube");
+                    Cube.AddComponent<ShapeComponent>(ShapeObj);
+                    Cube.AddComponent<SpriteRendererComponent>();
                 }
 
 
@@ -326,6 +336,26 @@ namespace Vortex
                     }
                     ImGui::CloseCurrentPopup();
                 }
+
+                // Physics
+                if (!m_SelectionContext.HasComponent<Rigidbody2DComponent>())
+				{
+					if (ImGui::MenuItem("Rigid Body"))
+					{
+						m_SelectionContext.AddComponent<Rigidbody2DComponent>();
+						ImGui::CloseCurrentPopup();
+					}
+				}
+
+				if (!m_SelectionContext.HasComponent<BoxCollider2DComponent>())
+				{
+					if (ImGui::MenuItem("Box Collider"))
+					{
+						m_SelectionContext.AddComponent<BoxCollider2DComponent>();
+						ImGui::CloseCurrentPopup();
+					}
+				}
+
                 ImGui::EndPopup();
             }
             ImGui::PopItemWidth();
@@ -348,6 +378,41 @@ namespace Vortex
             ImGui::Button("Change Texture");
             ImGui::DragFloat("Tiling factor", &component.TilingFactor, 1.0f, 0.0f, 10.0f);
         });
+
+
+        DrawComponent<Rigidbody2DComponent>("Rigid Body", entity, [](auto &component)
+        {
+            const char* bodyTypeStrings[] = { "Static", "Dynamic", "Kinematic"};
+            const char* currentBodyTypeString = bodyTypeStrings[(int)component.Type];
+
+            if (ImGui::BeginCombo("Body Type", currentBodyTypeString))
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					bool isSelected = currentBodyTypeString == bodyTypeStrings[i];
+					if (ImGui::Selectable(bodyTypeStrings[i], isSelected))
+					{
+						currentBodyTypeString = bodyTypeStrings[i];
+						component.Type = (Rigidbody2DComponent::BodyType)i;
+					}
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::Checkbox("Fixed Rotation", &component.FixedRotation);
+        });
+
+        DrawComponent<BoxCollider2DComponent>("Box Collider", entity, [](auto& component)
+		{
+			ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset));
+			ImGui::DragFloat2("Size", glm::value_ptr(component.Offset));
+			ImGui::DragFloat("Density", &component.Density, 0.01f, 0.0f, 1.0f);
+			ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
+			ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
+			ImGui::DragFloat("Restitution Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
+		});
+
 
         DrawComponent<CameraComponent>("Camera", entity, [](auto &component)
         {

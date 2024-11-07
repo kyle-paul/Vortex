@@ -60,6 +60,17 @@ cmake -S Vortex/vendor/spirv-cross \
 cmake --build Vortex/libs/spirv-cross-build --parallel <your-cpu-threads>
 cmake --install Vortex/libs/spirv-cross-build --prefix Vortex/libs/spirv-cross-build
 ```
+Build the Box3D library
+
+```bash
+cmake -S Vortex/vendor/box2d \
+      -B Vortex/libs/box2d-build \
+      -D GLFW_BUILD_WAYLAND=OFF \
+      -D BOX2D_BUILD_DOCS=OFF
+
+cmake --build Vortex/libs/box2d-build --parallel <your-cpu-threads>
+cmake --install Vortex/libs/box2d-build --prefix Vortex/libs/box2d-build
+```
 
 Build YAML library
 ```bash

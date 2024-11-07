@@ -4,6 +4,10 @@
 #include "Vortex/Core/Math.h"
 #include "Graphics/EditorCamera.h"
 
+
+class b2World;
+
+
 namespace Vortex
 {
     class Entity;
@@ -23,6 +27,9 @@ namespace Vortex
         void OnUpdateRuntime(TimeStep ts);
         void OnViewPortResize(uint32_t width, uint32_t height);
 
+        void OnRuntimeStart();
+        void OnRuntimeStop();
+
         Entity GetPrimaryCameraEntity();
 
    	public:
@@ -32,6 +39,8 @@ namespace Vortex
     private:
         entt::registry m_registry;
         uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+
+        b2World* m_PhysicsWorld = nullptr;
 
         friend class Entity;
         friend class SceneSerializer;
