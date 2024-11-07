@@ -1,16 +1,16 @@
 Scene: Untitled
 Entities:
-  - Entity: 2
+  - Entity: 3
     TagComponent:
       Tag: Object
     ShapeComponent:
       Type: 0
     TransformComponent:
-      Translation: [-0.686021268, 0.786126852, -0.115785412]
-      Rotation: [-0.105470933, 0.216718718, 0.0033893073]
-      Scale: [0.999998331, 0.999995232, 0.999998927]
+      Translation: [2.27106738, 5.79679585, 0.883681536]
+      Rotation: [0.367973298, -0.355960786, -0.816440403]
+      Scale: [0.999999642, 0.999999702, 1]
     SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
+      Color: [1, 0.593105078, 0.163424134, 1]
     TextureComponent:
       Texture:
         Path: white texture
@@ -22,10 +22,10 @@ Entities:
       Offset: [0, 0]
       Size: [0.5, 0.5]
       Density: 1
-      Friction: 0.5
-      Restitution: 0
+      Friction: 0.100000001
+      Restitution: 0.5
       RestitutionThreshold: 0.5
-  - Entity: 1048577
+  - Entity: 2
     TagComponent:
       Tag: Ground
     ShapeComponent:
@@ -33,12 +33,12 @@ Entities:
     TransformComponent:
       Translation: [1.93560553, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [7.88208008, 0.538874865, 9.1385746]
+      Scale: [7.88208008, 0.100000001, 10]
     SpriteRendererComponent:
-      Color: [0.950037062, 0.766536951, 1, 1]
+      Color: [1, 1, 1, 1]
     TextureComponent:
       Texture:
-        Path: assets/Textures/blue.jpg
+        Path: assets/Textures/Checkerboard.png
       Tiling factor: 10
     RigidbodyComponent:
       BodyType: Static
@@ -46,17 +46,17 @@ Entities:
     BoxCollider2DComponent:
       Offset: [0, 0]
       Size: [0.5, 0.5]
-      Density: 1
+      Density: 0.0900000036
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
-  - Entity: 0
+  - Entity: 1
     TagComponent:
       Tag: Camera
     ShapeComponent:
       Type: 0
     TransformComponent:
-      Translation: [1.17616916, 1.21109784, -11.2672749]
+      Translation: [1.17616916, 0.569705367, -11.2672749]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     TextureComponent:
@@ -74,3 +74,28 @@ Entities:
         OrthographicFar: 20
       Primary: true
       FixedAspectRatio: false
+  - Entity: 0
+    TagComponent:
+      Tag: Cube
+    ShapeComponent:
+      Type: 3
+    TransformComponent:
+      Translation: [4.31968784, 4.69203806, 1.23224914]
+      Rotation: [0.391346008, -0.418559313, -0.910826147]
+      Scale: [0.699994266, 0.699992359, 0.699999034]
+    SpriteRendererComponent:
+      Color: [0.385214031, 0.964117646, 1, 1]
+    TextureComponent:
+      Texture:
+        Path: white texture
+      Tiling factor: 10
+    RigidbodyComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.100000001
+      Restitution: 0.5
+      RestitutionThreshold: 0.5

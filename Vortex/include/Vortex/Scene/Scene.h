@@ -2,8 +2,8 @@
 #include <entt.hpp>
 #include "Vortex/Core/TimeStep.h"
 #include "Vortex/Core/Math.h"
+#include "Vortex/Core/UUID.h"
 #include "Graphics/EditorCamera.h"
-
 
 class b2World;
 
@@ -19,6 +19,7 @@ namespace Vortex
         ~Scene();
 
         Entity CreateEntity(const std::string &name = "");
+        Entity CreateEntityWithUUID(UUID uuid, const std::string &name);
         void DestroyEntity(Entity entity);
 
         entt::registry& Reg() { return m_registry; }

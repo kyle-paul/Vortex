@@ -6,9 +6,17 @@
 #include "Vortex/Scene/ScriptableEntity.h"
 #include "Vortex/Core/TimeStep.h"
 #include <Vortex/Core/Math.h>
+#include <Vortex/Core/UUID.h>
 
 namespace Vortex
 {
+    struct IDComponent
+    {
+        UUID ID;
+        IDComponent() = default;
+        IDComponent(const IDComponent&) = default;
+    };
+
     struct TagComponent
     {
         std::string Tag;

@@ -79,8 +79,17 @@ namespace Vortex
 
     Entity Scene::CreateEntity(const std::string &name)
     {
+        return CreateEntityWithUUID(UUID(), name);
+    }
+
+    Entity Scene::CreateEntityWithUUID(UUID uuid, const std::string &name)
+    {
         Entity entity = { m_registry.create(), this };
-        
+
+        // UUID
+        entity.AddComponent<IDComponent>(uuid);
+
+        // Default tag name
         auto &tag = entity.AddComponent<TagComponent>();
         tag.Tag = name.empty() ? "Unnamed_Entity" : name;
 

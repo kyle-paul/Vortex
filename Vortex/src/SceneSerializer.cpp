@@ -127,7 +127,8 @@ namespace Vortex
     static void SerializeEntity(YAML::Emitter &out, Entity entity)
     {
         out << YAML::BeginMap;
-        out << YAML::Key << "Entity" << YAML::Value << (uint32_t)entity;
+        // out << YAML::Key << "Entity" << YAML::Value << (uint32_t)entity;
+        out << YAML::Key << "Entity" << YAML::Value << entity.GetUUID();
         
         if (entity.HasComponent<TagComponent>())
         {
@@ -281,14 +282,14 @@ namespace Vortex
         {
             for (auto entity : entities)
             {
-                uint32_t uuid = entity["Entity"].as<uint32_t>(); // TODO
+                uint64_t uuid = entity["Entity"].as<uint64_t>();
 
                 std::string name;
                 auto tagComponent = entity["TagComponent"];
                 if (tagComponent) name = tagComponent["Tag"].as<std::string>();
 
                 VX_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
-                Entity deserializedEntity = m_Context->CreateEntity(name);
+                Entity deserializedEntity = m_Context->CreateEntityWithUUID(uuid, name);
 
 				auto shapeComponent = entity["ShapeComponent"];
 				auto meshComponent = entity["MeshComponent"];
@@ -353,7 +354,7 @@ namespace Vortex
 					cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
 				}
 
-				auto rigidbodyComponent = entity["Rigidbody2DComponent"];
+				auto rigidbodyComponent = entity["RigidbodyComponent"];
 				if (rigidbodyComponent)
 				{
 					auto& rb2d = deserializedEntity.AddComponent<Rigidbody2DComponent>();
