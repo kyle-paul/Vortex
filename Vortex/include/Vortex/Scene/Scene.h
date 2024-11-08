@@ -1,5 +1,6 @@
 #pragma once
 #include <entt.hpp>
+#include "Vortex/Core/Core.h"
 #include "Vortex/Core/TimeStep.h"
 #include "Vortex/Core/Math.h"
 #include "Vortex/Core/UUID.h"
@@ -17,6 +18,9 @@ namespace Vortex
     public:
         Scene();
         ~Scene();
+
+        static Ref<Scene> Copy(Ref<Scene> OtherScene);
+        void DuplicateEntity(Entity entity);
 
         Entity CreateEntity(const std::string &name = "");
         Entity CreateEntityWithUUID(UUID uuid, const std::string &name);

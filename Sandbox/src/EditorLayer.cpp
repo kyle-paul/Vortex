@@ -205,6 +205,15 @@ bool EditorLayer::OnKeyPressed(Vortex::KeyPressedEvent& event)
 			else m_GizmoType = ImGuizmo::OPERATION::SCALE;
 			break;
 		}
+		
+		// Copy Entity
+		case Vortex::Key::D:
+		{
+			if (control)
+			{
+				OnDuplicateEntity();
+			}
+		}
 
 		// ================ Gizmo ================
 		case Vortex::Key::Q: 
@@ -424,6 +433,11 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 void EditorLayer::LoadScene()
 {
+	if (m_SceneState == SceneState::Edit)
+	{
+		OnSceneStop();
+	}
+
 	std::string filepath = Vortex::FileDialogs::OpenFile("Vortex Scene (*.vx)\0*.vortex\0");
 	if (!filepath.empty()) 
 	{
@@ -433,11 +447,18 @@ void EditorLayer::LoadScene()
 
 void EditorLayer::OpenScene(const std::string &filepath)
 {
-	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
-	m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
-	m_SceneHierarchyPanel->SetContext(m_ActiveScene);
-	Vortex::SceneSerializer serializer(m_ActiveScene);
-	serializer.Deserialize(filepath);
+	Vortex::Ref<Vortex::Scene> NewScene = Vortex::CreateRef<Vortex::Scene>();
+	Vortex::SceneSerializer serializer(NewScene);
+
+	if (serializer.Deserialize(filepath))
+	{
+		m_EditorScene = NewScene;
+		m_EditorScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
+		m_SceneHierarchyPanel->SetContext(m_EditorScene);
+		
+		m_ActiveScene = m_EditorScene;
+		m_EditorScenePath = filepath;
+	}
 }
 
 void EditorLayer::ClearScene()
@@ -445,6 +466,17 @@ void EditorLayer::ClearScene()
 	m_ActiveScene = Vortex::CreateRef<Vortex::Scene>();
 	m_ActiveScene->OnViewPortResize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
 	m_SceneHierarchyPanel->SetContext(m_ActiveScene);
+	m_EditorScenePath = std::filesystem::path().string();
+}
+
+void EditorLayer::SaveDefault()
+{
+	if (!m_EditorScenePath.empty())
+	{
+		Vortex::SceneSerializer serializer(m_ActiveScene);
+		serializer.Serialize(m_EditorScenePath);
+	}
+	else SaveSceneAs();
 }
 
 void EditorLayer::SaveSceneAs()
@@ -455,12 +487,6 @@ void EditorLayer::SaveSceneAs()
 		Vortex::SceneSerializer serializer(m_ActiveScene);
 		serializer.Serialize(filepath);
 	}
-}
-
-void EditorLayer::SaveDefault()
-{
-	Vortex::SceneSerializer serializer(m_ActiveScene);
-	serializer.Serialize("assets/Scenes/default.vx");
 }
 
 void EditorLayer::OnImGuiRender()
@@ -511,13 +537,30 @@ void EditorLayer::PlayToolBar()
 void EditorLayer::OnScenePlay()
 {
 	m_SceneState = SceneState::Play;
+	m_ActiveScene = Vortex::Scene::Copy(m_EditorScene);
 	m_ActiveScene->OnRuntimeStart();
+	m_SceneHierarchyPanel->SetContext(m_ActiveScene);
 }
 
 void EditorLayer::OnSceneStop()
 {
 	m_SceneState = SceneState::Edit;
 	m_ActiveScene->OnRuntimeStop();
+	m_ActiveScene = m_EditorScene;
+	m_SceneHierarchyPanel->SetContext(m_ActiveScene);
+}
+
+void EditorLayer::OnDuplicateEntity()
+{
+	if (m_SceneState != SceneState::Edit)
+	{
+		return;
+	}
+	Vortex::Entity SelectedEntity = m_SceneHierarchyPanel->GetSelectedEntity();
+	if (SelectedEntity)
+	{
+		m_EditorScene->DuplicateEntity(SelectedEntity);
+	}
 }
 
 void EditorLayer::RenderViewPort()

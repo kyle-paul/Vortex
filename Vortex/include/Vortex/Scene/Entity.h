@@ -4,7 +4,6 @@
 #include "Vortex/Scene/Scene.h"
 #include "Vortex/Core/Core.h"
 #include "Vortex/Core/UUID.h"
-#include "Vortex/Scene/Component.h"
 
 namespace Vortex
 {
@@ -18,9 +17,17 @@ namespace Vortex
         template<typename T, typename... Args> 
         T& AddComponent(Args&&... args)
         {
-            VX_CORE_ASSERT(!HasComponent<T>(), "This Entity already had this component!");\
+            VX_CORE_ASSERT(!HasComponent<T>(), "This Entity already had this component!");
             T& component = m_Scene->m_registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 			m_Scene->OnComponentAdded<T>(*this, component);
+            return component;
+        }
+
+        template<typename T, typename... Args>
+        T& AddOrReplaceComponent(Args&&... args)
+        {
+            T& component = m_Scene->m_registry.emplace_or_replace<T>(m_EntityHandle, std::forward<Args>(args)...);
+            m_Scene->OnComponentAdded<T>(*this, component);
             return component;
         }
 
@@ -48,7 +55,8 @@ namespace Vortex
         operator uint32_t() const { return (uint32_t)(m_EntityHandle); }
         operator entt::entity() const { return m_EntityHandle; }
         
-        UUID GetUUID() { return GetComponent<IDComponent>().ID; }
+        UUID GetUUID();
+        const std::string& GetName();
 
         bool operator==(const Entity &other) const { 
             return m_EntityHandle == other.m_EntityHandle && 

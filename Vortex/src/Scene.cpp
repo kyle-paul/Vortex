@@ -33,6 +33,83 @@ namespace Vortex
         
     }
 
+    template<typename Component>
+    static void CopyComponent(entt::registry &DestReg, entt::registry &SrcReg, const std::unordered_map<UUID, entt::entity> &enttMap)
+    {
+        auto view = SrcReg.view<Component>();
+        for (auto e : view)
+        {
+            UUID uuid = SrcReg.get<IDComponent>(e).ID;
+            VX_CORE_ASSERT(enttMap.find(uuid) != enttMap.end());
+            entt::entity dstEnttID = enttMap.at(uuid);
+
+            auto &ComponentData = SrcReg.get<Component>(e);
+            DestReg.emplace_or_replace<Component>(dstEnttID, ComponentData);
+            // emplace in the registry the index of Entity = entt:entity
+            // the data information of the desirec copied component
+        }
+    }
+    
+    template<typename Component>
+    static void CopyComponentIfExists(Entity DesEntity, Entity SrcEntity)
+    {
+        if (SrcEntity.HasComponent<Component>())
+        {
+            DesEntity.AddOrReplaceComponent<Component>(SrcEntity.GetComponent<Component>());
+        }
+    }
+    
+    Ref<Scene> Scene::Copy(Ref<Scene> OtherScene)
+    {
+        Ref<Scene> NewScene = CreateRef<Scene>();
+     
+        NewScene->m_ViewportWidth = OtherScene->m_ViewportWidth;
+        NewScene->m_ViewportHeight = OtherScene->m_ViewportHeight;
+
+        auto &srcSceneRegistry = OtherScene->m_registry;
+        auto &dstSceneRegistry = NewScene->m_registry;
+
+        std::unordered_map<UUID, entt::entity> enttMap;
+
+        auto idView = srcSceneRegistry.view<IDComponent>();
+        for (auto e : idView)
+        {
+            UUID uuid = srcSceneRegistry.get<IDComponent>(e).ID;
+            const auto &name = srcSceneRegistry.get<TagComponent>(e).Tag;
+            Entity newEntity = NewScene->CreateEntityWithUUID(uuid, name);
+            enttMap[uuid] = (entt::entity)newEntity; // map <uuid, index of Entity class = entt:entity>
+        }
+
+        // Copy Components
+        CopyComponent<TransformComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+        CopyComponent<ShapeComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+        CopyComponent<MeshComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<NativeScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<Rigidbody2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<BoxCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+
+        return NewScene;
+    }
+
+    void Scene::DuplicateEntity(Entity entity)
+	{
+		std::string name = entity.GetName();
+		Entity newEntity = CreateEntity(name);
+		CopyComponentIfExists<TransformComponent>(newEntity, entity);
+		CopyComponentIfExists<ShapeComponent>(newEntity, entity);
+		CopyComponentIfExists<MeshComponent>(newEntity, entity);
+		CopyComponentIfExists<TransformComponent>(newEntity, entity);
+		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
+		CopyComponentIfExists<CameraComponent>(newEntity, entity);
+		CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
+		CopyComponentIfExists<Rigidbody2DComponent>(newEntity, entity);
+		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
+
+        newEntity.GetComponent<TransformComponent>().Translation.x += 0.1f;
+	}
+
     void Scene::OnRuntimeStart()
     {
         m_PhysicsWorld = new b2World({ 0.0f, -9.8f });  // The gravity
@@ -268,6 +345,11 @@ namespace Vortex
 		}
     }   
 
+
+    template<>
+    void Scene::OnComponentAdded<IDComponent>(Entity entity, IDComponent& component) {
+        // Logic for IDComponent
+    }
 
     template<>
     void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component) {

@@ -87,6 +87,7 @@ add_library(${PROJECT_NAME} SHARED
 	src/Math.cpp
 	src/Mesh.cpp
 	src/Shape.cpp
+	src/UUID.cpp
 
 	# Vendor sources
 	vendor/glad/src/glad.c

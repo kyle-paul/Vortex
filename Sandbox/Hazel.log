@@ -1,11 +1,11 @@
-[16:08:14] [warning] VORTEX: Initialized Logging !
-[16:08:14] [info] APP: WELCOME! Var=10
-[16:08:14] [info] VORTEX: Creating window Vortex Application (1800, 1200)
-[16:08:14] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
-[16:08:14] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
-[16:08:14] [info] VORTEX: Using Default Graphics Card
-[16:08:20] [trace] VORTEX: Deserializing scene 'Untitled'
-[16:08:20] [trace] VORTEX: Deserialized entity with ID = 3, name = Cube
-[16:08:20] [trace] VORTEX: Deserialized entity with ID = 2, name = Camera
-[16:08:20] [trace] VORTEX: Deserialized entity with ID = 1, name = Ground
-[16:08:20] [trace] VORTEX: Deserialized entity with ID = 0, name = Object
+[18:58:31] [warning] VORTEX: Initialized Logging !
+[18:58:31] [info] APP: WELCOME! Var=10
+[18:58:31] [info] VORTEX: Creating window Vortex Application (1800, 1200)
+[18:58:32] [info] VORTEX: OpenGL Version: 4.6 (Compatibility Profile) Mesa 24.0.9-0ubuntu0.2
+[18:58:32] [info] VORTEX: OpenGL Rendering Device is: Intel - Mesa Intel(R) Graphics (ADL GT2)
+[18:58:32] [info] VORTEX: Using Default Graphics Card
+[18:58:35] [trace] VORTEX: Deserializing scene 'Untitled'
+[18:58:35] [trace] VORTEX: Deserialized entity with ID = 16735681428122742769, name = Object
+[18:58:35] [trace] VORTEX: Deserialized entity with ID = 13871989393996823505, name = Ground
+[18:58:35] [trace] VORTEX: Deserialized entity with ID = 1294182387312897374, name = Cube
+[18:58:35] [trace] VORTEX: Deserialized entity with ID = 5419966330785257477, name = Camera

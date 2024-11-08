@@ -126,6 +126,8 @@ namespace Vortex
 	// ========== Entity Serialization Controller ==========
     static void SerializeEntity(YAML::Emitter &out, Entity entity)
     {
+		VX_CORE_ASSERT(entity.HasComponent<IDComponent>());
+
         out << YAML::BeginMap;
         // out << YAML::Key << "Entity" << YAML::Value << (uint32_t)entity;
         out << YAML::Key << "Entity" << YAML::Value << entity.GetUUID();

@@ -86,14 +86,19 @@ namespace Vortex
     void SceneHierarchyPanel::OnImGuiRender()
     {
         ImGui::Begin("Scene Hierachy");
-        m_Context->m_registry.each([&](auto entityID)
+        if (m_Context)
         {
-            Entity entity {entityID, m_Context.get()};
-            DrawEntityNode(entity);
-        });
+            m_Context->m_registry.each([&](auto entityID)
+            {
+                Entity entity {entityID, m_Context.get()};
+                DrawEntityNode(entity);
+            });
 
-        if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
-            m_SelectionContext = {};
+            // Click on the blank space
+            if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) 
+            {
+                m_SelectionContext = {};
+            }
         }
 
         // Right-click on blank space
@@ -101,94 +106,112 @@ namespace Vortex
         {
             if (ImGui::BeginPopupContextWindow(0, 1))
             {
+                if (ImGui::MenuItem("Create Empty Entity"))
+                {
+                    auto entity = m_Context->CreateEntity("Empty Entity");
+                }
+
                 if (ImGui::MenuItem("Create Camera"))
                 {
-                    Shape ShapeObj = Shape(Shape::BasicType::Square);
                     auto Cam = m_Context->CreateEntity("Camera");
-                    Cam.AddComponent<ShapeComponent>(ShapeObj);
                     Cam.AddComponent<CameraComponent>();
                 }
                 
-                else if (ImGui::MenuItem("Create Square"))
+                if (ImGui::BeginMenu("Create 2D Shapes"))
                 {
-                    Shape ShapeObj = Shape(Shape::BasicType::Square);
-                    auto Square = m_Context->CreateEntity("Square");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                    Square.AddComponent<SpriteRendererComponent>();
+                    if (ImGui::MenuItem("Create Square"))
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Square);
+                        auto Square = m_Context->CreateEntity("Square");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                        Square.AddComponent<SpriteRendererComponent>();
+                    }
+
+                    else if (ImGui::MenuItem("Create Triangle")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Triangle);
+                        auto Square = m_Context->CreateEntity("Triangle");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+                    else if (ImGui::MenuItem("Create Circle")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Circle);
+                        auto Square = m_Context->CreateEntity("Circle");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+                    ImGui::EndMenu();
                 }
 
-                else if (ImGui::MenuItem("Create Triangle")) 
+                if (ImGui::BeginMenu("Create 3D Mesh"))
                 {
-                    Shape ShapeObj = Shape(Shape::BasicType::Triangle);
-                    auto Square = m_Context->CreateEntity("Triangle");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
+                    if (ImGui::MenuItem("Create Cube")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Cube);
+                        auto Cube = m_Context->CreateEntity("Cube");
+                        Cube.AddComponent<ShapeComponent>(ShapeObj);
+                        Cube.AddComponent<SpriteRendererComponent>();
+                    }
+
+
+                    else if (ImGui::MenuItem("Create Sphere")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Sphere);
+                        auto Square = m_Context->CreateEntity("Sphere");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+
+                    else if (ImGui::MenuItem("Create Cylinder")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Cylinder);
+                        auto Square = m_Context->CreateEntity("Cylinder");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+                    else if (ImGui::MenuItem("Create Prism")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Prism);
+                        auto Square = m_Context->CreateEntity("Prism");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+
+                    else if (ImGui::MenuItem("Create Tetrahedron")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Tetrahedron);
+                        auto Square = m_Context->CreateEntity("Tetrahedron");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+                    else if (ImGui::MenuItem("Create Pyramid")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Pyramid);
+                        auto Square = m_Context->CreateEntity("Pyramid");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+                    else if (ImGui::MenuItem("Create Cone")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Cone);
+                        auto Square = m_Context->CreateEntity("Cone");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+
+                    else if (ImGui::MenuItem("Create Octahedron")) 
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Octahedron);
+                        auto Square = m_Context->CreateEntity("Octahedron");
+                        Square.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+                    
+                    ImGui::EndMenu();
                 }
-
-                else if (ImGui::MenuItem("Create Circle")) 
+                
+                if (ImGui::MenuItem("Create Text"))
                 {
-                    Shape ShapeObj = Shape(Shape::BasicType::Circle);
-                    auto Square = m_Context->CreateEntity("Circle");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                }
-
-                else if (ImGui::MenuItem("Create Cube")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Cube);
-                    auto Cube = m_Context->CreateEntity("Cube");
-                    Cube.AddComponent<ShapeComponent>(ShapeObj);
-                    Cube.AddComponent<SpriteRendererComponent>();
-                }
-
-
-                else if (ImGui::MenuItem("Create Sphere")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Sphere);
-                    auto Square = m_Context->CreateEntity("Sphere");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                }
-
-
-                else if (ImGui::MenuItem("Create Cylinder")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Cylinder);
-                    auto Square = m_Context->CreateEntity("Cylinder");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                }
-
-                else if (ImGui::MenuItem("Create Prism")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Prism);
-                    auto Square = m_Context->CreateEntity("Prism");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                }
-
-
-                else if (ImGui::MenuItem("Create Tetrahedron")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Tetrahedron);
-                    auto Square = m_Context->CreateEntity("Tetrahedron");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                }
-
-                else if (ImGui::MenuItem("Create Pyramid")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Pyramid);
-                    auto Square = m_Context->CreateEntity("Pyramid");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                }
-
-                else if (ImGui::MenuItem("Create Cone")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Cone);
-                    auto Square = m_Context->CreateEntity("Cone");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
-                }
-
-                else if (ImGui::MenuItem("Create Octahedron")) 
-                {
-                    Shape ShapeObj = Shape(Shape::BasicType::Octahedron);
-                    auto Square = m_Context->CreateEntity("Octahedron");
-                    Square.AddComponent<ShapeComponent>(ShapeObj);
+                    
                 }
 
                 ImGui::EndPopup();
@@ -406,11 +429,11 @@ namespace Vortex
         DrawComponent<BoxCollider2DComponent>("Box Collider", entity, [](auto& component)
 		{
 			ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset));
-			ImGui::DragFloat2("Size", glm::value_ptr(component.Offset));
+			ImGui::DragFloat2("Size", glm::value_ptr(component.Size));
 			ImGui::DragFloat("Density", &component.Density, 0.01f, 0.0f, 1.0f);
 			ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
 			ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
-			ImGui::DragFloat("Restitution Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
+			ImGui::DragFloat("Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
 		});
 
 

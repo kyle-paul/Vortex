@@ -34,7 +34,9 @@ namespace Vortex
         
         std::array<char, 128> buffer;
         std::string result;
-        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command, "r"), pclose);
+        
+        auto pclose_lambda = [](FILE* f) { pclose(f); };
+        std::unique_ptr<FILE, decltype(pclose_lambda)> pipe(popen(command, "r"), pclose_lambda);
         
         if (!pipe) return std::string();
         
@@ -75,7 +77,9 @@ namespace Vortex
 
         std::array<char, 128> buffer;
         std::string result;
-        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command, "r"), pclose);
+        
+        auto pclose_lambda = [](FILE* f) { pclose(f); };
+        std::unique_ptr<FILE, decltype(pclose_lambda)> pipe(popen(command, "r"), pclose_lambda);
 
         if (!pipe) return std::string();
 

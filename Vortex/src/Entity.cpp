@@ -1,5 +1,6 @@
 #include "Vortex/PreHeaders.h"
 #include "Vortex/Scene/Entity.h"
+#include "Vortex/Scene/Component.h"
 
 namespace Vortex
 {
@@ -7,5 +8,15 @@ namespace Vortex
         :m_EntityHandle(handle), m_Scene(scene)
     {
         
+    }
+
+    UUID Entity::GetUUID()
+    {
+        return GetComponent<IDComponent>().ID;
+    }
+
+    const std::string& Entity::GetName()
+    {
+        return GetComponent<TagComponent>().Tag;
     }
 }

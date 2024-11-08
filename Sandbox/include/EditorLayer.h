@@ -21,18 +21,22 @@ public:
 	
 private:
 	void ShowDockSpaceApp(bool *p_open);
+
+	// File Dialogs
 	void LoadScene(); 
 	void OpenScene(const std::string &filepath);
 	void ClearScene();
-	void SaveSceneAs();
 	void SaveDefault();
+	void SaveSceneAs();
 
 	bool OnKeyPressed(Vortex::KeyPressedEvent& event);
 
+	// Runtime Editor Controller
 	void OnScenePlay();
 	void OnSceneStop();
-
 	void PlayToolBar();
+
+	void OnDuplicateEntity();
 	void RenderViewPort();
     
 private:
@@ -40,10 +44,7 @@ private:
 	Vortex::NodePanels m_NodePanels;
 
 	// Play button
-	enum class SceneState
-	{
-		Edit = 0, Play = 1
-	};
+	enum class SceneState { Edit = 0, Play = 1 };
 	SceneState m_SceneState = SceneState::Edit;
 	Vortex::Ref<Vortex::Texture2D> m_IconPlay, m_IconStop;
 
@@ -59,21 +60,18 @@ private:
 	// Frame buffer
 	Vortex::Ref<Vortex::Framebuffer> m_Framebuffer;
 	glm::vec2 m_ViewPortSize = {0.0f, 0.0f};
-	glm::vec2 m_ViewportBounds[2]; // object clicking
+	glm::vec2 m_ViewportBounds[2];
 	int CurrentPixelData = -1;
 	Vortex::Entity MouseSelectedEntity;
 
 	// Scene - entity
-	Vortex::Ref<Vortex::Scene> m_ActiveScene;
-	Vortex::Entity CameraEntity, CameraEntity2;
-	bool m_PrimaryCamera = true;
+	Vortex::Ref<Vortex::Scene> m_ActiveScene, m_EditorScene;
+	std::string m_EditorScenePath;
 
-	// Scene Hierachy Panel
+	// Scene Hierachy Panel &  Content Browser
 	Vortex::Ref<Vortex::SceneHierarchyPanel> m_SceneHierarchyPanel;
+	Vortex::ContentBrowserPanel m_ContentBrowserPanel;
 
 	// Gizmo
 	int m_GizmoType = -1;
-
-	// Content Browser
-	Vortex::ContentBrowserPanel m_ContentBrowserPanel;
 };
