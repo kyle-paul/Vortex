@@ -66,6 +66,15 @@ namespace Vortex
             : ShapeObj(shape) { }
     };
 
+    struct CircleComponent
+    {
+        float Thickness = 1.0f;
+        float Fade = 0.005f;
+
+        CircleComponent() = default;
+        CircleComponent(const CircleComponent&) = default;
+    };
+
     struct TextureComponent
     {
         Ref<Texture2D> Texture;

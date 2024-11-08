@@ -129,7 +129,6 @@ namespace Vortex
 		VX_CORE_ASSERT(entity.HasComponent<IDComponent>());
 
         out << YAML::BeginMap;
-        // out << YAML::Key << "Entity" << YAML::Value << (uint32_t)entity;
         out << YAML::Key << "Entity" << YAML::Value << entity.GetUUID();
         
         if (entity.HasComponent<TagComponent>())
@@ -159,6 +158,16 @@ namespace Vortex
 			out << YAML::EndMap; // MeshComponent
 		}
 
+		else if (entity.HasComponent<CircleComponent>())
+		{
+			out << YAML::Key << "CircleComponent";
+			out << YAML::BeginMap; // CircleComponent
+			auto &circle = entity.GetComponent<CircleComponent>();
+			out << YAML::Key << "Thickness" << YAML::Value << circle.Thickness;
+			out << YAML::Key << "Fade" << YAML::Value << circle.Fade;
+			out << YAML::EndMap; // CircleComponent
+		}
+
         if (entity.HasComponent<TransformComponent>())
         {
             out << YAML::Key << "TransformComponent";
@@ -174,8 +183,8 @@ namespace Vortex
 		{
 			out << YAML::Key << "SpriteRendererComponent";
 			out << YAML::BeginMap; // SpriteRendererComponent
-			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
-			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+			auto& sc = entity.GetComponent<SpriteRendererComponent>();
+			out << YAML::Key << "Color" << YAML::Value << sc.Color;
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
 
@@ -183,12 +192,12 @@ namespace Vortex
 		{
 			out << YAML::Key << "TextureComponent";
 			out << YAML::BeginMap; // TextureComponent
-			auto& texture = entity.GetComponent<TextureComponent>();
+			auto& tc = entity.GetComponent<TextureComponent>();
 			out << YAML::Key << "Texture" << YAML::Value;
 			out << YAML::BeginMap; // TextureProps
-			out << YAML::Key << "Path" << YAML::Value << texture.Texture->GetPath();
+			out << YAML::Key << "Path" << YAML::Value << tc.Texture->GetPath();
 			out << YAML::EndMap; // TextureProps
-			out << YAML::Key << "Tiling factor" << YAML::Value << texture.TilingFactor;
+			out << YAML::Key << "Tiling factor" << YAML::Value << tc.TilingFactor;
 			out << YAML::EndMap; // TextureComponent
 		}
 
@@ -196,20 +205,20 @@ namespace Vortex
 		{
 			out << YAML::Key << "CameraComponent";
 			out << YAML::BeginMap; // CameraComponent
-			auto& cameraComponent = entity.GetComponent<CameraComponent>();
-			auto& camera = cameraComponent.Camera;
+			auto& cc = entity.GetComponent<CameraComponent>();
+			auto& cam = cc.Camera;
 			out << YAML::Key << "Camera" << YAML::Value;
 			out << YAML::BeginMap; // CameraProps
-			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
-			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
-			out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
-			out << YAML::Key << "PerspectiveFar" << YAML::Value << camera.GetPerspectiveFarClip();
-			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
-			out << YAML::Key << "OrthographicNear" << YAML::Value << camera.GetOrthographicNearClip();
-			out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
+			out << YAML::Key << "ProjectionType" << YAML::Value << (int)cam.GetProjectionType();
+			out << YAML::Key << "PerspectiveFOV" << YAML::Value << cam.GetPerspectiveVerticalFOV();
+			out << YAML::Key << "PerspectiveNear" << YAML::Value << cam.GetPerspectiveNearClip();
+			out << YAML::Key << "PerspectiveFar" << YAML::Value << cam.GetPerspectiveFarClip();
+			out << YAML::Key << "OrthographicSize" << YAML::Value << cam.GetOrthographicSize();
+			out << YAML::Key << "OrthographicNear" << YAML::Value << cam.GetOrthographicNearClip();
+			out << YAML::Key << "OrthographicFar" << YAML::Value << cam.GetOrthographicFarClip();
 			out << YAML::EndMap; // CameraProps
-			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
-			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
+			out << YAML::Key << "Primary" << YAML::Value << cc.Primary;
+			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cc.FixedAspectRatio;
 			out << YAML::EndMap; // CameraComponent
 		}
 
@@ -217,9 +226,9 @@ namespace Vortex
 		{
 			out << YAML::Key << "RigidbodyComponent";
 			out << YAML::BeginMap; // Rigidbody2DComponent
-			auto& rb2dComponent = entity.GetComponent<Rigidbody2DComponent>();
-			out << YAML::Key << "BodyType" << YAML::Value << RigidBody2DBodyTypeToString(rb2dComponent.Type);
-			out << YAML::Key << "FixedRotation" << YAML::Value << rb2dComponent.FixedRotation;
+			auto& rbc = entity.GetComponent<Rigidbody2DComponent>();
+			out << YAML::Key << "BodyType" << YAML::Value << RigidBody2DBodyTypeToString(rbc.Type);
+			out << YAML::Key << "FixedRotation" << YAML::Value << rbc.FixedRotation;
 			out << YAML::EndMap; // Rigidbody2DComponent
 		}
 
@@ -227,13 +236,13 @@ namespace Vortex
 		{
 			out << YAML::Key << "BoxCollider2DComponent";
 			out << YAML::BeginMap; // BoxCollider2DComponent
-			auto& bc2dComponent = entity.GetComponent<BoxCollider2DComponent>();
-			out << YAML::Key << "Offset" << YAML::Value << bc2dComponent.Offset;
-			out << YAML::Key << "Size" << YAML::Value << bc2dComponent.Size;
-			out << YAML::Key << "Density" << YAML::Value << bc2dComponent.Density;
-			out << YAML::Key << "Friction" << YAML::Value << bc2dComponent.Friction;
-			out << YAML::Key << "Restitution" << YAML::Value << bc2dComponent.Restitution;
-			out << YAML::Key << "RestitutionThreshold" << YAML::Value << bc2dComponent.RestitutionThreshold;
+			auto& bcc = entity.GetComponent<BoxCollider2DComponent>();
+			out << YAML::Key << "Offset" << YAML::Value << bcc.Offset;
+			out << YAML::Key << "Size" << YAML::Value << bcc.Size;
+			out << YAML::Key << "Density" << YAML::Value << bcc.Density;
+			out << YAML::Key << "Friction" << YAML::Value << bcc.Friction;
+			out << YAML::Key << "Restitution" << YAML::Value << bcc.Restitution;
+			out << YAML::Key << "RestitutionThreshold" << YAML::Value << bcc.RestitutionThreshold;
 			out << YAML::EndMap; // BoxCollider2DComponent
 		}
 
@@ -295,6 +304,7 @@ namespace Vortex
 
 				auto shapeComponent = entity["ShapeComponent"];
 				auto meshComponent = entity["MeshComponent"];
+				auto circleComponent = entity["CircleComponent"];
 
 				if (shapeComponent) 
 				{
@@ -308,6 +318,13 @@ namespace Vortex
 				{
 					Vortex::Mesh MeshObj = Vortex::Mesh(meshComponent["Path"].as<std::string>());
 					deserializedEntity.AddComponent<Vortex::MeshComponent>(MeshObj);
+				}
+
+				else if (circleComponent)
+				{
+					auto &crc = deserializedEntity.AddComponent<Vortex::CircleComponent>();
+					crc.Thickness = circleComponent["Thickness"].as<float>();
+					crc.Fade = circleComponent["Fade"].as<float>();
 				}
 
 				auto textureComponent = entity["TextureComponent"];

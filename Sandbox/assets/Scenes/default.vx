@@ -23,7 +23,7 @@ Entities:
       Size: [0.5, 0.5]
       Density: 1
       Friction: 0.5
-      Restitution: 0
+      Restitution: 0.200000003
       RestitutionThreshold: 0.5
   - Entity: 13871989393996823505
     TagComponent:
@@ -33,7 +33,7 @@ Entities:
     TransformComponent:
       Translation: [0, -1.01396203, 0]
       Rotation: [0, 0, 0]
-      Scale: [5.45892954, 0.0407291353, 5.16002607]
+      Scale: [12.534729, 0.0407291353, 13.4505129]
     SpriteRendererComponent:
       Color: [1, 0.910505831, 0.910505831, 1]
     TextureComponent:
@@ -48,7 +48,7 @@ Entities:
       Size: [0.5, 0.5]
       Density: 1
       Friction: 0.5
-      Restitution: 0
+      Restitution: 0.5
       RestitutionThreshold: 0.5
   - Entity: 1294182387312897374
     TagComponent:
@@ -73,7 +73,7 @@ Entities:
       Size: [0.5, 0.5]
       Density: 1
       Friction: 0.5
-      Restitution: 0
+      Restitution: 0.300000012
       RestitutionThreshold: 0.5
   - Entity: 5419966330785257477
     TagComponent:

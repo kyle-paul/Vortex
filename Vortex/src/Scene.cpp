@@ -84,6 +84,7 @@ namespace Vortex
         CopyComponent<TransformComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
         CopyComponent<ShapeComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
         CopyComponent<MeshComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+        CopyComponent<CircleComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<NativeScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
@@ -100,7 +101,7 @@ namespace Vortex
 		CopyComponentIfExists<TransformComponent>(newEntity, entity);
 		CopyComponentIfExists<ShapeComponent>(newEntity, entity);
 		CopyComponentIfExists<MeshComponent>(newEntity, entity);
-		CopyComponentIfExists<TransformComponent>(newEntity, entity);
+        CopyComponentIfExists<CircleComponent>(newEntity, entity);
 		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
 		CopyComponentIfExists<CameraComponent>(newEntity, entity);
 		CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
@@ -208,11 +209,11 @@ namespace Vortex
         MeshRenderer::BeginScene(camera);
 
         // Single group with shared components
-        auto group = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
+        auto view = m_registry.view<TransformComponent, SpriteRendererComponent, TextureComponent>();
 
-        for (auto entity : group)
+        for (auto entity : view)
         {
-            auto [transform, sprite, texture] = group.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+            auto [transform, sprite, texture] = view.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
             
             // ShapeComponent
             if (m_registry.has<ShapeComponent>(entity))
@@ -226,6 +227,12 @@ namespace Vortex
             {
                 auto& mesh = m_registry.get<MeshComponent>(entity);
                 MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+            }
+
+            if (m_registry.has<CircleComponent>(entity))
+            {
+                auto& circle = m_registry.get<CircleComponent>(entity);
+                Renderer2D::DrawCircle(transform.GetTransform(), sprite.Color, circle.Thickness, circle.Fade, (int)entity);
             }
         }
 
@@ -297,11 +304,11 @@ namespace Vortex
             MeshRenderer::BeginScene(*MainCamera, CameraTransform);
 
             // Single group with shared components
-            auto group = m_registry.group<TransformComponent, SpriteRendererComponent, TextureComponent>();
+            auto view = m_registry.view<TransformComponent, SpriteRendererComponent, TextureComponent>();
 
-            for (auto entity : group)
+            for (auto entity : view)
             {
-                auto [transform, sprite, texture] = group.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+                auto [transform, sprite, texture] = view.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
                 
                 // ShapeComponent
                 if (m_registry.has<ShapeComponent>(entity))
@@ -315,6 +322,13 @@ namespace Vortex
                 {
                     auto& mesh = m_registry.get<MeshComponent>(entity);
                     MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                }
+
+                // CircleComponent
+                if (m_registry.has<CircleComponent>(entity))
+                {
+                    auto& circle = m_registry.get<CircleComponent>(entity);
+                    Renderer2D::DrawCircle(transform.GetTransform(), sprite.Color, circle.Thickness, circle.Fade, (int)entity);
                 }
             }
 
@@ -374,6 +388,11 @@ namespace Vortex
     template<>
     void Scene::OnComponentAdded<ShapeComponent>(Entity entity, ShapeComponent& component) {
         // Logic for ShapeComponent
+    }
+
+    template<>
+    void Scene::OnComponentAdded<CircleComponent>(Entity entity, CircleComponent& component) {
+        // Logic for CircleComponent
     }
 
     template<>

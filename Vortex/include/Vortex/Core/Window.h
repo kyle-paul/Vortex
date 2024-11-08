@@ -14,7 +14,7 @@ namespace Vortex {
 		uint32_t Height;
 
 		WindowProps(const std::string& title = "Vortex Engine",
-			        uint32_t width = 1800,
+			        uint32_t width = 2100,
 			        uint32_t height = 1200)
 			: Title(title), Width(width), Height(height)
 		{

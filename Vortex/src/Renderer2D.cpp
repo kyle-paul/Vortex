@@ -7,6 +7,18 @@ namespace Vortex
 		Ref<Shader> shad;
 	};
 
+	struct CircleVertex
+	{
+		glm::vec3 WorldPosition;
+		glm::vec3 LocalPosition;
+		glm::vec4 Color;
+		float Thickness;
+		float Fade;
+
+		// Editor only
+		int EntityID;
+	};
+
     static RendererManager* manager;
 
     void Renderer2D::Init()
@@ -46,7 +58,7 @@ namespace Vortex
 	}
 
 
-	void Renderer2D::DrawShape(const Shape &shape, const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor)
+	void Renderer2D::DrawShape(const Shape &shape, const glm::mat4 &transform, const glm::vec4 &color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor)
 	{
 		manager->shad->SetFloat4("u_Color", color);
 		manager->shad->SetMat4("u_Transform", transform);
@@ -55,5 +67,10 @@ namespace Vortex
 		
 		texture->Bind();
 		RenderCommand::DrawIndexed(shape.GetVertexArray());
+	}
+
+	void Renderer2D::DrawCircle(const glm::mat4 &transform, const glm::vec4 &color, const float Thickness, const float Fade, const int EntityID)
+	{
+		
 	}
 }

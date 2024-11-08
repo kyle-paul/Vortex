@@ -28,7 +28,7 @@ void EditorLayer::OnAttach()
 	// Frame buffer
 	Vortex::FramebufferSpecification fbspec;
 	fbspec.Attachments = { Vortex::FramebufferTextureFormat::RGBA8, Vortex::FramebufferTextureFormat::RED_INTEGER, Vortex::FramebufferTextureFormat::Depth };
-	fbspec.Width = 1800.0f;
+	fbspec.Width = 2100.0f;
 	fbspec.Height = 1200.0f;
 	m_Framebuffer = Vortex::Framebuffer::Create(fbspec);
 
@@ -405,19 +405,19 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 	}
 
 	if (ImGui::Button("Render Robot Arms")) {
-		Vortex::Mesh MeshObj = Vortex::Mesh("/home/pc/dev/engine/Sandbox/assets/Meshes/models/RobotArms.obj");
+		Vortex::Mesh MeshObj = Vortex::Mesh("assets/Meshes/models/RobotArms.obj");
 		auto robot = m_ActiveScene->CreateEntity("Robot Arms");
 		robot.AddComponent<Vortex::MeshComponent>(MeshObj);
 		robot.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.3f, 0.7f, 0.2f, 1.0f));
 		robot.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
 
-	if (ImGui::Button("Render Cube")) {
-		Vortex::Mesh MeshObj = Vortex::Mesh("/home/pc/dev/engine/Sandbox/assets/Meshes/BasicType/Cube.obj");
-		auto cube = m_ActiveScene->CreateEntity("Cube");
-		cube.AddComponent<Vortex::MeshComponent>(MeshObj);
-		cube.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.1f, 0.2f, 0.7f, 1.0f));
-		cube.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
+	if (ImGui::Button("Render Mercedes")) {
+		Vortex::Mesh MeshObj = Vortex::Mesh("assets/Meshes/models/Mercedes.obj");
+		auto car = m_ActiveScene->CreateEntity("Mercedes");
+		car.AddComponent<Vortex::MeshComponent>(MeshObj);
+		car.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.8f, 0.7f, 0.6f, 1.0f));
+		car.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
 
     ImGui::End(); // Setting
