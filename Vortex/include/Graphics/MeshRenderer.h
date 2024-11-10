@@ -10,10 +10,8 @@ namespace Vortex
     class MeshRenderer
     {
     public:
-        MeshRenderer();
-        ~MeshRenderer();
-
         static void Init();
+        static void Shutdown();
 
         static void BeginScene(const Camera& camera, const glm::mat4 &transform); // for entity has camera component
         static void BeginScene(EditorCamera& camera); // for the editor main camera

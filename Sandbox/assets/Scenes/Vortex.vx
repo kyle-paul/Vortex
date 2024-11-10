@@ -1,3 +1,45 @@
 Scene: Untitled
 Entities:
-  []
+  - Entity: 1894673273283166249
+    TagComponent:
+      Tag: Square
+    ShapeComponent:
+      Type: 0
+    TransformComponent:
+      Translation: [0.283508301, 0.864013672, -1.16607666]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.245045364, 0.926625073, 0.968871593, 1]
+    TextureComponent:
+      Texture:
+        Path: white texture
+      Tiling factor: 10
+  - Entity: 13264327083791054039
+    TagComponent:
+      Tag: Cube
+    ShapeComponent:
+      Type: 3
+    TransformComponent:
+      Translation: [-1.71048415, 0, 0]
+      Rotation: [1.08344281, 0, 0]
+      Scale: [1.41707814, 1.00000012, 1.00000012]
+    SpriteRendererComponent:
+      Color: [0.14357987, 0.800000012, 0.100000001, 1]
+    TextureComponent:
+      Texture:
+        Path: white texture
+      Tiling factor: 10
+  - Entity: 14541079848355415854
+    TagComponent:
+      Tag: Quad
+    TransformComponent:
+      Translation: [1.19093704, 0.836257577, 0.752232432]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.800000012, 0.200000003, 0.100000001, 1]
+    TextureComponent:
+      Texture:
+        Path: white texture
+      Tiling factor: 10

@@ -26,7 +26,7 @@ namespace Vortex
 		VX_PROFILE_FUNCTION();
 
         manager = new RendererManager();
-		manager->shad = Shader::Create("TextureShader", "/home/pc/dev/engine/Sandbox/assets/Shaders/Custom.glsl");
+		manager->shad = Shader::Create("ShapeShader", "assets/Shaders/Custom.glsl");
 		manager->shad->Bind();
 		manager->shad->SetInt("u_Texture", 0);
 

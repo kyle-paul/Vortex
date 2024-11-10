@@ -116,6 +116,13 @@ namespace Vortex
                     auto Cam = m_Context->CreateEntity("Camera");
                     Cam.AddComponent<CameraComponent>();
                 }
+
+                if (ImGui::MenuItem("Create Batch Quad"))
+                {
+                    auto Quad = m_Context->CreateEntity("Quad");
+                    Quad.AddComponent<BatchComponent>();
+                    Quad.AddComponent<SpriteRendererComponent>();
+                }
                 
                 if (ImGui::BeginMenu("Create 2D Shapes"))
                 {
@@ -340,6 +347,35 @@ namespace Vortex
                     }
                     ImGui::CloseCurrentPopup();
                 }
+
+                if (ImGui::MenuItem("Batching"))
+                {
+                    if (!m_SelectionContext.HasComponent<BatchComponent>())
+                    {
+                        m_SelectionContext.AddComponent<BatchComponent>();
+                    }
+                    ImGui::CloseCurrentPopup();
+                }
+
+                if (ImGui::MenuItem("Shape"))
+                {
+                    if (!m_SelectionContext.HasComponent<ShapeComponent>())
+                    {
+                        Shape ShapeObj = Shape(Shape::BasicType::Cube);
+                        m_SelectionContext.AddComponent<ShapeComponent>(ShapeObj);
+                    }
+                    ImGui::CloseCurrentPopup();
+                }
+
+                if (ImGui::MenuItem("Mesh"))
+                {
+                    if (!m_SelectionContext.HasComponent<MeshComponent>())
+                    {
+                        // m_SelectionContext.AddComponent<MeshComponent>();
+                    }
+                    ImGui::CloseCurrentPopup();
+                }
+
                 else if (ImGui::MenuItem("Sprite Renderer"))
                 {
                     if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
@@ -361,18 +397,18 @@ namespace Vortex
                 }
 
                 // Physics
-                if (!m_SelectionContext.HasComponent<Rigidbody2DComponent>())
-				{
-					if (ImGui::MenuItem("Rigid Body"))
+                if (ImGui::MenuItem("Rigid Body"))
+                {
+                    if (!m_SelectionContext.HasComponent<Rigidbody2DComponent>())
 					{
 						m_SelectionContext.AddComponent<Rigidbody2DComponent>();
 						ImGui::CloseCurrentPopup();
 					}
 				}
 
-				if (!m_SelectionContext.HasComponent<BoxCollider2DComponent>())
-				{
-					if (ImGui::MenuItem("Box Collider"))
+                if (ImGui::MenuItem("Box Collider"))
+                {
+				    if (!m_SelectionContext.HasComponent<BoxCollider2DComponent>())					
 					{
 						m_SelectionContext.AddComponent<BoxCollider2DComponent>();
 						ImGui::CloseCurrentPopup();

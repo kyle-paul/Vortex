@@ -19,7 +19,10 @@ namespace Vortex
 		static void BeginScene(EditorCamera& camera);
 		static void EndScene();
 
-		static void DrawShape(const Shape &shape, const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor);
-		static void DrawCircle(const glm::mat4& transform,  const glm::vec4 &color, const float Thickness, const float Fade, const int EntityID);
+		static void DrawShape(const Shape &shape, const glm::mat4& transform, const glm::vec4& color, 
+							  const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor);
+
+		static void DrawCircle(const glm::mat4& transform,  const glm::vec4 &color, 
+							   const float Thickness, const float Fade, const int EntityID);
 	};
 }

@@ -158,8 +158,10 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 		&& !ImGuizmo::IsOver())
 	{
 		CurrentPixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+		VX_INFO("Clicked Object ID = {0}", CurrentPixelData);
+
 		if (CurrentPixelData >= 0 && CurrentPixelData <= 100)
-		{
+		{	
 			MouseSelectedEntity = Vortex::Entity(static_cast<entt::entity>(CurrentPixelData), m_ActiveScene.get());
 			if (MouseSelectedEntity && MouseSelectedEntity.HasComponent<Vortex::TagComponent>())
 			{

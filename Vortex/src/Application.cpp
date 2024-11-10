@@ -31,6 +31,8 @@ namespace Vortex
 	Application::~Application()
 	{
 		VX_PROFILE_FUNCTION();
+
+		Renderer::Shutdown();
 	}
 
 	void Application::Close()

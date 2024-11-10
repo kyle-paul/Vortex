@@ -27,7 +27,13 @@ namespace Vortex
         static inline void DrawIndexed(const Ref<VertexArray> &VertexArrayID)
         {
             VertexArrayID->Bind();
-            return m_RendererAPI->DrawIndexed(VertexArrayID);
+            m_RendererAPI->DrawIndexed(VertexArrayID);
+        }
+
+        static inline void DrawIndexedMulti(const Ref<VertexArray> &VertexArrayID, uint32_t count=0)
+        {
+            VertexArrayID->Bind();
+            m_RendererAPI->DrawIndexedMulti(VertexArrayID, count);
         }
         
     public:

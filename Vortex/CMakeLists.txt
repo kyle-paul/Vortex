@@ -89,6 +89,11 @@ add_library(${PROJECT_NAME} SHARED
 	src/Shape.cpp
 	src/UUID.cpp
 
+	# Batch Rendering
+	src/UniformBuffer.cpp
+	src/OpenGLUniformBuffer.cpp
+	src/RenderMulti.cpp
+
 	# Vendor sources
 	vendor/glad/src/glad.c
 	vendor/stb/stb_image.cpp

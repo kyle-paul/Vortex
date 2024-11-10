@@ -18,6 +18,12 @@ namespace Vortex
         
         virtual void SetData(void* data, uint32_t size) override;
         virtual void Bind(uint32_t slot = 0) const override;
+        virtual bool IsLoaded() const override { return m_IsLoaded; }
+
+		virtual bool operator==(const Texture& other) const override
+		{
+			return m_RendererID == ((OpenGLTexture2D&)other).m_RendererID;
+		}
 
         virtual std::string GetPath() const override 
         {
@@ -27,6 +33,8 @@ namespace Vortex
 
     private:
         unsigned int m_RendererID;
+        bool m_IsLoaded = false;
+        
         std::string m_Path;
         uint32_t m_Width;
         uint32_t m_Height;

@@ -9,11 +9,6 @@ namespace Vortex
 
     static RenderMeshManagaer* manager;
 
-    MeshRenderer::MeshRenderer()
-    {
-        
-    }   
-
     void MeshRenderer::Init()
     {
         manager = new RenderMeshManagaer();
@@ -22,7 +17,7 @@ namespace Vortex
 		manager->shad->SetInt("u_Texture", 0);
     }
 
-    MeshRenderer::~MeshRenderer()
+    void MeshRenderer::Shutdown()
     {
         delete manager;
     }

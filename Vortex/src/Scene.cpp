@@ -3,6 +3,7 @@
 #include "Vortex/Scene/Component.h"
 #include "Vortex/Scene/Entity.h"
 #include "Graphics/Renderer2D.h"
+#include "Graphics/RenderMulti.h"
 #include "Graphics/MeshRenderer.h"
 
 #include <box2d/b2_world.h>
@@ -164,6 +165,8 @@ namespace Vortex
     {
         Entity entity = { m_registry.create(), this };
 
+        VX_CORE_INFO("New entity ID = {0}", uint32_t(entity));
+
         // UUID
         entity.AddComponent<IDComponent>(uuid);
 
@@ -207,6 +210,7 @@ namespace Vortex
         // Begin Scene
         Renderer2D::BeginScene(camera);
         MeshRenderer::BeginScene(camera);
+        RenderMulti::BeginScene(camera);
 
         // Single group with shared components
         auto view = m_registry.view<TransformComponent, SpriteRendererComponent, TextureComponent>();
@@ -215,6 +219,13 @@ namespace Vortex
         {
             auto [transform, sprite, texture] = view.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
             
+            // Batch Rendering
+            if (m_registry.has<BatchComponent>(entity))
+            {
+                auto& batch = m_registry.get<BatchComponent>(entity); 
+                RenderMulti::DrawShape(batch.index, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+            }
+
             // ShapeComponent
             if (m_registry.has<ShapeComponent>(entity))
             {
@@ -237,8 +248,9 @@ namespace Vortex
         }
 
         // End Scene
-        Renderer2D::EndScene();
+        RenderMulti::EndScene();
         MeshRenderer::EndScene();
+        Renderer2D::EndScene();
     }
 
     void Scene::OnUpdateRuntime(TimeStep ts)
@@ -302,6 +314,7 @@ namespace Vortex
             // Begin Scene
             Renderer2D::BeginScene(*MainCamera, CameraTransform);
             MeshRenderer::BeginScene(*MainCamera, CameraTransform);
+            RenderMulti::BeginScene(*MainCamera, CameraTransform);
 
             // Single group with shared components
             auto view = m_registry.view<TransformComponent, SpriteRendererComponent, TextureComponent>();
@@ -309,6 +322,13 @@ namespace Vortex
             for (auto entity : view)
             {
                 auto [transform, sprite, texture] = view.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
+
+                // Batch Rendering
+                if (m_registry.has<BatchComponent>(entity))
+                {
+                    auto& batch = m_registry.get<BatchComponent>(entity); 
+                    RenderMulti::DrawShape(batch.index, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                }
                 
                 // ShapeComponent
                 if (m_registry.has<ShapeComponent>(entity))
@@ -333,8 +353,9 @@ namespace Vortex
             }
 
             // End Scene
-            Renderer2D::EndScene();
+            RenderMulti::EndScene();
             MeshRenderer::EndScene();
+            Renderer2D::EndScene();
 
         }
     }
@@ -388,6 +409,11 @@ namespace Vortex
     template<>
     void Scene::OnComponentAdded<ShapeComponent>(Entity entity, ShapeComponent& component) {
         // Logic for ShapeComponent
+    }
+
+    template<>
+    void Scene::OnComponentAdded<BatchComponent>(Entity entity, BatchComponent& component) {
+        // Logic for BatchComponent
     }
 
     template<>
