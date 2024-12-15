@@ -165,8 +165,6 @@ namespace Vortex
     {
         Entity entity = { m_registry.create(), this };
 
-        VX_CORE_INFO("New entity ID = {0}", uint32_t(entity));
-
         // UUID
         entity.AddComponent<IDComponent>(uuid);
 
@@ -210,7 +208,7 @@ namespace Vortex
         // Begin Scene
         Renderer2D::BeginScene(camera);
         MeshRenderer::BeginScene(camera);
-        RenderMulti::BeginScene(camera);
+        // RenderMulti::BeginScene(camera);
 
         // Single group with shared components
         auto view = m_registry.view<TransformComponent, SpriteRendererComponent, TextureComponent>();
@@ -220,11 +218,11 @@ namespace Vortex
             auto [transform, sprite, texture] = view.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
             
             // Batch Rendering
-            if (m_registry.has<BatchComponent>(entity))
-            {
-                auto& batch = m_registry.get<BatchComponent>(entity); 
-                RenderMulti::DrawShape(batch.index, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
-            }
+            // if (m_registry.has<BatchComponent>(entity))
+            // {
+            //     auto& batch = m_registry.get<BatchComponent>(entity); 
+            //     RenderMulti::DrawShape(batch.index, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+            // }
 
             // ShapeComponent
             if (m_registry.has<ShapeComponent>(entity))
@@ -237,18 +235,18 @@ namespace Vortex
             if (m_registry.has<MeshComponent>(entity))
             {
                 auto& mesh = m_registry.get<MeshComponent>(entity);
-                MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor, mesh.Type);
             }
 
-            if (m_registry.has<CircleComponent>(entity))
-            {
-                auto& circle = m_registry.get<CircleComponent>(entity);
-                Renderer2D::DrawCircle(transform.GetTransform(), sprite.Color, circle.Thickness, circle.Fade, (int)entity);
-            }
+            // if (m_registry.has<CircleComponent>(entity))
+            // {
+            //     auto& circle = m_registry.get<CircleComponent>(entity);
+            //     Renderer2D::DrawCircle(transform.GetTransform(), sprite.Color, circle.Thickness, circle.Fade, (int)entity);
+            // }
         }
 
         // End Scene
-        RenderMulti::EndScene();
+        // RenderMulti::EndScene();
         MeshRenderer::EndScene();
         Renderer2D::EndScene();
     }
@@ -314,7 +312,7 @@ namespace Vortex
             // Begin Scene
             Renderer2D::BeginScene(*MainCamera, CameraTransform);
             MeshRenderer::BeginScene(*MainCamera, CameraTransform);
-            RenderMulti::BeginScene(*MainCamera, CameraTransform);
+            // RenderMulti::BeginScene(*MainCamera, CameraTransform);
 
             // Single group with shared components
             auto view = m_registry.view<TransformComponent, SpriteRendererComponent, TextureComponent>();
@@ -324,11 +322,11 @@ namespace Vortex
                 auto [transform, sprite, texture] = view.get<TransformComponent, SpriteRendererComponent, TextureComponent>(entity);
 
                 // Batch Rendering
-                if (m_registry.has<BatchComponent>(entity))
-                {
-                    auto& batch = m_registry.get<BatchComponent>(entity); 
-                    RenderMulti::DrawShape(batch.index, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
-                }
+                // if (m_registry.has<BatchComponent>(entity))
+                // {
+                //     auto& batch = m_registry.get<BatchComponent>(entity); 
+                //     RenderMulti::DrawShape(batch.index, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                // }
                 
                 // ShapeComponent
                 if (m_registry.has<ShapeComponent>(entity))
@@ -341,19 +339,19 @@ namespace Vortex
                 if (m_registry.has<MeshComponent>(entity))
                 {
                     auto& mesh = m_registry.get<MeshComponent>(entity);
-                    MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor);
+                    MeshRenderer::DrawMesh(mesh.MeshObj, transform.GetTransform(), sprite.Color, (int)entity, texture.Texture, texture.TilingFactor, mesh.Type);
                 }
 
                 // CircleComponent
-                if (m_registry.has<CircleComponent>(entity))
-                {
-                    auto& circle = m_registry.get<CircleComponent>(entity);
-                    Renderer2D::DrawCircle(transform.GetTransform(), sprite.Color, circle.Thickness, circle.Fade, (int)entity);
-                }
+                // if (m_registry.has<CircleComponent>(entity))
+                // {
+                //     auto& circle = m_registry.get<CircleComponent>(entity);
+                //     Renderer2D::DrawCircle(transform.GetTransform(), sprite.Color, circle.Thickness, circle.Fade, (int)entity);
+                // }
             }
 
             // End Scene
-            RenderMulti::EndScene();
+            // RenderMulti::EndScene();
             MeshRenderer::EndScene();
             Renderer2D::EndScene();
 

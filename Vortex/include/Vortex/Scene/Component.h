@@ -55,11 +55,14 @@ namespace Vortex
     {
         Mesh MeshObj;
         bool Distorted = false;
+        std::string Type = "Triangle";
 
         MeshComponent() = default;
         MeshComponent(const MeshComponent&) = default;
         MeshComponent(const Mesh &mesh_obj)
             : MeshObj(mesh_obj) { }
+        MeshComponent(const Mesh &mesh_obj, std::string &type)
+            : MeshObj(mesh_obj), Type(type) { }
     };
 
     struct ShapeComponent

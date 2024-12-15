@@ -66,7 +66,7 @@ namespace Vortex
 		manager->shad->SetFloat("u_TilingFactor", tilingFactor);
 		
 		texture->Bind();
-		RenderCommand::DrawIndexed(shape.GetVertexArray());
+		RenderCommand::DrawIndexed(shape.GetVertexArray(), "Triangle");
 	}
 
 	void Renderer2D::DrawCircle(const glm::mat4 &transform, const glm::vec4 &color, const float Thickness, const float Fade, const int EntityID)

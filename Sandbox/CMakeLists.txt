@@ -11,6 +11,8 @@ add_executable(SandboxEngine
 	src/SceneHierarchyPanel.cpp
 	src/ContentBrowserPanel.cpp
 	src/NodePanels.cpp
+	src/ChessModel.cpp
+	src/ChessManager.cpp
 	${${ENGINE_NAME}_DIR}/vendor/glad/src/glad.c
 )
 

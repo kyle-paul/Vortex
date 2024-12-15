@@ -47,8 +47,8 @@ namespace Vortex
         // Font
         ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-        io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/Fonts/merriweather/static/MerriweatherSans-Light.ttf", 20.0f);
-        io.Fonts->AddFontFromFileTTF("assets/Fonts/merriweather/static/MerriweatherSans-SemiBold.ttf", 20.0f);
+        io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/Fonts/merriweather/static/MerriweatherSans-Light.ttf", 16.0f);
+        io.Fonts->AddFontFromFileTTF("assets/Fonts/merriweather/static/MerriweatherSans-SemiBold.ttf", 16.0f);
 
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls

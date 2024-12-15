@@ -10,7 +10,7 @@ namespace Vortex
         virtual void SetClearColor(const glm::vec4 &color) override;
         virtual void ClearBufferBit() override;
 
-        virtual void DrawIndexed(const Ref<VertexArray> &VertexArrayID) override;
+        virtual void DrawIndexed(const Ref<VertexArray> &VertexArrayID, const std::string &type) override;
         virtual void DrawIndexedMulti(const Ref<VertexArray>& vertexArray, uint32_t indexCount) override;
     };
 }

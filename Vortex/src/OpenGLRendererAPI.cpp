@@ -27,9 +27,12 @@ namespace Vortex
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray> &VertexArrayID)
+    void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray> &VertexArrayID, const std::string &type)
     {
-        glDrawElements(GL_TRIANGLES, VertexArrayID->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+        if (type == "Quad")
+            glDrawElements(GL_QUADS, VertexArrayID->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+        else
+            glDrawElements(GL_TRIANGLES, VertexArrayID->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
         // glBindTexture(GL_TEXTURE_2D, 0);
     }
 

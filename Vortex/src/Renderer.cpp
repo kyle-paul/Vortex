@@ -15,14 +15,14 @@ namespace Vortex
         RenderCommand::Init();
         Renderer2D::Init();
         MeshRenderer::Init();
-        RenderMulti::Init();
+        // RenderMulti::Init();
     }
 
     void Renderer::Shutdown()
     {
         Renderer2D::Shutdown();
         MeshRenderer::Shutdown();
-        RenderMulti::Shutdown();
+        // RenderMulti::Shutdown();
     }
 
     void Renderer::OnWindowResize(uint32_t width, uint32_t height)
@@ -42,9 +42,5 @@ namespace Vortex
                           const Ref<VertexArray>& VertexArrayID,
                           const glm::mat4 &transform)
     {
-        shader->Bind();
-        shader->SetMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
-        shader->SetMat4("u_Transform", transform);
-        RenderCommand::DrawIndexed(VertexArrayID);
     }
 }

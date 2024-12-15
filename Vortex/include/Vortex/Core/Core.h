@@ -25,6 +25,8 @@ namespace Vortex
     {
         return std::make_shared<T>(std::forward<Args>(args)...);
     }
+
+    using byte = unsigned char;
 }
 
 #include "Vortex/Debug/Instrumentor.h"

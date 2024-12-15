@@ -58,12 +58,12 @@ namespace Vortex
                 verts.push_back(std::stof(words[2]));
                 verts.push_back(std::stof(words[3]));
 
-                verts.push_back(0);
-                verts.push_back(0);
-                verts.push_back(0);
+                verts.push_back(0.0f);
+                verts.push_back(0.0f);
+                verts.push_back(0.0f);
 
-                verts.push_back(0);
-                verts.push_back(0);
+                verts.push_back(0.0f);
+                verts.push_back(0.0f);
             }
 
             else if (line.substr(0, 2) == "vn")
@@ -78,18 +78,18 @@ namespace Vortex
                 norm_idx++;
             }
 
-            else if (line.substr(0, 2) == "vt")
-            {
-                words.clear();
-                Utils::split(line, " ", words);
-                if (words.empty()) continue;
+            // else if (line.substr(0, 2) == "vt")
+            // {
+            //     words.clear();
+            //     Utils::split(line, " ", words);
+            //     if (words.empty()) continue;
 
-                verts[text_idx*8 + 6] = std::stof(words[1]);
-                verts[text_idx*8 + 7] = std::stof(words[2]);
-                text_idx++;
-            }
+            //     verts[text_idx*8 + 6] = std::stof(words[1]);
+            //     verts[text_idx*8 + 7] = std::stof(words[2]);
+            //     text_idx++;
+            // }
 
-            else if (line[0] == 'f') 
+            else if (line[0] == 'f')
             {
                 words.clear();
                 Utils::split(line, " ", words);

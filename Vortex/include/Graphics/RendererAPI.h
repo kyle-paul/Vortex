@@ -20,7 +20,7 @@ namespace Vortex
         virtual void SetClearColor(const glm::vec4 &color) = 0;
         virtual void ClearBufferBit() = 0;
 
-        virtual void DrawIndexed(const Ref<VertexArray> &VertexArrayID) = 0;
+        virtual void DrawIndexed(const Ref<VertexArray> &VertexArrayID, const std::string &type) = 0;
         virtual void DrawIndexedMulti(const Ref<VertexArray>& vertexArray, uint32_t indexCount) = 0;
 
         inline static API GetCurrentAPI() { return m_API; }

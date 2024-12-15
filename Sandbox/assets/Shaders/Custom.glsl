@@ -31,7 +31,7 @@ in vec2 v_TexCoord;
 in vec3 v_Normals;
 flat in int v_EntityID;
 
-const vec3 sunDirection = normalize(vec3(-300.0, 300.0, 300.0)); 
+const vec3 sunDirection = normalize(vec3(-10.0, 10.0, 10.0)); 
 
 uniform sampler2D u_Texture;
 uniform vec4 u_Color;

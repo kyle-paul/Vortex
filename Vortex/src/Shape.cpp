@@ -7,22 +7,22 @@ namespace Vortex
         switch(type)
         {
             case(BasicType::Square) : {
-                RegisterShape("assets/Meshes/BasicType/Square.obj");
+                RegisterShape("assets/Meshes/basic/Square.obj");
                 break;
             }
 
             case(BasicType::Triangle) : {
-                RegisterShape("assets/Meshes/BasicType/Triangle.obj");
+                RegisterShape("assets/Meshes/basic/Triangle.obj");
                 break;
             }
 
             case(BasicType::Circle) : {
-                RegisterShape("assets/Meshes/BasicType/Circle.obj");
+                RegisterShape("assets/Meshes/basic/Circle.obj");
                 break;
             }
 
             case(BasicType::Cube) : {
-                RegisterShape("assets/Meshes/BasicType/Cube.obj");
+                RegisterShape("assets/Meshes/basic/Cube.obj");
                 break;
             }
         }

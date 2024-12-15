@@ -24,10 +24,10 @@ namespace Vortex
             m_RendererAPI->ClearBufferBit();
         }
 
-        static inline void DrawIndexed(const Ref<VertexArray> &VertexArrayID)
+        static inline void DrawIndexed(const Ref<VertexArray> &VertexArrayID, const std::string &type)
         {
             VertexArrayID->Bind();
-            m_RendererAPI->DrawIndexed(VertexArrayID);
+            m_RendererAPI->DrawIndexed(VertexArrayID, type);
         }
 
         static inline void DrawIndexedMulti(const Ref<VertexArray> &VertexArrayID, uint32_t count=0)

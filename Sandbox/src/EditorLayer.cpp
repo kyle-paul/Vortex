@@ -8,6 +8,8 @@
 #include "Vortex/Core/Math.h"
 #include "ImGuizmo.h"
 
+#include "ChessManager.h"
+
 EditorLayer::EditorLayer()
     : Layer("EditorLayer")
 {
@@ -122,7 +124,7 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 	m_Framebuffer->Bind();
 
 	// ================ Clear ================
-	Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
+	Vortex::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 	Vortex::RenderCommand::ClearBufferBit();
 	m_Framebuffer->ClearAttachment(1, -1);
 
@@ -158,8 +160,6 @@ void EditorLayer::OnUpdate(Vortex::TimeStep ts)
 		&& !ImGuizmo::IsOver())
 	{
 		CurrentPixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-		VX_INFO("Clicked Object ID = {0}", CurrentPixelData);
-
 		if (CurrentPixelData >= 0 && CurrentPixelData <= 100)
 		{	
 			MouseSelectedEntity = Vortex::Entity(static_cast<entt::entity>(CurrentPixelData), m_ActiveScene.get());
@@ -396,7 +396,8 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 
 	// ================ Setting Panel ================
 	ImGui::Begin("Settings");
-	if (ImGui::Button("Render Brain")) {
+	if (ImGui::Button("Render Brain")) 
+	{
 		Vortex::Mesh MeshObj = Vortex::Mesh("/home/pc/dev/dataset/medical-image/MbrainS/objects/brain.obj");
 
 		// TODO; This is then load by content browser by taking the path and registert as entity
@@ -406,7 +407,8 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 		brain.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
 
-	if (ImGui::Button("Render Robot Arms")) {
+	if (ImGui::Button("Render Robot Arms")) 
+	{
 		Vortex::Mesh MeshObj = Vortex::Mesh("assets/Meshes/models/RobotArms.obj");
 		auto robot = m_ActiveScene->CreateEntity("Robot Arms");
 		robot.AddComponent<Vortex::MeshComponent>(MeshObj);
@@ -414,12 +416,19 @@ void EditorLayer::ShowDockSpaceApp(bool* p_open)
 		robot.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
 	}
 
-	if (ImGui::Button("Render Mercedes")) {
+	if (ImGui::Button("Render Mercedes")) 
+	{
 		Vortex::Mesh MeshObj = Vortex::Mesh("assets/Meshes/models/Mercedes.obj");
 		auto car = m_ActiveScene->CreateEntity("Mercedes");
 		car.AddComponent<Vortex::MeshComponent>(MeshObj);
 		car.AddComponent<Vortex::SpriteRendererComponent>(glm::vec4(0.8f, 0.7f, 0.6f, 1.0f));
 		car.GetComponent<Vortex::TransformComponent>().Scale = glm::vec3(0.2f);
+	}
+
+	if (ImGui::Button("Chesss"))
+	{
+		// Temporary load the chess players => I gonna make a function for this
+		Vortex::ChessManager::Render(m_ActiveScene);
 	}
 
     ImGui::End(); // Setting

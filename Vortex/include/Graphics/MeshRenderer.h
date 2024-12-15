@@ -17,7 +17,8 @@ namespace Vortex
         static void BeginScene(EditorCamera& camera); // for the editor main camera
         static void EndScene();
 
-        static void DrawMesh(const Mesh &mesh, const glm::mat4& transform, const glm::vec4& color, const int EntityID, const Ref<Texture2D>& texture, const float tilingFactor);
+        static void DrawMesh(const Mesh &mesh, const glm::mat4& transform, const glm::vec4& color, const int EntityID, 
+                             const Ref<Texture2D>& texture, const float tilingFactor, const std::string &type);
 
     private:
         
