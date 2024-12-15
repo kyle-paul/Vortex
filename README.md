@@ -3,11 +3,9 @@
 | | |
 |-----|-----|
 | ![](/Assets/imgs/physics.gif) | ![](/Assets/imgs/robot.gif) |
+| ![](/Assets/imgs/arm1.gif) | ![](/Assets/imgs/arm2.gif) |
 
-| |
-|---|
-| ![](/Assets/imgs/arms.gif) |
-
+The first two GIFs showcase my engine, while the last one featuring **robotic arms** is from NVIDIA’s 6D Pose Estimation research. More detail at my [personal page](https://kyle-paul.github.io/research/work-1)
 
 ## Developer Guide
 Clone all dependencies from git with correct version
